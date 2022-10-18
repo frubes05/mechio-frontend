@@ -38,7 +38,7 @@ const CompanyRegister = ({
       formData.append("companyDescription", companyDescription);
       if (companyImage) formData.append("image", companyImage);
       axios
-        .post("http://localhost:9000/poslodavci/novi-poslodavac", formData)
+        .post("https://mechio-test-api.onrender.com/poslodavci/novi-poslodavac", formData)
         .then((res) => {
           if (res.data.token) {
             handleToastSuccess!(res.data.message);

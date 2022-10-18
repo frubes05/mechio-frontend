@@ -9,7 +9,7 @@ const FeedbackCompany: React.FC<{company: ICompany}> = ({company}) => {
     <li className='feedbacks__options-item'>
         <article className='feedbacks__options-article'>
             <div className='feedbacks__options-image'>
-                <img src={'http://localhost:9000/' + company.companyImage} />
+                <img src={'https://mechio-test-api.onrender.com/' + company.companyImage} />
             </div>
             <h1>{company.companyName}</h1>
             <h3>{company.companyDescription}</h3>

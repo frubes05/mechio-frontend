@@ -19,7 +19,7 @@ const CompanyLogin = ({
   const [companyName, setCompanyName] = useState<string>('');
 
   const checkUser = useFetch({
-    url: `http://localhost:9000/poslodavci/${companyEmail}`,
+    url: `https://mechio-test-api.onrender.com/poslodavci/${companyEmail}`,
     method: 'get',
     onSuccess: (data) => {
       if (data && data.length > 0) {
@@ -31,7 +31,7 @@ const CompanyLogin = ({
   })
 
   const getCompanies = useFetch({
-    url: "http://localhost:9000/poslodavci",
+    url: "https://mechio-test-api.onrender.com/poslodavci",
     method: 'get',
     onSuccess: (data) => {
       setCompanies(data);
@@ -43,7 +43,7 @@ const CompanyLogin = ({
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     await axios
-      .post("http://localhost:9000/poslodavci/login-poslodavac", {
+      .post("https://mechio-test-api.onrender.com/poslodavci/login-poslodavac", {
         companyEmail,
         companyPassword,
       })

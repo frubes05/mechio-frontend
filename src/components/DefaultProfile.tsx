@@ -12,7 +12,7 @@ const DefaultProfile = () => {
   const [company, setCompany] = useState<null | ICompany>(null);
 
   const getProfileInformation = useFetch({
-    url: `http://localhost:9000/profil/${params.id}`,
+    url: `https://mechio-test-api.onrender.com/profil/${params.id}`,
     method: "get",
     onSuccess: (information) => {
       const { data, type } = information;
@@ -29,7 +29,7 @@ const DefaultProfile = () => {
           <article className="default__article">
             <div className="default__wrapper">
               <div className="default__information">
-                {user && <img src={`http://localhost:9000/${user.image}`} />}
+                {user && <img src={`https://mechio-test-api.onrender.com/${user.image}`} />}
                 <h2 className="default__title">{user && user.fullname}</h2>
               </div>
               <div className="default__placeholder">

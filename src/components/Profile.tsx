@@ -29,7 +29,7 @@ const Profile = () => {
   const [companyJobApplications, setCompanyJobApplications] = useState([]);
 
   const getProfileInformation = useFetch({
-    url: `http://localhost:9000/profil/${params.id}`,
+    url: `https://mechio-test-api.onrender.com/profil/${params.id}`,
     method: "get",
     onSuccess: (information) => {
       const { data, type } = information;
@@ -46,7 +46,7 @@ const Profile = () => {
   });
 
   const getUserFeedbacks = useFetch({
-    url: `http://localhost:9000/profil/feedbacks/${params.id}`,
+    url: `https://mechio-test-api.onrender.com/profil/feedbacks/${params.id}`,
     method: "get",
     onSuccess: (data) => {
       setFeedbackInformation(data);
@@ -56,7 +56,7 @@ const Profile = () => {
   });
 
   const getSpecificUserFeedback = useFetch({
-    url: `http://localhost:9000/profil/userfeedbacks/${params.id}`,
+    url: `https://mechio-test-api.onrender.com/profil/userfeedbacks/${params.id}`,
     method: "get",
     onSuccess: (data) => {
       setUserFeedbacks(data);
@@ -66,7 +66,7 @@ const Profile = () => {
   });
 
   const getCompanyJobs = useFetch({
-    url: `http://localhost:9000/profil/jobs/${params.id}`,
+    url: `https://mechio-test-api.onrender.com/profil/jobs/${params.id}`,
     method: "get",
     onSuccess: (data) => {
       setCompanyJobs(data);
@@ -76,7 +76,7 @@ const Profile = () => {
   });
 
   const getCompanyJobApplications = useFetch({
-    url: `http://localhost:9000/profil/applications/${params.id}`,
+    url: `https://mechio-test-api.onrender.com/profil/applications/${params.id}`,
     method: "get",
     onSuccess: (data) => {
       setCompanyJobApplications(data);
@@ -86,7 +86,7 @@ const Profile = () => {
   });
 
   const getUserJobApplications = useFetch({
-    url: `http://localhost:9000/profil/userapplications/${params.id}`,
+    url: `https://mechio-test-api.onrender.com/profil/userapplications/${params.id}`,
     method: "get",
     onSuccess: (data) => {
       setUserApplications(data);
@@ -96,7 +96,7 @@ const Profile = () => {
   });
 
   const editProfileInformation = useFetch({
-    url: `http://localhost:9000/profil/izmijeni/${params.id}`,
+    url: `https://mechio-test-api.onrender.com/profil/izmijeni/${params.id}`,
     method: "put",
     onSuccess: (information) => {
       const { data, type } = information;
@@ -113,7 +113,7 @@ const Profile = () => {
   });
 
   const deleteProfile = useFetch({
-    url: `http://localhost:9000/profil/izbrisi/${params.id}`,
+    url: `https://mechio-test-api.onrender.com/profil/izbrisi/${params.id}`,
     method: "delete",
     onSuccess: (data) => {
       localStorage.removeItem("decodedToken");
@@ -135,7 +135,7 @@ const Profile = () => {
 
   const logout = () => {
     deleteProfile.handleFetch(
-      `http://localhost:9000/profil/izbrisi/${params.id}`
+      `https://mechio-test-api.onrender.com/profil/izbrisi/${params.id}`
     );
     const href = window.location.href.split("/");
     const location = href[href.length - 1];
@@ -169,7 +169,7 @@ const Profile = () => {
                     <span>{user.fullname}</span>
                   </h1>
                   <img
-                    src={`http://localhost:9000/${user.image}`}
+                    src={`https://mechio-test-api.onrender.com/${user.image}`}
                     alt={user.fullname}
                   />
                   <p className="profile__about-title">
@@ -207,7 +207,7 @@ const Profile = () => {
                             >
                               <Link to={`/poslovi/${app._id}`}>
                                 <img
-                                  src={`http://localhost:9000/${app.companyImage}`}
+                                  src={`https://mechio-test-api.onrender.com/${app.companyImage}`}
                                 ></img>
                                 <h3>{app.company}</h3>
                                 <p>{app.position}</p>
@@ -303,7 +303,7 @@ const Profile = () => {
                         size="lg"
                         onClick={() => {
                           editProfileInformation.handleFetch(
-                            `http://localhost:9000/profil/izmijeni/${params.id}`,
+                            `https://mechio-test-api.onrender.com/profil/izmijeni/${params.id}`,
                             { about: moreInformation }
                           );
                           setEdit(false);
@@ -337,7 +337,7 @@ const Profile = () => {
                     <span>{company.companyName}</span>
                   </h1>
                   <img
-                    src={`http://localhost:9000/${company.companyImage}`}
+                    src={`https://mechio-test-api.onrender.com/${company.companyImage}`}
                     alt={"Image"}
                   />
                   <p className="profile__about-title">
@@ -470,7 +470,7 @@ const Profile = () => {
                         size="lg"
                         onClick={() => {
                           editProfileInformation.handleFetch(
-                            `http://localhost:9000/profil/izmijeni/${params.id}`,
+                            `https://mechio-test-api.onrender.com/profil/izmijeni/${params.id}`,
                             { companyDescription: moreInformation }
                           );
                           setEdit(false);

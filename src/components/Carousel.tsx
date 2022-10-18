@@ -10,7 +10,7 @@ const Carousel = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:9000/poslovi")
+      .get("https://mechio-test-api.onrender.com/poslovi")
       .then((res) => setLastAdded(res.data.slice(-8)));
   }, []);
 
@@ -31,7 +31,7 @@ const Carousel = () => {
           <Link to={`/poslovi/${job._id}`}>
           <article className="home__jobs-article">
                 <div className="home__jobs-overlay">
-                  <img className="home__jobs-image" src={'http://localhost:9000/'+ job.companyImage} />
+                  <img className="home__jobs-image" src={'https://mechio-test-api.onrender.com/'+ job.companyImage} />
                 </div>
                 <div className="home__jobs-text">
                   <h3 className="home__jobs-position">{job.position}</h3>
