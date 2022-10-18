@@ -1,0 +1,123 @@
+.specificjob {
+  &__wrapper {
+    margin: 0 40px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.4);
+    padding: 40px 80px 80px;
+    background: white;
+    position: relative;
+  }
+
+  &__img {
+    margin: 0 40px;
+
+    img {
+      height: 400px;
+      width: 100%;
+      object-fit: cover;
+      filter: blur(4px);
+    }
+  }
+
+  &__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 34px 0;
+  }
+
+  &-cta {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    align-items: center;
+    position: absolute;
+    z-index: 1;
+    top: -300px;
+    right: 100px;
+
+    &__delete {
+      background: none;
+      border: none;
+      font-size: 30px;
+    }
+
+    &__edit {
+      font-size: 30px;
+      color: black;
+    }
+  }
+
+  &__basic {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__title {
+    font-size: 44px;
+    font-weight: bold;
+  }
+
+  &__list {
+    padding-inline-start: 40px;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 1em;
+    margin-inline-end: 1em;
+    list-style-type: circle;
+
+    li {
+      font-size: 18px;
+      line-height: 1.5;
+      letter-spacing: 0.5px;
+      display: list-item;
+      text-align: -webkit-match-parent;
+    }
+  }
+
+  &__subtitle {
+    font-size: 20px;
+    margin-block-end: 1em;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+  }
+
+  &__description {
+    font-size: 18px;
+    line-height: 1.5;
+    letter-spacing: 0.5px;
+  }
+
+  &__company {
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  &__location {
+    font-style: italic;
+  }
+
+  &__article {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+  }
+
+  &__btn {
+    align-self: center;
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    button {
+      width: 100%;
+    }
+  }
+}

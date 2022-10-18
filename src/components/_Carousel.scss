@@ -1,0 +1,12 @@
+.splide {
+    &__slide {
+        cursor: pointer;
+        max-height: 400px;
+    }
+
+    &__image {
+        height: 100%;
+        width: auto;
+        object-fit: cover;
+    }
+}

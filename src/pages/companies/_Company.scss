@@ -1,0 +1,73 @@
+.company {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    transition: transform 0.2s ease-in;
+  
+    h1 {
+        text-align: center;
+        font-size: 2rem;
+    }
+
+    &__rotate {
+        transform: rotateY(180deg);
+    }
+  
+    &__container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100%;
+        overflow: hidden;
+  
+        video {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            min-height: 100%;
+            min-width: 100%;
+        }
+    }
+  
+    &__form {
+        position: absolute;
+        border-radius: 10px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(255, 255, 255, .3);  
+        backdrop-filter: blur(5px);
+        padding: 25px 30px;
+  
+        &-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        &-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    }
+  
+    &__switch {
+        &-btn {
+            display: block;
+            background: none;
+            border: none;
+            color: white;
+            outline: none;
+  
+            &:hover, &:visited, &:focus, &:active {
+              background: none;
+              border: none;
+              color: white;
+              outline: none;
+            }
+        }
+    }
+  }

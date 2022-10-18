@@ -1,0 +1,28 @@
+.back-to-top {
+    &__button {
+        position: fixed;
+        z-index: 1;
+        bottom: 30px;
+        right: 50px;
+        padding: 10px 12px;
+        border-radius: 50%;
+        border: none;
+
+        &:hover {
+            background-color: #666c6f;
+
+            svg {
+                fill: white;
+            }
+        }
+
+        svg {
+            font-weight: 400;
+            font-size: 20px;
+        }
+    }
+
+    &__remove {
+        display: none;
+    }
+}

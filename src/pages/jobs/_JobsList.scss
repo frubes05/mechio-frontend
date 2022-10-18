@@ -1,0 +1,9 @@
+.jobs__list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    &__item {
+        box-shadow: 0px 2px 8px rgba(0, 0, 0, .4);
+    }
+}

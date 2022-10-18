@@ -1,0 +1,125 @@
+.profile {
+    margin: 80px 0 40px;
+
+    &__style {
+        font-size: 14px;
+        font-weight: 300;
+        color: darkgray;
+        line-height: 20px;
+        font-style: italic;
+    }
+
+    img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+    }
+
+    &__about {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        &-title {
+            display: flex;
+            flex-direction: column;
+
+            a {
+                font-weight: 400;
+                color: initial;
+            }
+        }
+    }
+
+    &__article {
+        display: block;
+        margin-top: 16px;
+        padding: 0 40px 0;
+        border-right: 1px solid lightgrey;
+        border-left: 1px solid lightgrey;
+        height: 100%;
+
+        &-edit {
+            display: flex;
+            justify-content: space-between;
+
+            button {
+                height: fit-content;
+            }
+
+            &--rte {
+                width: 100%;
+            }
+        }
+
+        &-buttons {
+            padding: 20px 0 0;
+
+            button {
+                width: 100%;
+            }
+        }
+
+        &-revert {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+        }
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        border-top: 1px solid lightgrey;
+        padding-top: 20px;
+    }
+
+    &__aside {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    &__delete {
+        margin-top: 16px;
+    }
+
+    &__applications {
+        &-application {
+            padding: 10px 0;
+
+            &:not(:first-of-type) {
+                border-top: 1px solid lightgrey;
+            }
+
+            a {
+                display: block;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                gap: 20px;
+                width: 100%;
+                color: inherit;
+            }
+
+            img {
+                max-height: 50px;
+                width: 50px;
+                border-radius: 50%;
+            }
+
+            h3 {
+                font-size: 20px;
+                font-weight: 500;
+            }
+
+            p {
+                margin-left: auto;
+                font-size: 22px;
+                font-weight: 400;
+            }
+        }
+    }
+}

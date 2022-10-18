@@ -1,0 +1,12 @@
+.image-upload {
+    &__preview {
+        display: flex;
+        justify-content: center;
+        margin: 20px 0;
+    }
+
+    img {
+        height: 80px;
+        width: auto;
+    }
+}
