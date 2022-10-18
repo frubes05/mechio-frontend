@@ -15,7 +15,7 @@ const Job: FC<IJob> = ({ job }) => {
   const [companies, setCompanies] = useState<null | ICompany[]>(null);
 
   const getCompanies = useFetch({
-    url: "https://mechio-test-api.onrender.com/poslodavci",
+    url: "https://mechio-api-test.onrender.com/poslodavci",
     method: 'get',
     onSuccess: (data) => {
       setCompanies(data);
@@ -49,7 +49,7 @@ const Job: FC<IJob> = ({ job }) => {
     {job && <Link to={`/poslovi/${job._id}`} id={job._id}>
       <article className="jobs__card">
         <div className="jobs__card-picture">
-          <img className="jobs__card-image" src={'https://mechio-test-api.onrender.com/'+ job.companyImage} />
+          <img className="jobs__card-image" src={'https://mechio-api-test.onrender.com/'+ job.companyImage} />
         </div>
         <div className="jobs__card-content">
           <h2 className="jobs__card-title">{job.position}</h2>

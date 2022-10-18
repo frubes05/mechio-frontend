@@ -29,7 +29,7 @@ const ChangeJob: React.FC<IChangeJob> = ({ setRefetch, status }) => {
   const navigate = useNavigate();
 
   const getSpecificJob = useFetch({
-    url: `https://mechio-test-api.onrender.com/poslovi/${params.id}`,
+    url: `https://mechio-api-test.onrender.com/poslovi/${params.id}`,
     method: "get",
     onSuccess: (data) => {
       setCompany(data.message.company);
@@ -39,7 +39,7 @@ const ChangeJob: React.FC<IChangeJob> = ({ setRefetch, status }) => {
   });
 
   const changeJob = useFetch({
-    url: `https://mechio-test-api.onrender.com/poslovi/izmijeni-oglas/${params.id}`,
+    url: `https://mechio-api-test.onrender.com/poslovi/izmijeni-oglas/${params.id}`,
     method: "put",
     onSuccess: (data) => {
       toast.success("Uspješno ste izmjenili oglas", { autoClose: 3000 });
@@ -61,7 +61,7 @@ const ChangeJob: React.FC<IChangeJob> = ({ setRefetch, status }) => {
     const benefits = checkItems("benefits");
 
     changeJob.handleFetch(
-      `https://mechio-test-api.onrender.com/poslovi/izmijeni-oglas/${params.id}`,
+      `https://mechio-api-test.onrender.com/poslovi/izmijeni-oglas/${params.id}`,
       {
         company,
         position,

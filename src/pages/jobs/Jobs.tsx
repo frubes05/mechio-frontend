@@ -25,7 +25,7 @@ const Jobs: React.FC<IJob> = ({ status }) => {
   const [postsPerPage, setPostsPerPage] = useState<number>(6);
 
   const getJobs = useFetch({
-    url: "https://mechio-test-api.onrender.com/poslovi",
+    url: "https://mechio-api-test.onrender.com/poslovi",
     method: 'get',
     onSuccess: (data) => {
       setJobs(data);

@@ -32,7 +32,7 @@ const SpecificFeedback = () => {
   );
 
   const getCompanies = useFetch({
-    url: `https://mechio-test-api.onrender.com/poslodavci/${params.id}`,
+    url: `https://mechio-api-test.onrender.com/poslodavci/${params.id}`,
     method: "get",
     onSuccess: (data: any) => {
       setCompany(data);
@@ -42,7 +42,7 @@ const SpecificFeedback = () => {
   });
 
   const getFeedbacks = useFetch({
-    url: `https://mechio-test-api.onrender.com/recenzije/${params.id}`,
+    url: `https://mechio-api-test.onrender.com/recenzije/${params.id}`,
     method: "get",
     onSuccess: (data: any) => {
       setAllFeedbacks(data);
@@ -52,10 +52,10 @@ const SpecificFeedback = () => {
   });
 
   const submitFeedback = useFetch({
-    url: "https://mechio-test-api.onrender.com/recenzije/nova-recenzija",
+    url: "https://mechio-api-test.onrender.com/recenzije/nova-recenzija",
     method: "post",
     onSuccess: (data: any) => {
-      getFeedbacks.handleFetch(`https://mechio-test-api.onrender.com/recenzije/${params.id}`);
+      getFeedbacks.handleFetch(`https://mechio-api-test.onrender.com/recenzije/${params.id}`);
     },
     onError: (error: any) => {},
   });
@@ -85,7 +85,7 @@ const SpecificFeedback = () => {
         date: new Date(),
       };
       submitFeedback.handleFetch(
-        "https://mechio-test-api.onrender.com/recenzije/nova-recenzija",
+        "https://mechio-api-test.onrender.com/recenzije/nova-recenzija",
         feedback
       );
     }
@@ -103,7 +103,7 @@ const SpecificFeedback = () => {
 
   const handleDelete = (id: string) => {
     setFeedbackId(id);
-    deleteFeedback.handleFetch(`https://mechio-test-api.onrender.com/recenzije/izbrisi/${company?._id}/${id}`);
+    deleteFeedback.handleFetch(`https://mechio-api-test.onrender.com/recenzije/izbrisi/${company?._id}/${id}`);
   };
   
   return (
@@ -164,7 +164,7 @@ const SpecificFeedback = () => {
               <aside className="feedbacks__aside">
                 <div className="feedbacks__aside-company">
                   <img
-                    src={"https://mechio-test-api.onrender.com/" + company?.companyImage}
+                    src={"https://mechio-api-test.onrender.com/" + company?.companyImage}
                   ></img>
                   <div>
                     <h2>{company?.companyName}</h2>

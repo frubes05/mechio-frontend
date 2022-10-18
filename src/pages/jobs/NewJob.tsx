@@ -28,7 +28,7 @@ const NewJob: React.FC<INewJob> = ({ setRefetch, status }) => {
   const navigate = useNavigate();
 
   const addNewJob = useFetch({
-    url: `https://mechio-test-api.onrender.com/poslovi/novi-oglas`,
+    url: `https://mechio-api-test.onrender.com/poslovi/novi-oglas`,
     method: "post",
     onSuccess: (data) => {
       data.message !== 200 ? toast.error(data.message, { autoClose: 3000 }) : toast.success(data.message, { autoClose: 3000});
@@ -70,7 +70,7 @@ const NewJob: React.FC<INewJob> = ({ setRefetch, status }) => {
       seniority: selectValue,
       date: new Date()
     };
-   addNewJob.handleFetch('https://mechio-test-api.onrender.com/poslovi/novi-oglas', newPost);
+   addNewJob.handleFetch('https://mechio-api-test.onrender.com/poslovi/novi-oglas', newPost);
   };
 
   const generateNewItem = (fn: Function) => {
