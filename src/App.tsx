@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/home/Home';
 import Navigation from './components/Navigation';
+import CollapsibleExample from './components/AlternateNavigation';
 import Jobs from './pages/jobs/Jobs';
 import NewJob from './pages/jobs/NewJob';
 import SpecificJob from './pages/jobs/SpecificJob';
@@ -57,7 +58,7 @@ function App() {
   return (
     <>
       <header className='header'>
-          <Navigation></Navigation>
+          <CollapsibleExample></CollapsibleExample>
       </header>
       <BackToTop></BackToTop>
       <Routes>

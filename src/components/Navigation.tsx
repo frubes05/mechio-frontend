@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { Button } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 import { BsGearWideConnected } from "react-icons/bs";
 import { AiOutlineSearch } from "react-icons/ai";
 import { AuthContext } from "../context/AuthContext";
@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import SearchBackdrop from "./SearchBackdrop";
 import LoadingSpinner from "./LoadingSpinner";
 import Profile from "./Profile";
+import { stat } from "fs";
 
 const Navigation = () => {
   const { state, dispatch } = useContext(AuthContext);
@@ -51,7 +52,7 @@ const Navigation = () => {
   };
   
   return (
-    <>
+    <Container>
       <nav className="navbar">
         <ul className="navbar__list">
           <li className="navbar__list-item">
@@ -113,13 +114,13 @@ const Navigation = () => {
               </NavLink>
             </li>
           )}
-          {(state.user || state.company || token) && (
+          {(state.user || state.company || (token && state.loggedIn)) && (
           <li className="navbar__list-item">
             <NavLink to={`/profil/${state._id ? state._id : token?._id}`} className="navbar__list-link">
               Profil
             </NavLink>
           </li>)}
-          {(state.user || state.company || token) && (
+          {(state.user || state.company || (token && state.loggedIn)) && (
             <li>
               <Button variant="primary" onClick={logout}>
                 Odjavi se
@@ -133,7 +134,7 @@ const Navigation = () => {
           showBigSearch={showBigSearch}
         ></SearchBackdrop>
       </nav>
-    </>
+    </Container>
   );
 };
 
