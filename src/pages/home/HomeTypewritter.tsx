@@ -3,7 +3,8 @@ import Typewriter from "typewriter-effect";
 
 const HomeTypewritter = () => {
   return (
-    <Container>
+    <div className="home__typewritter-container">
+      <Container>
       <div className="home__typewritter">
         <div className="home__typewritter-content">
           <Typewriter
@@ -32,7 +33,8 @@ const HomeTypewritter = () => {
           ></Typewriter>
         </div>
       </div>
-    </Container>
+      </Container>
+    </div>
   );
 };
 

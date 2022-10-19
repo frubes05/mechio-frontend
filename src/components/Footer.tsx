@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container } from "react-bootstrap";
 import { SiGooglemaps } from "react-icons/si";
 import { BsFillTelephoneFill } from "react-icons/bs";
@@ -7,20 +7,32 @@ import { FaFacebookF } from "react-icons/fa";
 import { BsTwitter } from "react-icons/bs";
 import { ImLinkedin2 } from "react-icons/im";
 import { BsGithub } from "react-icons/bs";
+import ModalForm from './Modal';
 
 const Footer = () => {
+  const [show, setShow] = useState<boolean>(false);
+
   return (
     <footer className="footer">
       <Container className="footer__wrapper">
         <ul className="footer__list">
           <li className="footer__list-item">
-            <div className="footer__list-item--svg">
+            <div className="footer__list-item--svg" onClick={() => setShow(true)}>
               <SiGooglemaps></SiGooglemaps>
             </div>
-            <address>
+            <address onClick={() => setShow(true)}>
               <p>Zagrebačka 13</p>
               <p>10450, Jastrebarsko</p>
             </address>
+            <ModalForm title="Sjedište tvrtke" setShow={setShow} show={show} handleClose={() => setShow(false)}>
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2787.832299420238!2d15.649445615339891!3d45.67426682742305!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x476433fac2d86155%3A0x3d8686cac7c17f46!2sZagreba%C4%8Dka%20ul.%2013%2C%2010450%2C%20Jaska!5e0!3m2!1shr!2shr!4v1666172900469!5m2!1shr!2shr"
+                width="600"
+                height="450"
+                loading="lazy"
+                className="footer__list-iframe"
+              ></iframe>
+            </ModalForm>
           </li>
           <li className="footer__list-item">
             <a href="tel:+385993073706" className="footer__list-link">
@@ -47,9 +59,9 @@ const Footer = () => {
           <p className="footer__article-text">
             {" "}
             mech.io nastao je kao odgovor na stvarnu potrebu tržišta za
-            jedinstvenom aplikacijom pogodnom za korištenje svim zaposlenima u području
-            strojarstva. Bilo da tražite posao ili ste poslodavac, mech.io
-            pokriva vaše potrebe.
+            jedinstvenom aplikacijom pogodnom za korištenje svim zaposlenima u
+            području strojarstva. Bilo da tražite posao ili ste poslodavac,
+            mech.io pokriva vaše potrebe.
           </p>
           <ul className="footer__article-list">
             <li className="footer__article-item">
