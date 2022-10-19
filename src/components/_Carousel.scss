@@ -1,12 +1,36 @@
 .splide {
-    &__slide {
-        cursor: pointer;
-        max-height: 400px;
+  &__slide {
+    cursor: pointer;
+    max-height: 400px;
+  }
+
+  &__track {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  &__arrow {
+    width: 3em;
+    height: 3em;
+    opacity: 1;
+    transition: all 0.1s ease-in-out;
+
+    &:disabled {
+      opacity: 0;
     }
 
-    &__image {
-        height: 100%;
-        width: auto;
-        object-fit: cover;
+    &--prev {
+      left: -14px;
     }
+
+    &--next {
+      right: -14px;
+    }
+  }
+
+  &__image {
+    height: 100%;
+    width: auto;
+    object-fit: cover;
+  }
 }
