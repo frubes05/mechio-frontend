@@ -10,25 +10,18 @@ const HomeTypewritter = () => {
           <Typewriter
             options={{
                 loop: true,
+                delay: 50
             }}
             onInit={(typewriter) => {
               typewriter
                 .typeString("Dobrodošli na prvu platform")
-                .pauseFor(1500)
+                .pauseFor(100)
                 .deleteAll()
                 .typeString(
-                  "Dosta vam je traženja poslova po različitim stranicama?"
-                )
-                .pauseFor(1500)
-                .typeString(
-                  " Ne znate gdje pronaći i kako zadržati kvalitetne zaposlenike?"
-                )
-                .pauseFor(1500)
-                .typeString(
-                  " Ne očajavajte, jer sve što vam je potrebno možete naći ovdje, na mech.io !"
+                  "Dobrodošli na mjesto gdje se nalazi Vaš posao iz snova !"
                 )
                 .start()
-                .pauseFor(15000);
+                .pauseFor(5000);
             }}
           ></Typewriter>
         </div>
