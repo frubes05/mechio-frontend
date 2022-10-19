@@ -14,6 +14,9 @@
     height: 3em;
     opacity: 1;
     transition: all 0.1s ease-in-out;
+    background-color: #0d6efd;
+    border: none;
+    outline: none;
 
     &:disabled {
       opacity: 0;
@@ -25,6 +28,10 @@
 
     &--next {
       right: -14px;
+    }
+
+    svg {
+      fill: white;
     }
   }
 
