@@ -7,7 +7,11 @@ import { Container, Row, Col } from "react-bootstrap";
 import "react-toastify/dist/ReactToastify.css";
 import LoadingSpinner from "../../components/LoadingSpinner";
 
-const Company = () => {
+interface ICompany {
+  status: string;
+}
+
+const Company: React.FC<ICompany> = ({ status }) => {
   const navigate = useNavigate();
   const [showingForm, setShowingForm] = useState<boolean>(false);
   const [showSpinner, setShowSpinner] = useState<boolean>(true);
@@ -70,6 +74,7 @@ const Company = () => {
           </Col>
         </Row>
       </Container>
+      {status === "Pending" && <LoadingSpinner></LoadingSpinner>}
     </section>
   );
 };
