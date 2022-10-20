@@ -8,6 +8,13 @@ export const carouselConfig = (teaserLength: number) => {
         right: 10
     },
     breakpoints: {
+      500: {
+        type: "loop",
+        padding: {
+          left: 10,
+          right: 60
+        }
+      },
       672: {
         type: "loop",
         perPage: 1,

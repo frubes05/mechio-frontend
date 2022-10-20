@@ -1,13 +1,14 @@
-import { Container, Button } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import {BsFillMouse3Fill} from 'react-icons/bs';
 import {RiEmotionNormalFill} from 'react-icons/ri';
 import {GrDocumentPerformance} from 'react-icons/gr';
 
 const HomeBenefits = () => {
   return (
-    <section className="home__benefits">
+    <section className="home__benefits home__image home__image--middle">
       <Container>
-        <h2 className="home__benefits-title">Zašto mech.io ?</h2>
+        <h5>Naše snage</h5>
+        <h2 className="home__benefits-title">Zašto baš mech.io ?</h2>
         <ul className="home__benefits-list">
           <li className="home__benefits-item">
             <article className="home__benefits-article">

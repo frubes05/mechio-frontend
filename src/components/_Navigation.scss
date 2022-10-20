@@ -1,23 +1,16 @@
 .header {
-  background: #202124;
   position: fixed;
   top: 0;
-  z-index: 2;
   left: 0;
+  z-index: 1000;
   width: 100%;
   height: auto;
+  background-color: transparent;
   transition: top 0.3s ease-in;
 
-  &::after {
-    content: "";
-    display: block;
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    height: 5px;
-    width: 100%;
+  &--show {
     background-color: white;
-    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, .2);
   }
 }
 
@@ -26,6 +19,12 @@
   margin: 0 auto;
   padding-bottom: 0;
   padding-top: 0;
+
+  &__hamburger {
+    svg {
+      transform: scale(1.25);
+    }
+  }
 
   &-nav {
     margin-left: auto;
@@ -45,101 +44,11 @@
     gap: 30px;
 
     &-link {
-      position: relative;
-      z-index: 1;
-      font-size: 22px;
-      width: fit-content;
+      @include navigation-link;
 
-      @include breakpoint('md') {
-        padding: 20px 10px !important;
-      }
-
-      &:first-of-type {
-        padding-bottom: 5px;
-        padding-top: 5px;
-        color: white;
-
-        &:hover {
-          color: white;
-        }
-
-        @include breakpoint('md') {
-          padding-bottom: 0;
-          padding-top: 0;
-        }
-      }
-
-      &::before {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        height: 2px;
-        width: 0;
-        background-color: white;
-        transition: all 0.2s ease-in-out;
-      }
-
-      &:hover {
-        color: white;
-
-        &::before {
-          width: 100%;
-        }
-  
-        @include breakpoint('md') {
-          &::before {
-            width: 0;
-          }
-
-          &::after {
-            height: 100%;
-            background-color: #303134;
-          }
-        }
-      }
-
-      &::after {
-        content: '';
-        display: block;
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 0;
-        z-index: -1;
-        width: 100%;
-        background-color: inherit;
-        transition: all 0.3s ease-in;
-      }
-
-      &--active {
-        width: fit-content;
-        color: white;
+      &--title {
         font-size: 22px;
-        border-bottom: 2px solid white;
-
-        @include breakpoint('md') {
-          width: auto;
-          background-color: #303134;
-          border-bottom: none;
-          display: flex !important;
-          justify-content: center;
-          align-items: center;
-        }
-
-        &:first-of-type {
-          padding-bottom: 5px;
-          padding-top: 5px;
-
-          &:hover {
-            color: white;
-          }
-
-          @include breakpoint('md') {
-            padding-top: 0;
-            padding-bottom: 0;
-          }
-        }
+        color: black !important;
       }
     }
 
@@ -223,6 +132,7 @@
     border: none !important;
     box-shadow: none !important;
     padding: 20px 0;
+    color: #3c4043 !important;
     
     @include breakpoint('md') {
       padding: 0;

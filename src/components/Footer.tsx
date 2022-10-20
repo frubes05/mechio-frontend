@@ -21,8 +21,10 @@ const Footer = () => {
               <SiGooglemaps></SiGooglemaps>
             </div>
             <address>
-              <p>Zagrebačka 13</p>
-              <p>10450, Jastrebarsko</p>
+              <p>
+                <span>Zagrebačka 13</span>
+                <span>10450 Jastrebarsko</span>
+              </p>
             </address>
           </li>
           <ModalForm

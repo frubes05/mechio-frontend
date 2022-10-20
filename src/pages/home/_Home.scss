@@ -1,23 +1,12 @@
 .home {
   &__image {
-    min-height: 100%;
-    background-position: center bottom;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-blend-mode: luminosity;
-
-    @include breakpoint('md') {
-      background-position: center;
-      background-attachment: fixed;
-    }
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &--middle {
-      min-height: 300px;
       position: relative;
-
-      @include breakpoint('md') {
-        min-height: 400px;
-      }
+      background: radial-gradient(198.57% 1678.87% at 20.74% 37.38%,#3c4043 6.02%,#00c6b4 100%);
 
       &::before {
         content: "";
@@ -26,20 +15,27 @@
         right: 0;
         height: 100%;
         width: 100%;
-        background-image: linear-gradient(to bottom right, #282c2f, black);
-        opacity: 0.6;
+        z-index: -1;
       }
     }
   }
+
   &__jobs {
     background-color: white;
-    padding: 4rem 0 6rem;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    padding-bottom: 4rem;
 
-    &-title {
-      font-size: 2rem;
+    @include breakpoint('lg') {
+      padding: 4rem 0 6rem;
+    }
+
+    h2 {
+      @include big-title;
+    }
+
+    h5 {
+      @include small-title;
     }
 
     &-position {
@@ -88,29 +84,50 @@
     }
   }
 
-  &__benefits {
-    padding: 4rem 0 6rem;
-    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.4);
+  &__main {
+    &-container {
+      padding: 100px 0 20px;
 
-    & > div {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-    }
-
-    &-title {
-      font-size: 32px;
-      text-align: center;
-
-      @include breakpoint("md") {
-        text-align: left;
+      @include breakpoint('md') {
+        padding: 100px 0 50px;
       }
     }
 
+    &-para {
+      @include normal-text;
+      margin: 10px 0 16px;
+    }
+
+    &-svg {
+      position: absolute;
+      top: 0;
+    }
+
+    &-content {
+      h1 {
+        @include big-title;
+      }
+
+      h5 {
+        @include small-title;
+      }
+    }
+  }
+
+  &__benefits {
+    padding: 4rem 0 6rem;
+
+    h5 {
+      @include small-title;
+    }
+
+    h2 {
+      @include big-title;
+      color: white;
+    }
+
     &-subtitle {
-      font-size: 20px;
-      font-weight: 400;
-      text-align: center;
+      @include big-text;
     }
 
     &-list {
@@ -126,15 +143,9 @@
 
     &-item {
       box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.4);
+      border-radius: 10px;
       padding: 50px 25px;
-
-      @include breakpoint("lg") {
-        &:hover {
-          .home__benefits-article {
-            transform: scale(1.03);
-          }
-        }
-      }
+      background-color: white;
     }
 
     &-article {
@@ -151,56 +162,63 @@
 
     &-text {
       text-align: center;
+
+      @include normal-text;
     }
   }
 
-  &__typewritter {
-    color: white;
-    background-color: rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(5px);
-    padding: 25px 30px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-    min-height: 320px;
+  &__links {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+    position: relative;
+    z-index: 2;
 
-    @include breakpoint("md") {
-      max-width: 600px;
-      min-height: 400px
-    }
-
-    &-container {
-      padding-top: 120px;
-      padding-bottom: 60px;
-      position: relative;
-
-      &::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        width: 100%;
-        background-image: linear-gradient(to bottom right, #282c2f, black);
-        opacity: 0.6;
-      }
-    }
-
-    .Typewriter {
-      display: inline-block;
-
-      h2 {
-        display: inline-block;
-      }
-    }
-
-    .Typewriter__wrapper {
-      font-size: 32px;
-      line-height: 1.6;
+    h1 {
+      font-size: 24px;
+      font-weight: 500;
       color: white;
     }
 
-    .Typewriter__cursor {
-      font-size: 32px;
-      color: white;
+    &-ctas {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+      @include breakpoint('md') {
+        flex-direction: row
+      }
+
+      button {
+        @include button;
+      }
+    }
+  }
+
+  &__row {
+    gap: 48px;
+  }
+
+  &__col {
+    &-second {
+      align-self: center;
+    }
+  }
+
+  &__about {
+    padding: 4rem 0 6rem;
+
+    &-title {
+      @include big-title;
+    }
+
+    &-subtitle {
+      @include small-title;
+    }
+
+    &-text {
+      @include normal-text;
     }
   }
 }

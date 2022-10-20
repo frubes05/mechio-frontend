@@ -1,0 +1,45 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+@mixin big-title {
+  font: 600 48px "Poppins", sans-serif;
+  color: #3c4043;
+  line-height: 50px;
+  margin-top: 12px;
+  margin-bottom: 24px;
+  @content;
+
+  @media screen and (min-width: 768px) {
+    font: 400 60px "Poppins", sans-serif;
+    line-height: 74px;
+  }
+}
+
+@mixin small-title {
+    color: #00c6b4;
+    font: 700 20px "Roboto", sans-serif;
+    @content;
+}
+
+@mixin normal-text {
+  color: #3c4043;
+  font: 400 20px 'Roboto',sans-serif;
+  line-height: 29px;
+  @content;
+}
+
+@mixin big-text {
+  color:#00c6b4;
+  font: 700 20px "Poppins", sans-serif;
+  line-height: 30px;
+  @content;
+}
+
+@mixin navigation-link {
+  font: 400 16px 'Roboto',sans-serif;
+  color: #3c4043 !important;
+
+  &:hover {
+    color: #02c2b1 !important;
+  }
+}

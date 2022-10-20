@@ -1,6 +1,6 @@
 .footer {
     margin-top: auto;
-    background-color: #282c2f;
+    background-color: #3c4043;
     color: white;
     padding: 4rem 0;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, .2);
@@ -41,33 +41,27 @@
             position: relative;
             padding-bottom: 20px;
 
-            &::before {
-                position: absolute;
-                content: "";
-                display: block;
-                bottom: 0;
-                left: 0;
-                height: 2px;
-                width: 0;
-                background-color: white;
-                transition: all 0.2s ease-in-out;
-            }
-
             &:hover {
-                &::before {
-                    width: 100%;
+                a {
+                    color: #00c6b4;
                 }
 
-                .footer__list-item--svg::after {
-                    background-color: #777b7c80;
+                .footer__list-item--svg {
+                    svg {
+                        fill: #00c6b4;
+                    }
                 }
             }
 
             & > address {
-                line-height: 1.4;
+                color: white !important;
+                @include navigation-link;
 
-                & > p:nth-of-type(2) {
-                    font-weight: 400;
+                p {
+                    @include navigation-link;
+                    color: white !important;
+                    display: flex;
+                    flex-direction: column;
                 }
             }
 
@@ -120,16 +114,12 @@
         }
 
         &-title {
-            font-size: 24px;
-            font-weight: 600;
+            @include big-text;
         }
 
         &-text {
-            font-size: 18px;
-            letter-spacing: 1.6;
-            line-height: 1.4;
-            font-weight: 300;
-            color: white;
+            color: white !important;
+            @include normal-text;
         }
 
         &-list {

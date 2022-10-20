@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import HomeImage from './HomeImage';
 import HomeJobs from './HomeJobs';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import HomeBenefits from './HomeBenefits';
-import HomeTypewritter from './HomeTypewritter';
-import BackToTop from '../../components/BackToTop';
-
-import useFetch from '../../hooks/useFetch';
+import HomeMain from './HomeMain';
+import HomeAbout from './HomeAbout';
 
 import { IJobs } from "../jobs/Jobs.types";
 
@@ -20,12 +17,10 @@ const Home: React.FC<IHome> = ({ jobs, status }) => {
 
   return (
     <main className='home'>
-        <HomeImage position='top'>
-          <HomeTypewritter></HomeTypewritter>
-        </HomeImage>
+        <HomeMain></HomeMain>
         <HomeJobs></HomeJobs>
-        <HomeImage position='middle'></HomeImage>
         <HomeBenefits></HomeBenefits>
+        <HomeAbout></HomeAbout>
         {status === 'Pending' && <LoadingSpinner></LoadingSpinner>}
     </main>
   )

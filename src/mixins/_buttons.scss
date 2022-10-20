@@ -1,0 +1,18 @@
+@mixin button {
+  display: inline-block;
+  background: #00c6b4;
+  font: 700 16px "Roboto", sans-serif;
+  color: #fff;
+  text-transform: uppercase;
+  text-align: center;
+  border-radius: 6px;
+  padding: 13px 66px;
+  border: none !important;
+  @content;
+
+  &:hover {
+    background-color: #ffde4d;
+    color: #282828;
+    border: 1px solid #ffde4d;
+  }
+}
