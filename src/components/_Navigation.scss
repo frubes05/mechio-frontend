@@ -29,7 +29,7 @@
   &-nav {
     margin-left: auto;
     gap: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 50px;
 
     @include breakpoint('md') {
       margin-bottom: 0;
@@ -98,6 +98,11 @@
 
     &-item {
       height: auto;
+      border-bottom: 1px solid #eee;
+
+      @include breakpoint('md') {
+        border-bottom: none;
+      }
 
       &--search {
         position: relative;
