@@ -48,33 +48,29 @@ const Step1 = ({
       {lastItem === "posloprimci" && (
         <>
           <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Vaše puno ime</Form.Label>
             <Form.Control
               type="string"
-              placeholder="Puno ime..."
+              placeholder="Ime i prezime"
               onChange={(e) => setFullname!(e.target.value)}
             />
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Vaš email</Form.Label>
             <Form.Control
               type="email"
-              placeholder="Email..."
+              placeholder="Email"
               ref = {emailRef}
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Vaša lozinka</Form.Label>
             <Form.Control
               type="password"
-              placeholder="Lozinka..."
+              placeholder="Password"
               onChange={(e) => setPassword!(e.target.value)}
             />
           </Form.Group>
         </>
       )}
-      <Button onClick={() => nextStep!()}>Idući korak</Button>
     </div>
   );
 };

@@ -34,19 +34,6 @@ const Step2 = ({
           </Form.Group>
         </>
       )}
-      {lastItem === "posloprimci" && (
-        <>
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Predstavite se</Form.Label>
-            <Form.Control
-              as="textarea"
-              placeholder="Opišite nam se u kratkim crtama..."
-              style={{ height: "100px" }}
-              onChange={(e) => setAbout!(e.target.value)}
-            />
-          </Form.Group>
-        </>
-      )}
       <div className="user__form-buttons">
         <Button onClick={nextStep}>Idući korak</Button>
         <Button variant="warning" onClick={() => previousStep!()}>

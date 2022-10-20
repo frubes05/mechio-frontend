@@ -8,6 +8,8 @@
   border-radius: 6px;
   padding: 13px 66px;
   border: none !important;
+  width: fit-content !important;
+  box-shadow: none !important;
   @content;
 
   &:hover {

@@ -84,14 +84,12 @@ const UserRegister = ({
 
   return (
     <Form onSubmit={submitHandler}>
-      <StepWizard>
         <Step1
           setFullname={setFullname}
           emailRef = {email}
           setPassword={setPassword}
         ></Step1>
         <Step3 setCv={setCv} onInput={onInput}></Step3>
-      </StepWizard>
       <Button className="user__switch-btn" onClick={changeShowingForm}>
         Posjeduješ već račun? Slobodno se prijavi
       </Button>

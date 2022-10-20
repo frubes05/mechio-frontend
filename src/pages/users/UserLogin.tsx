@@ -69,20 +69,18 @@ const UserLogin = ({
   return (
     <Form onSubmit={submitHandler}>
       <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Upiši email</Form.Label>
-        <Form.Control type="email" placeholder="Email..." ref={email} />
+        <Form.Control type="email" placeholder="Email" ref={email} />
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Label>Upiši lozinku</Form.Label>
         <Form.Control
           type="password"
-          placeholder="Lozinka..."
+          placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
         />
       </Form.Group>
-      <Button variant="primary" type="submit">
-        Ulogiraj se
+      <Button className="user__login-btn" type="submit">
+        Login
       </Button>
       <Button className="user__switch-btn" onClick={changeShowingForm}>
         Još nisi registriran? Učini to u par koraka

@@ -37,20 +37,16 @@ const Step3 = ({
       {lastItem === "posloprimci" && (
         <>
           <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Vaš životopis</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Priložite vaš životopis..."
+              placeholder="Životopis"
               onChange={(e) => setCv!(e.target.value)}
             />
           </Form.Group>
           <ImageUpload onInput={onInput!} />
           <div className="user__form-buttons">
-            <Button variant="primary" type="submit">
-              Registriraj se
-            </Button>
-            <Button variant="warning" onClick={() => previousStep!()}>
-              Natrag
+            <Button variant="primary" type="submit" className="user__login-btn">
+              Registracija
             </Button>
           </div>
         </>

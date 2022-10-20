@@ -15,6 +15,13 @@
   }
 }
 
+@mixin normal-title-white {
+  font: 600 28px 'Roboto';
+  color: #fff;
+  line-height: 38px;
+  margin: 12px 0 24px;
+}
+
 @mixin small-title {
     color: #00c6b4;
     font: 700 20px "Roboto", sans-serif;

@@ -35,11 +35,10 @@ const ImageUpload = ({onInput}: {onInput: Function}) => {
 
   return (
     <Form.Group className='image-upload'>
-        <Form.Label>Priložite sliku</Form.Label>
         <FormControl type='file' accept='.jpg,.png,.jpeg' onChange={pickedHandler}></FormControl>
         <div className="image-upload__preview">
             {typeof(previewUrl) === 'string' && <img src={previewUrl} alt="Preview" />}
-            {!previewUrl && <p>Please pick an image.</p>}
+            {!previewUrl && <p>Slika</p>}
         </div>
     </Form.Group>
   )
