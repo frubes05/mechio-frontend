@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/home/Home';
-import Navigation from './components/Navigation';
 import CollapsibleExample from './components/AlternateNavigation';
 import Jobs from './pages/jobs/Jobs';
 import NewJob from './pages/jobs/NewJob';

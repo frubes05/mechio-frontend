@@ -4,7 +4,6 @@ import Nav from "react-bootstrap/Nav";
 import Button from "react-bootstrap/Button";
 import { NavLink } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
 import { AuthContext } from "../context/AuthContext";
 import { ICompanyToken } from "../pages/companies/Company.types";
 import { IUserToken } from "../pages/users/User.types";
@@ -15,7 +14,6 @@ const CollapsibleExample = () => {
   const { state, dispatch } = useContext(AuthContext);
   const [iconState, setIconState] = useState<boolean>(false);
   const [token, setToken] = useState<(ICompanyToken & IUserToken) | null>(null);
-  const [showBigSearch, setShowBigSearch] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -53,13 +51,10 @@ const CollapsibleExample = () => {
 
   useEffect(() => {
     const header = document.querySelector("header") as HTMLElement;
-    if (
-      document.body.scrollTop <= 20 ||
-      document.documentElement.scrollTop <= 20
-    ) {
-      iconState
-        ? header.classList.add("header--show")
-        : header.classList.remove("header--show");
+    if (window.scrollY > 20) {
+      header.classList.add('header--show');
+    } else {
+      iconState ? header.classList.add('header--show') : header.classList.remove('header--show');
     }
   }, [iconState]);
 
