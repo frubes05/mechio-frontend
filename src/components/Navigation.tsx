@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
+import { NavDropdown } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { NavLink } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
@@ -9,11 +10,14 @@ import { ICompanyToken } from "../pages/companies/Company.types";
 import { IUserToken } from "../pages/users/User.types";
 import { useNavigate } from "react-router-dom";
 import { BsGearWideConnected } from "react-icons/bs";
+import { BiUserCircle } from "react-icons/bi";
+import { AiOutlineLogout } from "react-icons/ai";
 
-const CollapsibleExample = () => {
+const Navigation = () => {
   const { state, dispatch } = useContext(AuthContext);
   const [iconState, setIconState] = useState<boolean>(false);
   const [token, setToken] = useState<(ICompanyToken & IUserToken) | null>(null);
+  const [showAll, setShowAll] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,6 +29,7 @@ const CollapsibleExample = () => {
   }, []);
 
   const logout = async () => {
+    setShowAll(false);
     const href = window.location.href.split("/");
     const location = href[href.length - 1];
     localStorage.removeItem("decodedToken");
@@ -52,11 +57,19 @@ const CollapsibleExample = () => {
   useEffect(() => {
     const header = document.querySelector("header") as HTMLElement;
     if (window.scrollY > 20) {
-      header.classList.add('header--show');
+      header.classList.add("header--show");
     } else {
-      iconState ? header.classList.add('header--show') : header.classList.remove('header--show');
+      iconState
+        ? header.classList.add("header--show")
+        : header.classList.remove("header--show");
     }
   }, [iconState]);
+
+  useEffect(() => {
+    if (state.user || state.company) {
+      setShowAll(true);
+    }
+  }, [state]);
 
   return (
     <Navbar collapseOnSelect expand="md" variant="dark">
@@ -134,27 +147,40 @@ const CollapsibleExample = () => {
                 Poslovi
               </NavLink>
             </li>
-            {state.user ||
-              state.company ||
-              (token && (
-                <li className="navbar__list-item">
+            {showAll && (
+              <li className="navbar__list-item">
+                <NavDropdown title="Postavke" id="collasible-nav-dropdown">
                   <NavLink
                     to={`/profil/${state._id ? state._id : token?._id}`}
                     className="navbar__list-link"
                   >
-                    Profil
-                  </NavLink>
-                </li>
-              ))}
-            {state.user ||
-              state.company ||
-              (token && (
-                <li>
-                  <Button variant="primary" onClick={logout}>
-                    Odjavi se
+                    <BiUserCircle/>
+                    <span>Profil</span>
+                  </NavLink>{" "}
+                  <Button variant="primary" className="navbar__list-item--logout" onClick={logout}>
+                    <AiOutlineLogout/>
+                    <span>Logout</span>
                   </Button>
-                </li>
-              ))}
+                </NavDropdown>
+              </li>
+            )}
+            {!showAll && token && (
+              <li className="navbar__list-item">
+              <NavDropdown title="Postavke" id="collasible-nav-dropdown">
+                <NavLink
+                  to={`/profil/${state._id ? state._id : token?._id}`}
+                  className="navbar__list-link"
+                >
+                  <BiUserCircle/>
+                  <span>Profil</span>
+                </NavLink>{" "}
+                <Button variant="primary" className="navbar__list-item--logout" onClick={logout}>
+                  <AiOutlineLogout/>
+                  <span>Logout</span>
+                </Button>
+              </NavDropdown>
+            </li>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>
@@ -162,4 +188,4 @@ const CollapsibleExample = () => {
   );
 };
 
-export default CollapsibleExample;
+export default Navigation;

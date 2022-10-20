@@ -14,7 +14,6 @@ interface ICompany {
 const Company: React.FC<ICompany> = ({ status }) => {
   const navigate = useNavigate();
   const [showingForm, setShowingForm] = useState<boolean>(false);
-  const [showSpinner, setShowSpinner] = useState<boolean>(true);
 
   const changeShowingForm = () => {
     setShowingForm(!showingForm);
