@@ -45,8 +45,8 @@ const Navigation = () => {
   const checkWindowSize = () => {
     const header = document.querySelector("header") as HTMLElement;
     if (
-      document.body.scrollTop > 20 ||
-      document.documentElement.scrollTop > 20
+      document.body.scrollTop > 0 ||
+      document.documentElement.scrollTop > 0
     ) {
       header.classList.add("header--show");
     } else {
@@ -56,7 +56,7 @@ const Navigation = () => {
 
   useEffect(() => {
     const header = document.querySelector("header") as HTMLElement;
-    if (window.scrollY > 20) {
+    if (window.scrollY > 0) {
       header.classList.add("header--show");
     } else {
       iconState
