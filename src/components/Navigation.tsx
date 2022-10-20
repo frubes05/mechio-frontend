@@ -51,6 +51,11 @@ const Navigation = () => {
       header.classList.add("header--show");
     } else {
       header.classList.remove("header--show");
+      if (document.body.scrollTop === 0 && iconState) {
+        header.classList.add("header--show");
+      } else if (document.body.scrollTop === 0 && !iconState) {
+        header.classList.remove("header--show");
+      }
     }
   };
 
