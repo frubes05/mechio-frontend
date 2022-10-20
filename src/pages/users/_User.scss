@@ -126,6 +126,8 @@
 
     &-paragraph {
       @include normal-title-white;
+      font-style: italic;
+      opacity: 0.8;
     }
 
     &-author {

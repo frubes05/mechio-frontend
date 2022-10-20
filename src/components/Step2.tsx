@@ -17,29 +17,21 @@ const Step2 = ({
       {lastItem === "poslodavci" && (
         <>
           <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Adresa tvrtke</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Adresa tvrtke..."
+              placeholder="Adresa tvrtke"
               onChange={(e) => setCompanyAddress!(e.target.value)}
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Kontakt tvrtke</Form.Label>
             <Form.Control
               type="tel"
-              placeholder="Kontakt..."
+              placeholder="Kontakt telefon tvrtke"
               onChange={(e) => setCompanyNumber!(e.target.value)}
             />
           </Form.Group>
         </>
       )}
-      <div className="user__form-buttons">
-        <Button onClick={nextStep}>Idući korak</Button>
-        <Button variant="warning" onClick={() => previousStep!()}>
-          Natrag
-        </Button>
-      </div>
     </>
   );
 };

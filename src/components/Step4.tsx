@@ -11,11 +11,8 @@ const Step4 = ({ setCompanyImage, previousStep }: IStep4 & ISteps) => {
     <>
       <ImageUpload onInput={onInput} />
       <div className="company__form-buttons">
-        <Button variant="primary" type="submit">
-          Registrirajte se
-        </Button>
-        <Button variant="warning" onClick={() => previousStep!()}>
-          Natrag
+        <Button variant="primary" type="submit" className="company__login-btn">
+          Registracija
         </Button>
       </div>
     </>

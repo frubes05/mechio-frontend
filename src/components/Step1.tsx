@@ -20,26 +20,23 @@ const Step1 = ({
       {lastItem === "poslodavci" && (
         <>
           <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Naziv tvrtke</Form.Label>
             <Form.Control
               type="string"
-              placeholder="Puni naziv..."
+              placeholder="Naziv tvrtke"
               onChange={(e) => setCompanyName!(e.target.value)}
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Email tvrtke</Form.Label>
             <Form.Control
               type="email"
-              placeholder="Email..."
+              placeholder="Email tvrtke"
               onChange={(e) => setCompanyEmail!(e.target.value)}
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Lozinka poslodavca</Form.Label>
             <Form.Control
               type="password"
-              placeholder="Lozinka..."
+              placeholder="Password"
               onChange={(e) => setCompanyPassword!(e.target.value)}
             />
           </Form.Group>

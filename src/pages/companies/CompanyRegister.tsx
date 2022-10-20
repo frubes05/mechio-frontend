@@ -38,7 +38,10 @@ const CompanyRegister = ({
       formData.append("companyDescription", companyDescription);
       if (companyImage) formData.append("image", companyImage);
       axios
-        .post("https://mechio-api-test.onrender.com/poslodavci/novi-poslodavac", formData)
+        .post(
+          "https://mechio-api-test.onrender.com/poslodavci/novi-poslodavac",
+          formData
+        )
         .then((res) => {
           if (res.data.token) {
             handleToastSuccess!(res.data.message);
@@ -56,11 +59,16 @@ const CompanyRegister = ({
 
   return (
     <Form onSubmit={submitHandler}>
-      <StepWizard>
-        <Step1 setCompanyName={setCompanyName} setCompanyEmail={setCompanyEmail} setCompanyPassword={setCompanyPassword} />
-        <Step2 setCompanyAddress={setCompanyAddress} setCompanyNumber={setCompanyNumber}/>
-        <Step4 setCompanyImage={setCompanyImage} />
-      </StepWizard>
+      <Step1
+        setCompanyName={setCompanyName}
+        setCompanyEmail={setCompanyEmail}
+        setCompanyPassword={setCompanyPassword}
+      />
+      <Step2
+        setCompanyAddress={setCompanyAddress}
+        setCompanyNumber={setCompanyNumber}
+      />
+      <Step4 setCompanyImage={setCompanyImage} />
       <Button className="company__switch-btn" onClick={changeShowingForm}>
         Vaša tvrtka već posjeduje račun? Slobodno se prijavite
       </Button>

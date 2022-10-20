@@ -62,23 +62,21 @@ const CompanyLogin = ({
   return (
     <Form onSubmit={submitHandler}>
       <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Upiši email tvrtke</Form.Label>
         <Form.Control
           type="email"
-          placeholder="Email..."
+          placeholder="Email"
           onChange={(e) => setCompanyEmail(e.target.value)}
         />
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Label>Upiši lozinku tvrtke</Form.Label>
         <Form.Control
           type="password"
-          placeholder="Lozinka..."
+          placeholder="Password"
           onChange={(e) => setCompanyPassword(e.target.value)}
         />
       </Form.Group>
-      <Button variant="primary" type="submit">
+      <Button variant="primary" type="submit" className="company__login-btn">
         Ulogirajte se
       </Button>
       <Button className="company__switch-btn" onClick={changeShowingForm}>

@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CompanyLogin from "./CompanyLogin";
 import CompanyRegister from "./CompanyRegister";
 import { toast, ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import { Container, Row, Col } from "react-bootstrap";
+import "react-toastify/dist/ReactToastify.css";
 import LoadingSpinner from "../../components/LoadingSpinner";
 
 const Company = () => {
@@ -15,44 +16,61 @@ const Company = () => {
     setShowingForm(!showingForm);
   };
 
-  
-  const handleToastError = (message: string) => toast.error(message, {autoClose: 2000});
+  const handleToastError = (message: string) =>
+    toast.error(message, { autoClose: 2000 });
   const handleToastSuccess = (message: string) => {
-    toast.success(message, {autoClose: 2000});
+    toast.success(message, { autoClose: 2000 });
     setTimeout(() => {
-      navigate('/poslovi')
-    }, 4000)
-}
+      navigate("/poslovi");
+    }, 4000);
+  };
 
   return (
-      <section className="company">
-        <div className="company__container">
-          <video className="company__video" autoPlay loop muted playsInline>
-            <source src="./media/video2.mp4"></source>
-          </video>
-        </div>
-        <div className="company__wrapper">
-          <div className="company__form">
-            <ToastContainer position="top-center" autoClose={3000} />
-            {!showingForm && (
-              <div className="company__form-wrapper">
-                <h1>Prijava</h1>
-                <CompanyLogin changeShowingForm={changeShowingForm}
-                  handleToastError={handleToastError}
-                  handleToastSuccess={handleToastSuccess}></CompanyLogin>
-              </div>
-            )}
-            {showingForm && (
-              <div className="company__form-wrapper">
-                <h1>Registracija</h1>
-                <CompanyRegister changeShowingForm={changeShowingForm}
-                  handleToastError={handleToastError}
-                  handleToastSuccess={handleToastSuccess}></CompanyRegister>
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
+    <section className="company">
+      <Container>
+        <Row>
+          <Col md={5} lg={5}>
+            <div className="company__form">
+              <ToastContainer position="top-center" autoClose={3000} />
+              {!showingForm && (
+                <div className="company__form-wrapper">
+                  <h1>Prijava</h1>
+                  <CompanyLogin
+                    changeShowingForm={changeShowingForm}
+                    handleToastError={handleToastError}
+                    handleToastSuccess={handleToastSuccess}
+                  ></CompanyLogin>
+                </div>
+              )}
+              {showingForm && (
+                <div className="company__form-wrapper">
+                  <h1>Registracija</h1>
+                  <CompanyRegister
+                    changeShowingForm={changeShowingForm}
+                    handleToastError={handleToastError}
+                    handleToastSuccess={handleToastSuccess}
+                  ></CompanyRegister>
+                </div>
+              )}
+            </div>
+          </Col>
+          <Col md={6} lg={6} className="company__testimonial-wrapper">
+            <div className="company__testimonial">
+              <p className="company__testimonial-paragraph">
+                Iskreno u početku bio sam skeptičan u vezi mech.io-a. Sve druge
+                platforme koje smo probali do sada, nisu se pokazale relativno
+                uspješnima. No, drago mi je da sad nakon već tri mjeseca
+                korištenja mogu reći kako je mech.io jedna od najboljih
+                inovacija u hrvatskoj strojarskoj industriji.
+              </p>
+              <p className="company__testimonial-author">
+                Ivan Ivić, CEO C.A.B grupacije
+              </p>
+            </div>
+          </Col>
+        </Row>
+      </Container>
+    </section>
   );
 };
 
