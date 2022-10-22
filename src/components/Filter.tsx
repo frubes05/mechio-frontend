@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { IJobs } from "../pages/jobs/Jobs.types";
-import { Dropdown, Button } from "react-bootstrap";
+import { Dropdown, Button, Container } from "react-bootstrap";
 import { type } from "os";
 
 const options = [
@@ -54,7 +54,7 @@ const Filter: React.FC<IFilter> = ({
   }
 
   return (
-    <>
+    <Container>
       <div className="jobs__list-filters">
         {filterOptions &&
           filterOptions.map((option: any, id: number) => {
@@ -88,7 +88,7 @@ const Filter: React.FC<IFilter> = ({
         </Button>
       </div>
       <p className="jobs__list-filtervalues">Odabrane vrijednosti ({selectedValue.length}): <span>{selectedValue.map(elem => elem.value).join(', ')}</span></p>
-    </>
+    </Container>
   );
 };
 
