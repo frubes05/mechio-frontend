@@ -15,7 +15,7 @@ const JobsList: FC<IJobsList> = ({ jobs }) => {
   const resetSelected = () => setSelectedJobs(jobs);
 
   return (
-    <ul className="jobs__list">
+    <ul className="jobs__list" id="jobs-list">
       <Container>
         <Row>
           <Col xlg={8} lg={8} md={8}>

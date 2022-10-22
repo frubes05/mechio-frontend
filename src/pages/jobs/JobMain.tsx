@@ -16,7 +16,7 @@ const JobMain = () => {
                 Brzo i jednostavno do novog posla{" "}
               </h1>
               <p>Sve što vam treba u par klikova</p>
-              <Button>Istraži poslove</Button>
+              <Button href="#jobs-list">Istraži poslove</Button>
             </section>
           </Col>
           <Col xlg={5} lg={5} md={5} className="jobs__carousel">

@@ -148,7 +148,7 @@
             @include big-title;
         }
 
-        button {
+        button, a {
             @include button;
         }
 
