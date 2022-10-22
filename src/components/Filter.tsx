@@ -58,6 +58,12 @@ const Filter: React.FC<IFilter> = ({
       <div className="jobs__list-filters">
         {filterOptions &&
           filterOptions.map((option: any, id: number) => {
+            let newElements = Array.from(new Set(jobs.map((job:any) => job[option.en])));
+            newElements = newElements.map(elem => {
+              return {
+                [option.en] : elem
+              }
+            });
             return (
               <Dropdown key={id}>
                 <Dropdown.Toggle variant="success" id="dropdown-basic">
@@ -67,7 +73,7 @@ const Filter: React.FC<IFilter> = ({
                 <Dropdown.Menu>
                   {jobs &&
                     jobs.length > 0 &&
-                    jobs.map((job: any, i: number) => {
+                    newElements.map((job: any, i: number) => {
                       return (
                         <Dropdown.Item
                           key={`${id}-${i}`}
