@@ -50,3 +50,13 @@
     color: #02c2b1 !important;
   }
 }
+
+@mixin navigation-link-light {
+  font: 400 16px 'Poppins',sans-serif;
+  color: white !important;
+
+  &:hover {
+    color: #02c2b1 !important;
+    background-color: #3c4043 !important;
+  }
+}

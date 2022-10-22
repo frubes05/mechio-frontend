@@ -2,8 +2,67 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    padding: 80px 0;
+
+    @include breakpoint('md') {
+        padding: 100px 0;
+    }
 
     &__item {
         box-shadow: 0px 2px 8px rgba(0, 0, 0, .4);
+    }
+
+    &-filters {
+        display: flex;
+        justify-content: flex-start;
+        gap: 30px;
+        padding: 30px 0 15px;
+
+        .dropdown {
+            button {
+                @include button;
+            }
+
+            .show {
+                background-color: #3c4043;
+                padding: 5px 0;
+
+                a {
+                    padding: 5px 10px;
+                    @include navigation-link-light;
+
+                    &:not(:first-of-type) {
+                        border-top: 1px solid #eee;
+                    }
+                }
+            }
+        }
+    }
+
+    &-filtervalues {
+        padding-bottom: 60px;
+        padding-left: 0;
+        padding-right: 0;
+        @include normal-text;
+
+        span {
+            font-style: italic;
+            opacity: 0.6;
+            font-weight: 300;
+        }
+    }
+
+    &-reset {
+        margin-left: auto;
+
+        @include button-alt;
+    }
+
+    &-subtitle {
+        @include small-title;
+    }
+
+    &-title {
+        @include big-title;
     }
 }

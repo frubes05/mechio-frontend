@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState, useContext } from "react";
 import { IJobs } from "./Jobs.types";
 import { Link } from "react-router-dom";
-import { Button, Container } from "react-bootstrap";
+import { Button, Container, Row } from "react-bootstrap";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { ICompanyToken } from "../companies/Company.types";
@@ -10,7 +10,9 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 import Paginate from "../../components/Paginate";
 import { IoMdAddCircle } from "react-icons/io";
 
-import useFetch from '../../hooks/useFetch';
+import useFetch from "../../hooks/useFetch";
+import JobMain from "./JobMain";
+import JobsRegister from "./JobsRegister";
 
 interface IJob {
   status: string;
@@ -26,13 +28,12 @@ const Jobs: React.FC<IJob> = ({ status }) => {
 
   const getJobs = useFetch({
     url: "https://mechio-api-test.onrender.com/poslovi",
-    method: 'get',
+    method: "get",
     onSuccess: (data) => {
       setJobs(data);
     },
-    onError: (error) => {
-    }
-  })
+    onError: (error) => {},
+  });
 
   useEffect(() => {
     if (localStorage.getItem("decodedToken")) {
@@ -45,7 +46,7 @@ const Jobs: React.FC<IJob> = ({ status }) => {
   useEffect(() => {
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
-    setJobs( prev => prev.slice(indexOfFirstPost, indexOfLastPost));
+    setJobs((prev) => prev.slice(indexOfFirstPost, indexOfLastPost));
   }, []);
 
   const getMaxNumbers = Math.ceil(jobs.length / postsPerPage);
@@ -61,27 +62,23 @@ const Jobs: React.FC<IJob> = ({ status }) => {
 
   return (
     <main className="jobs">
-      <Container>
-        <div className="jobs__wrapper">
-          <div className="jobs__options">
-            <h1 className="jobs__options-title">Ponuda poslova:</h1>
-            {(token?.company || state.company) && (
-              <Link to={"/poslovi/novi-oglas"}>
-                <Button variant="success">
-                  <span>Dodaj novi oglas</span>
-                  <IoMdAddCircle />
-                </Button>
-              </Link>
-            )}
-          </div>
-          {jobs && jobs.length > 0 && <JobsList jobs={jobs}></JobsList>}
+      <JobMain></JobMain>
+      <JobsRegister/>
+      <div className="jobs__wrapper">
+        <div className="jobs__options">
+          {(token?.company || state.company) && (
+            <Link to={"/poslovi/novi-oglas"}>
+              <Button variant="success">
+                <span>Dodaj novi oglas</span>
+                <IoMdAddCircle />
+              </Button>
+            </Link>
+          )}
         </div>
-        <Paginate
-          getPageNumbers={getPageNumbers}
-          paginate={paginate}
-        ></Paginate>
-      </Container>
-      {status === 'Pending' && <LoadingSpinner></LoadingSpinner>}
+      </div>
+      {jobs && jobs.length > 0 && <JobsList jobs={jobs}></JobsList>}
+      <Paginate getPageNumbers={getPageNumbers} paginate={paginate}></Paginate>
+      {status === "Pending" && <LoadingSpinner></LoadingSpinner>}
     </main>
   );
 };

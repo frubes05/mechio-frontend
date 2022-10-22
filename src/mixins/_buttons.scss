@@ -18,3 +18,24 @@
     border: 1px solid #ffde4d;
   }
 }
+
+@mixin button-alt {
+  display: inline-block;
+  background: #ffde4d;
+  font: 700 16px "Roboto", sans-serif;
+  color: #282828;
+  text-transform: uppercase;
+  text-align: center;
+  border-radius: 6px;
+  padding: 13px 66px;
+  border: none !important;
+  width: fit-content !important;
+  box-shadow: none !important;
+  @content;
+
+  &:hover {
+    background-color: #3c4043;
+    color: white;
+    border: 1px solid #3c4043;
+  }
+}

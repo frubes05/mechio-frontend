@@ -1,6 +1,4 @@
 .jobs {
-    margin: 80px 40px;
-
     &__options {
         display: flex;
         justify-content: space-between;
@@ -132,6 +130,94 @@
 
         &-date {
             align-self: flex-end;
+        }
+    }
+
+    &__main {
+        padding: 80px 0;
+
+        @include breakpoint('md') {
+            padding: 100px 0;
+        }
+
+        &-subtitle {
+            @include small-title;
+        }
+
+        &-title {
+            @include big-title;
+        }
+
+        button {
+            @include button;
+        }
+
+        p {
+            @include normal-text;
+            margin: 10px 0 16px;
+        }
+    }
+
+    &__carousel {
+        align-self: center;
+        position: relative;
+        padding: 80px 0;
+
+        @include breakpoint('md') {
+            padding: 100px 0;
+        }
+
+        img {
+            width: 100%;
+            object-fit: cover;
+            min-height: 300px;
+            border-radius: 10px;
+        }
+
+        .splide {
+            &__pagination {
+                position: absolute;
+                bottom: -20px;
+                gap: 5px;
+
+                button {
+                    border-radius: 0;
+                    width: 30px;
+                    height: 3px;
+                    background-color: #3c4043;
+                }
+
+                .is-active {
+                    transform: scale(1) !important;
+                    background-color: #00c6b4;
+                }
+            }
+        }
+    }
+
+    &__row {
+        justify-content: space-between;
+        z-index: 2;
+    }
+
+    &__register {
+        padding: 4rem 0 6rem;
+        position: relative;
+        z-index: 2;
+        background: radial-gradient(198.57% 1678.87% at 20.74% 37.38%,#3c4043 6.02%,#00c6b4 100%);
+
+        &-subtitle {
+            @include small-title;
+        }
+
+        &-title {
+            @include big-title;
+
+            color: white;
+        }
+
+        button {
+            @include button;
         }
     }
 }
