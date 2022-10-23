@@ -32,7 +32,7 @@ const JobsRegister = () => {
             )}
             {(token?.company || state.company) && (
               <h2 className="jobs__register-title">
-                Obavite registraciju kako biste se mogli dodati svoje oglase
+                Obavite registraciju kako biste mogli dodati svoje oglase
               </h2>
             )}
             {(token?.company || state.company) && (
