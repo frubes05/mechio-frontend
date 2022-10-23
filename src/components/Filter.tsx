@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { IJobs } from "../pages/jobs/Jobs.types";
-import { Dropdown, Button, Container } from "react-bootstrap";
+import { Dropdown, Button, Container, Row, Col } from "react-bootstrap";
 import { type } from "os";
 
 const options = [
@@ -51,49 +51,67 @@ const Filter: React.FC<IFilter> = ({
   const handleResetSelected = () => {
     resetSelected();
     setSelectedValue([]);
-  }
+  };
 
   return (
-    <Container>
-      <div className="jobs__list-filters">
-        {filterOptions &&
-          filterOptions.map((option: any, id: number) => {
-            let newElements = Array.from(new Set(jobs.map((job:any) => job[option.en])));
-            newElements = newElements.map(elem => {
-              return {
-                [option.en] : elem
-              }
-            });
-            return (
-              <Dropdown key={id}>
-                <Dropdown.Toggle variant="success" id="dropdown-basic">
-                  {option.hr}
-                </Dropdown.Toggle>
+    <Container className="jobs__filter">
+      <Row>
+        <Col xlg={8} lg={8} md={8}>
+          <h5 className="jobs__list-subtitle">Filtriranje mogućnosti</h5>
+          <h2 className="jobs__list-title">
+            Odaberite posao prema vašim afinitetima
+          </h2>
+        </Col>
+        <Col>
+        <div className="jobs__list-filters">
+          {filterOptions &&
+            filterOptions.map((option: any, id: number) => {
+              let newElements = Array.from(
+                new Set(jobs.map((job: any) => job[option.en]))
+              );
+              newElements = newElements.map((elem) => {
+                return {
+                  [option.en]: elem,
+                };
+              });
+              return (
+                <Dropdown key={id}>
+                  <Dropdown.Toggle variant="success" id="dropdown-basic">
+                    {option.hr}
+                  </Dropdown.Toggle>
 
-                <Dropdown.Menu>
-                  {jobs &&
-                    jobs.length > 0 &&
-                    newElements.map((job: any, i: number) => {
-                      return (
-                        <Dropdown.Item
-                          key={`${id}-${i}`}
-                          onClick={() =>
-                            handleSelectedValue(job[option.en], option.en)
-                          }
-                        >
-                          {job[option.en]}
-                        </Dropdown.Item>
-                      );
-                    })}
-                </Dropdown.Menu>
-              </Dropdown>
-            );
-          })}
-        <Button className="jobs__list-reset" onClick={() => handleResetSelected()}>
-          Reset
-        </Button>
-      </div>
-      <p className="jobs__list-filtervalues">Odabrane vrijednosti ({selectedValue.length}): <span>{selectedValue.map(elem => elem.value).join(', ')}</span></p>
+                  <Dropdown.Menu>
+                    {jobs &&
+                      jobs.length > 0 &&
+                      newElements.map((job: any, i: number) => {
+                        return (
+                          <Dropdown.Item
+                            key={`${id}-${i}`}
+                            onClick={() =>
+                              handleSelectedValue(job[option.en], option.en)
+                            }
+                          >
+                            {job[option.en]}
+                          </Dropdown.Item>
+                        );
+                      })}
+                  </Dropdown.Menu>
+                </Dropdown>
+              );
+            })}
+          <Button
+            className="jobs__list-reset"
+            onClick={() => handleResetSelected()}
+          >
+            Reset
+          </Button>
+        </div>
+        <p className="jobs__list-filtervalues">
+          Odabrane vrijednosti ({selectedValue.length}):{" "}
+          <span>{selectedValue.map((elem) => elem.value).join(", ")}</span>
+        </p>
+        </Col>
+      </Row>
     </Container>
   );
 };

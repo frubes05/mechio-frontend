@@ -13,6 +13,8 @@ import { IoMdAddCircle } from "react-icons/io";
 import useFetch from "../../hooks/useFetch";
 import JobMain from "./JobMain";
 import JobsRegister from "./JobsRegister";
+import Filter from "../../components/Filter";
+import { filteringService } from "../../services/filtering";
 
 interface IJob {
   status: string;
@@ -20,6 +22,7 @@ interface IJob {
 
 const Jobs: React.FC<IJob> = ({ status }) => {
   const { state } = useContext(AuthContext);
+  const [selectedJobs, setSelectedJobs] = useState<IJobs[] | []>([]);
   const [token, setToken] = useState<ICompanyToken>();
   const [showSpinner, setShowSpinner] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -31,6 +34,7 @@ const Jobs: React.FC<IJob> = ({ status }) => {
     method: "get",
     onSuccess: (data) => {
       setJobs(data);
+      setSelectedJobs(data);
     },
     onError: (error) => {},
   });
@@ -43,41 +47,27 @@ const Jobs: React.FC<IJob> = ({ status }) => {
     }
   }, []);
 
-  useEffect(() => {
-    const indexOfLastPost = currentPage * postsPerPage;
-    const indexOfFirstPost = indexOfLastPost - postsPerPage;
-    setJobs((prev) => prev.slice(indexOfFirstPost, indexOfLastPost));
-  }, []);
-
-  const getMaxNumbers = Math.ceil(jobs.length / postsPerPage);
-  const getPageNumbers = [];
-
-  for (let i = 1; i <= getMaxNumbers; i++) {
-    getPageNumbers.push(i);
-  }
-
-  const paginate = (num: number) => {
-    setCurrentPage(num);
+  const getAllSelected = (filterOptions: IJobs[]) => {
+    setSelectedJobs(filteringService(filterOptions, jobs));
   };
+
+  const resetSelected = () => setSelectedJobs(jobs);
 
   return (
     <main className="jobs">
       <JobMain></JobMain>
-      <JobsRegister/>
-      <div className="jobs__wrapper">
-        <div className="jobs__options">
-          {(token?.company || state.company) && (
-            <Link to={"/poslovi/novi-oglas"}>
-              <Button variant="success">
-                <span>Dodaj novi oglas</span>
-                <IoMdAddCircle />
-              </Button>
-            </Link>
-          )}
-        </div>
-      </div>
-      {jobs && jobs.length > 0 && <JobsList jobs={jobs}></JobsList>}
-      <Paginate getPageNumbers={getPageNumbers} paginate={paginate}></Paginate>
+      <JobsRegister />
+      <Filter
+        filterOptions={[
+          { en: "company", hr: "Tvrtka" },
+          { en: "location", hr: "Lokacija" },
+          { en: "position", hr: "Pozicija" },
+        ]}
+        jobs={jobs}
+        getAllSelected={getAllSelected}
+        resetSelected={resetSelected}
+      ></Filter>
+      {selectedJobs.length > 0 && <JobsList jobs={selectedJobs}></JobsList>}
       {status === "Pending" && <LoadingSpinner></LoadingSpinner>}
     </main>
   );

@@ -1,8 +1,23 @@
-import React from "react";
+import React, { useContext, useState, useEffect } from "react";
+import { Link } from 'react-router-dom';
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
+import { AuthContext } from "../../context/AuthContext";
+import { ICompanyToken } from "../companies/Company.types";
+import { IUserToken } from "../users/User.types";
 
 const JobMain = () => {
+  const { state } = useContext(AuthContext);
+  const [token, setToken] = useState<ICompanyToken & IUserToken>();
+
+  useEffect(() => {
+    if (localStorage.getItem("decodedToken")) {
+      const tokenObj = localStorage.getItem("decodedToken");
+      const tokenReal = JSON.parse(tokenObj!);
+      setToken(tokenReal);
+    }
+  }, []);
+
   return (
     <>
       <Container>
@@ -16,26 +31,33 @@ const JobMain = () => {
                 Brzo i jednostavno do novog posla{" "}
               </h1>
               <p>Sve što vam treba u par klikova</p>
-              <Button href="#jobs-list">Istraži poslove</Button>
+              {(token?.user || state.user || !state || !token) && <Button href="#jobs-list">Istraži poslove</Button>}
+              {(token?.company || state.company) && (
+                <Link to={"/poslovi/novi-oglas"}>
+                    Dodaj novi oglas
+                </Link>
+              )}
             </section>
           </Col>
           <Col xlg={5} lg={5} md={5} className="jobs__carousel">
-            <Splide options={{
+            <Splide
+              options={{
                 arrows: false,
                 perView: 1,
                 pagination: true,
                 autoplay: true,
-                resetProgress: true
-            }}>
-                <SplideSlide>
-                    <img src="/assets/swiper2.png" alt="image-01" />
-                </SplideSlide>
-                <SplideSlide>
-                    <img src="/assets/swiper2.jpg" alt="image-02" />
-                </SplideSlide>
-                <SplideSlide>
-                    <img src="/assets/swiper3.webp" alt="image-03" />
-                </SplideSlide>
+                resetProgress: true,
+              }}
+            >
+              <SplideSlide>
+                <img src="/assets/swiper2.png" alt="image-01" />
+              </SplideSlide>
+              <SplideSlide>
+                <img src="/assets/swiper2.jpg" alt="image-02" />
+              </SplideSlide>
+              <SplideSlide>
+                <img src="/assets/swiper3.webp" alt="image-03" />
+              </SplideSlide>
             </Splide>
           </Col>
         </Row>
