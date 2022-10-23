@@ -30,6 +30,11 @@
       padding: 4rem 0 6rem;
     }
 
+    &-none {
+      @include normal-text;
+      padding-bottom: 50px;
+    }
+
     h2 {
       @include big-title;
     }

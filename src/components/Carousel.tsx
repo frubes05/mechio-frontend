@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import { Link } from "react-router-dom";
-import { Container } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import { IJobs } from "../pages/jobs/Jobs.types";
 import useFetch from "../hooks/useFetch";
 import { carouselConfig } from "./carousel.config";
@@ -44,6 +44,15 @@ const Carousel = () => {
               </SplideSlide>
             ))}
           </Splide>
+        </Container>
+      )}
+      {lastAdded?.length === 0 && (
+        <Container>
+          <Row>
+            <Col>
+              <p className="home__jobs-none">Trenutno nema ponuđenih poslova</p>
+            </Col>
+          </Row>
         </Container>
       )}
     </>
