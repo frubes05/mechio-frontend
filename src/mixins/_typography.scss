@@ -23,8 +23,8 @@
 }
 
 @mixin small-title {
-    color: #00c6b4;
-    font: 700 20px "Roboto", sans-serif;
+    color: #00c6b4 !important;
+    font: 700 20px "Roboto", sans-serif !important;
     @content;
 }
 

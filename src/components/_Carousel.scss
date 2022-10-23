@@ -1,7 +1,22 @@
 .splide {
   &__slide {
     cursor: pointer;
-    max-height: 400px;
+
+    &:hover {
+      .jobs__card {
+        img {
+          transform: scale(1.03);
+        }
+
+        &-title {
+          color: #3c4043;
+        }
+
+        &-pill {
+          background-color: rgba(60, 64, 67, 0.8);
+        }
+      }
+    }
   }
 
   &__track {

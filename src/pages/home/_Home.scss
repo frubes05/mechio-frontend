@@ -30,6 +30,11 @@
       padding: 4rem 0 6rem;
     }
 
+    .jobs__card-title {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
     &-none {
       @include normal-text;
       padding-bottom: 50px;

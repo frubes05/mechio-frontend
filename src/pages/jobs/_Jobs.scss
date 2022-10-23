@@ -109,7 +109,7 @@
 
         &-title {
             @include small-title;
-            font-size: 32px;
+            font-size: 32px !important;
             transition: all 0.2s ease-in-out;
         }
 
