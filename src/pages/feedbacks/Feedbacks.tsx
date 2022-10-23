@@ -1,12 +1,8 @@
-import React, { FC, useEffect, useState, useContext } from "react";
-import { Link } from "react-router-dom";
-import { Button, Container } from "react-bootstrap";
-import axios from "axios";
+import React, { useEffect, useState, useContext } from "react";
+import { Container, Row, Col } from "react-bootstrap";
 import { AuthContext } from "../../context/AuthContext";
 import { ICompanyToken } from "../companies/Company.types";
 import LoadingSpinner from "../../components/LoadingSpinner";
-import Paginate from "../../components/Paginate";
-import { IoMdAddCircle } from "react-icons/io";
 
 import { ICompany } from "../companies/Company.types";
 import { IUserToken } from "../users/User.types";
@@ -67,6 +63,18 @@ const Feedbacks: React.FC<IFeedbacks> = ({ status }) => {
         getAllSelected={getAllSelected}
         resetSelected={resetSelected}
         title={'Odaberite tvrtku koja vas zanima'} />
+      {selectedCompanies.length === 0 && (
+        <Container>
+          <Row>
+            <Col xlg={8} lg={8} md={8}>
+              <p className="feedbacks__none">
+                Trenutno ne postoji tvrtka koja zadovoljava odabrane vrijednosti
+                filtriranja
+              </p>
+            </Col>
+          </Row>
+        </Container>
+      )}
       {companies.length > 0 && <FeedbackCompanies companies={selectedCompanies}/>}
       {status === 'Pending' && <LoadingSpinner></LoadingSpinner>}
     </main>

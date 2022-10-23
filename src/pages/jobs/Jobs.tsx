@@ -10,6 +10,7 @@ import JobMain from "./JobMain";
 import JobsRegister from "./JobsRegister";
 import Filter from "../../components/Filter";
 import { filteringService } from "../../services/filtering";
+import { Container, Row, Col } from "react-bootstrap";
 
 interface IJob {
   status: string;
@@ -61,8 +62,20 @@ const Jobs: React.FC<IJob> = ({ status }) => {
         jobs={jobs}
         getAllSelected={getAllSelected}
         resetSelected={resetSelected}
-        title={'Odaberite posao prema vašim afinitetima'}
+        title={"Odaberite posao prema vašim afinitetima"}
       ></Filter>
+      {selectedJobs.length === 0 && (
+        <Container>
+          <Row>
+            <Col xlg={8} lg={8} md={8}>
+              <p className="jobs__none">
+                Trenutno ne postoji posao koji zadovoljava odabrane vrijednosti
+                filtriranja
+              </p>
+            </Col>
+          </Row>
+        </Container>
+      )}
       {selectedJobs.length > 0 && <JobsList jobs={selectedJobs}></JobsList>}
       {status === "Pending" && <LoadingSpinner></LoadingSpinner>}
     </main>

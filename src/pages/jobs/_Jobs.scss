@@ -238,4 +238,9 @@
             padding-bottom: 50px;
         }
     }
+
+    &__none {
+        @include normal-text;
+        padding: 20px 0 80px;
+    }
 }

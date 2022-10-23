@@ -51,7 +51,9 @@
         }
       }
 
-      img, .jobs__card-title, .jobs__card-pill {
+      img,
+      .jobs__card-title,
+      .jobs__card-pill {
         transition: all 0.2s ease-in-out;
       }
     }
@@ -225,5 +227,10 @@
       @include normal-text;
       margin: 10px 0 16px;
     }
+  }
+
+  &__none {
+    @include normal-text;
+    padding: 20px 0 80px;
   }
 }
