@@ -1,9 +1,7 @@
 .feedbacks {
-  margin: 80px 40px;
-
   &__list {
     &-column {
-        margin-bottom: 20px;
+      margin-bottom: 20px;
     }
   }
 
@@ -14,19 +12,19 @@
     }
 
     &-wrapper {
-        position: relative;
+      position: relative;
     }
 
     &-select {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        border: none;
-        padding: 5px 15px;
-        border-radius: 30px;
-        outline: none;
-        background-color: lightgrey;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: none;
+      padding: 5px 15px;
+      border-radius: 30px;
+      outline: none;
+      background-color: lightgrey;
     }
 
     &-title {
@@ -35,7 +33,27 @@
     }
 
     &-item {
-        height: 100%;
+      height: 100%;
+
+      &:hover {
+        .jobs__card {
+          img {
+            transform: scale(1.03);
+          }
+
+          &-title {
+            color: #3c4043;
+          }
+
+          &-pill {
+            background-color: rgba(60, 64, 67, 0.8);
+          }
+        }
+      }
+
+      img, .jobs__card-title, .jobs__card-pill {
+        transition: all 0.2s ease-in-out;
+      }
     }
 
     &-image {
@@ -90,24 +108,24 @@
     }
 
     &-ctas {
-        display: flex;
-        flex-direction: column;
-        gap: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
     }
 
     &-button {
-        color: white;
-        font-weight: 500;
-        background-color: #0d6efd;
-        padding: 10px 20px;
-        border-radius: 5px;
-        box-shadow: 0px 2px 6px rgba(0,0,0,.2);
-        transition: all 0.2s ease-in-out;
+      color: white;
+      font-weight: 500;
+      background-color: #0d6efd;
+      padding: 10px 20px;
+      border-radius: 5px;
+      box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+      transition: all 0.2s ease-in-out;
 
-        &:hover {
-            color: white;
-            box-shadow: 0px 2px 8px rgba(0,0,0,.4); 
-        }
+      &:hover {
+        color: white;
+        box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.4);
+      }
     }
   }
 
@@ -134,7 +152,7 @@
     }
 
     &-wrapper {
-      box-shadow: 0px 2px 6px rgba(0, 0, 0, .4);
+      box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.4);
     }
 
     &-delete {
@@ -162,7 +180,7 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
-    box-shadow: 0px 2px 8px rgba(0, 0, 0, .4);
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.4);
     padding: 15px;
 
     &-company {
@@ -178,6 +196,34 @@
         height: auto;
         border-radius: 50%;
       }
+    }
+  }
+
+  &__main {
+    padding: 80px 0 20px;
+    position: relative;
+    z-index: 2;
+
+    @include breakpoint("md") {
+      padding: 100px 0;
+    }
+
+    &-subtitle {
+      @include small-title;
+    }
+
+    &-title {
+      @include big-title;
+    }
+
+    button,
+    a {
+      @include button;
+    }
+
+    p {
+      @include normal-text;
+      margin: 10px 0 16px;
     }
   }
 }

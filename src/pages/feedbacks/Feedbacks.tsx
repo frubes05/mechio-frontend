@@ -9,9 +9,15 @@ import Paginate from "../../components/Paginate";
 import { IoMdAddCircle } from "react-icons/io";
 
 import { ICompany } from "../companies/Company.types";
+import { IUserToken } from "../users/User.types";
 
 import useFetch from '../../hooks/useFetch';
 import FeedbackCompanies from "./FeedbackCompanies";
+import FeedbackMain from "./FeedbackMain";
+import FeedbackRegister from "./FeedbackRegister";
+
+import Filter from "../../components/Filter";
+import { filteringService } from "../../services/filtering";
 
 interface IFeedbacks {
   status: string;
@@ -19,16 +25,17 @@ interface IFeedbacks {
 
 const Feedbacks: React.FC<IFeedbacks> = ({ status }) => {
   const { state } = useContext(AuthContext);
-  const [firm, setFirm] = useState<string>('');
-  const [token, setToken] = useState<ICompanyToken>();
+  const [token, setToken] = useState<ICompanyToken & IUserToken>();
   const [showSpinner, setShowSpinner] = useState<boolean>(true);
   const [companies, setCompanies] = useState<ICompany[] | []>([]);
+  const [selectedCompanies, setSelectedCompanies] = useState<ICompany[] | []>([]);
 
   const getCompanies = useFetch({
     url: "https://mechio-api-test.onrender.com/poslodavci",
     method: 'get',
     onSuccess: (data) => {
       setCompanies(data);
+      setSelectedCompanies(data);
     },
     onError: (error) => {
     }
@@ -42,19 +49,25 @@ const Feedbacks: React.FC<IFeedbacks> = ({ status }) => {
     }
   }, []);
 
+  const getAllSelected = (filterOptions: ICompany[]) => {
+    setSelectedCompanies(filteringService(filterOptions, companies));
+  };
+
+  const resetSelected = () => setSelectedCompanies(companies);
+
   return (
     <main className="feedbacks">
-      <Container>
-        <div className="feedbacks__wrapper">
-          <div className="feedbacks__options">
-            <div className="feedbacks__options-wrapper">
-              <h1 className="feedbacks__options-title">Tvrtke:</h1>
-              <input className="feedbacks__options-select" type="text" placeholder="Pretraži tvrtke..." onChange={(e) => setFirm(e.target.value)}></input>
-            </div>
-            {companies.length > 0 && <FeedbackCompanies companies={companies} value={firm}/>}
-          </div>
-        </div>
-      </Container>
+      <FeedbackMain />
+      {(!state.company || !token?.company) && <FeedbackRegister />}
+      <Filter filterOptions={[
+          { en: "companyName", hr: "Tvrtka" },
+          { en: "companyAddress", hr: "Lokacija" },
+        ]}
+        jobs={companies}
+        getAllSelected={getAllSelected}
+        resetSelected={resetSelected}
+        title={'Odaberite tvrtku koja vas zanima'} />
+      {companies.length > 0 && <FeedbackCompanies companies={selectedCompanies}/>}
       {status === 'Pending' && <LoadingSpinner></LoadingSpinner>}
     </main>
   );

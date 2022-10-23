@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { IJobs } from "../pages/jobs/Jobs.types";
+import { ICompany } from "../pages/companies/Company.types";
 import { Dropdown, Button, Container, Row, Col } from "react-bootstrap";
-import { type } from "os";
 
 const options = [
   { value: "chocolate", label: "Chocolate" },
@@ -11,9 +11,10 @@ const options = [
 
 interface IFilter {
   filterOptions: { en: string; hr: string }[];
-  jobs: IJobs[];
+  jobs: IJobs[] | ICompany[];
   getAllSelected: Function;
   resetSelected: Function;
+  title: string;
 }
 
 interface ISelectedValue {
@@ -26,6 +27,7 @@ const Filter: React.FC<IFilter> = ({
   jobs,
   getAllSelected,
   resetSelected,
+  title
 }) => {
   const [selectedValue, setSelectedValue] = useState<ISelectedValue[] | []>([]);
 
@@ -59,7 +61,7 @@ const Filter: React.FC<IFilter> = ({
         <Col xlg={8} lg={8} md={8}>
           <h5 className="jobs__list-subtitle">Filtriranje mogućnosti</h5>
           <h2 className="jobs__list-title">
-            Odaberite posao prema vašim afinitetima
+            {title}
           </h2>
         </Col>
         <Col>

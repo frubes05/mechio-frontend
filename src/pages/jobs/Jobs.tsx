@@ -1,14 +1,9 @@
-import React, { FC, useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { IJobs } from "./Jobs.types";
-import { Link } from "react-router-dom";
-import { Button, Container, Row } from "react-bootstrap";
-import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
-import { ICompanyToken } from "../companies/Company.types";
+import { ICompanyToken, ICompany } from "../companies/Company.types";
 import JobsList from "./JobsList";
 import LoadingSpinner from "../../components/LoadingSpinner";
-import Paginate from "../../components/Paginate";
-import { IoMdAddCircle } from "react-icons/io";
 
 import useFetch from "../../hooks/useFetch";
 import JobMain from "./JobMain";
@@ -66,6 +61,7 @@ const Jobs: React.FC<IJob> = ({ status }) => {
         jobs={jobs}
         getAllSelected={getAllSelected}
         resetSelected={resetSelected}
+        title={'Odaberite posao prema vašim afinitetima'}
       ></Filter>
       {selectedJobs.length > 0 && <JobsList jobs={selectedJobs}></JobsList>}
       {status === "Pending" && <LoadingSpinner></LoadingSpinner>}
