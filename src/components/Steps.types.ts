@@ -14,6 +14,8 @@ export interface IStep1 {
     setCompanyPassword?: Function,
     setFullname?: Function,
     setEmail?: Function,
+    setNumber?: Function,
+    setAddress?: Function,
     setPassword?: Function
     emailRef?: RefObject<HTMLInputElement>;
 };

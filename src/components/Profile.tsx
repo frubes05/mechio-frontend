@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
-import { Container, Col, Row, Button, Modal } from "react-bootstrap";
+import { Container, Col, Row, Button, Modal, Form } from "react-bootstrap";
 import Editor from "./Editor";
 import { IUserProfile } from "./UserProfile.types";
 import { ICompanyToken, ICompany } from "../pages/companies/Company.types";
@@ -29,7 +29,7 @@ const Profile = () => {
   const [companyJobApplications, setCompanyJobApplications] = useState([]);
 
   const getProfileInformation = useFetch({
-    url: `https://mechio-api-test.onrender.com/profil/${params.id}`,
+    url: `http://localhost:9000/profil/${params.id}`,
     method: "get",
     onSuccess: (information) => {
       const { data, type } = information;
@@ -41,62 +41,56 @@ const Profile = () => {
         setMoreInformation(data.companyDescription);
       }
     },
-    onError: (error) => {
-    },
+    onError: (error) => {},
   });
 
   const getUserFeedbacks = useFetch({
-    url: `https://mechio-api-test.onrender.com/profil/feedbacks/${params.id}`,
+    url: `http://localhost:9000/profil/feedbacks/${params.id}`,
     method: "get",
     onSuccess: (data) => {
       setFeedbackInformation(data);
     },
-    onError: (error) => {
-    },
+    onError: (error) => {},
   });
 
   const getSpecificUserFeedback = useFetch({
-    url: `https://mechio-api-test.onrender.com/profil/userfeedbacks/${params.id}`,
+    url: `http://localhost:9000/profil/userfeedbacks/${params.id}`,
     method: "get",
     onSuccess: (data) => {
       setUserFeedbacks(data);
     },
-    onError: (error) => {
-    },
+    onError: (error) => {},
   });
 
   const getCompanyJobs = useFetch({
-    url: `https://mechio-api-test.onrender.com/profil/jobs/${params.id}`,
+    url: `http://localhost:9000/profil/jobs/${params.id}`,
     method: "get",
     onSuccess: (data) => {
       setCompanyJobs(data);
     },
-    onError: (error) => {
-    },
+    onError: (error) => {},
   });
 
   const getCompanyJobApplications = useFetch({
-    url: `https://mechio-api-test.onrender.com/profil/applications/${params.id}`,
+    url: `http://localhost:9000/profil/applications/${params.id}`,
     method: "get",
     onSuccess: (data) => {
       setCompanyJobApplications(data);
     },
-    onError: (error) => {
-    },
+    onError: (error) => {},
   });
 
   const getUserJobApplications = useFetch({
-    url: `https://mechio-api-test.onrender.com/profil/userapplications/${params.id}`,
+    url: `http://localhost:9000/profil/userapplications/${params.id}`,
     method: "get",
     onSuccess: (data) => {
       setUserApplications(data);
     },
-    onError: (error) => {
-    },
+    onError: (error) => {},
   });
 
   const editProfileInformation = useFetch({
-    url: `https://mechio-api-test.onrender.com/profil/izmijeni/${params.id}`,
+    url: `http://localhost:9000/profil/izmijeni/${params.id}`,
     method: "put",
     onSuccess: (information) => {
       const { data, type } = information;
@@ -108,12 +102,11 @@ const Profile = () => {
         setMoreInformation(data.companyDescription);
       }
     },
-    onError: (error) => {
-    },
+    onError: (error) => {},
   });
 
   const deleteProfile = useFetch({
-    url: `https://mechio-api-test.onrender.com/profil/izbrisi/${params.id}`,
+    url: `http://localhost:9000/profil/izbrisi/${params.id}`,
     method: "delete",
     onSuccess: (data) => {
       localStorage.removeItem("decodedToken");
@@ -121,8 +114,7 @@ const Profile = () => {
       setToken(null);
       navigate("/");
     },
-    onError: (error) => {
-    },
+    onError: (error) => {},
   });
 
   useEffect(() => {
@@ -135,7 +127,7 @@ const Profile = () => {
 
   const logout = () => {
     deleteProfile.handleFetch(
-      `https://mechio-api-test.onrender.com/profil/izbrisi/${params.id}`
+      `http://localhost:9000/profil/izbrisi/${params.id}`
     );
     const href = window.location.href.split("/");
     const location = href[href.length - 1];
@@ -157,40 +149,115 @@ const Profile = () => {
   }, []);
 
   return (
-    <Container>
-      {user && (
-        <>
-          <Row className="profile">
-            <Col sm={4} md={4} lg={2} xlg={2}>
-              <aside className="profile__aside">
-                <div className="profile__about">
-                  <h1 className="profile__about-title">
-                    <span className="profile__style">Ime i Prezime:</span>
-                    <span>{user.fullname}</span>
-                  </h1>
+    <section className="profile">
+      <Container className="profile__container">
+        {user && (
+          <>
+            <Row className="profile__row">
+              <Col sm={4} md={6} lg={6} xlg={6}>
+                <aside className="profile__aside">
+                  <h2 className="profile__main-title">Vaš profil</h2>
+                  <div className="profile__about">
+                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                      <Form.Control
+                        type="text"
+                        disabled
+                        value={user.fullname}
+                      />
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                      <Form.Control type="text" disabled value={user.email} />
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                      <Form.Control type="text" disabled value={user.number} />
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                      <Form.Control
+                        type="text"
+                        disabled
+                        value={user.address}
+                      />
+                    </Form.Group>
+                  </div>
+                  <article className="profile__article">
+                    <div className="profile__article-edit">
+                      {!edit && (
+                        <Button variant="warning" onClick={() => setEdit(true)}>
+                          Dodajte nešto o sebi
+                        </Button>
+                      )}
+                    </div>
+                    {edit && (
+                      <>
+                        <div className="profile__article-revert">
+                          <Button
+                            variant="secondary"
+                            size="sm"
+                            onClick={() => setEdit(!edit)}
+                          >
+                            Natrag
+                          </Button>
+                        </div>
+                        <Editor
+                          value={moreInformation}
+                          setValue={setMoreInformation}
+                        ></Editor>
+                        <div className="profile__article-buttons">
+                          <Button
+                            size="lg"
+                            onClick={() => {
+                              editProfileInformation.handleFetch(
+                                `http://localhost:9000/profil/izmijeni/${params.id}`,
+                                { about: moreInformation }
+                              );
+                              setEdit(false);
+                            }}
+                          >
+                            Potvrdi
+                          </Button>
+                        </div>
+                      </>
+                    )}
+                  </article>
+                </aside>
+              </Col>
+              <Col sm={4} md={5} lg={5} xlg={5}>
+                {!moreInformation && !user?.about &&
+                <div
+                className="profile__article-edit--rte"
+                dangerouslySetInnerHTML={{
+                  __html: "Trenutno nema podataka o korisniku",
+                }}
+                />
+                }
+                {moreInformation && (
+                  <div
+                    className="profile__article-edit--rte"
+                    dangerouslySetInnerHTML={{
+                      __html: moreInformation,
+                    }}
+                  />
+                )}
+                {user.about && !moreInformation && (
+                  <div
+                    className="profile__article-edit--rte"
+                    dangerouslySetInnerHTML={{ __html: user.about }}
+                  />
+                )}
+                <div className="profile__img">
                   <img
-                    src={`https://mechio-api-test.onrender.com/${user.image}`}
+                    src={`http://localhost:9000/${user.image}`}
                     alt={user.fullname}
                   />
-                  <p className="profile__about-title">
-                    <span className="profile__style">Email:</span>
-                    <a href={`mailto:${user.email}`}>{user.email}</a>
-                  </p>
-                  <div>
-                    <p className="profile__style">CV:</p>
-                    {user.cv}
-                  </div>
                 </div>
+                <div>{user.cv}</div>
                 <div className="profile__info">
-                  <h2>
-                    Vaše prijave na oglase (
-                    <span>{userApplications.length}</span>)
-                  </h2>
-                  {userApplications.length > 0 && (
-                    <Button onClick={() => setShowApplication(true)}>
-                      Pogledaj
-                    </Button>
-                  )}
+                  <Button
+                    disabled={user.applications.length === 0}
+                    onClick={() => setShowApplication(true)}
+                  >
+                    Prijave ({userApplications.length})
+                  </Button>
                   {showApplication && (
                     <ModalForm
                       title="Vaše prijave na oglase"
@@ -207,7 +274,7 @@ const Profile = () => {
                             >
                               <Link to={`/poslovi/${app._id}`}>
                                 <img
-                                  src={`https://mechio-api-test.onrender.com/${app.companyImage}`}
+                                  src={`http://localhost:9000/${app.companyImage}`}
                                 ></img>
                                 <h3>{app.company}</h3>
                                 <p>{app.position}</p>
@@ -217,16 +284,12 @@ const Profile = () => {
                       </ul>
                     </ModalForm>
                   )}
-                </div>
-                <div className="profile__info">
-                  <h2>
-                    Vaše recenzije (<span>{userFeedbacks.length}</span>)
-                  </h2>
-                  {userFeedbacks.length > 0 && (
-                    <Button onClick={() => setShowFeedbacks(true)}>
-                      Pogledaj
-                    </Button>
-                  )}
+                  <Button
+                    disabled={userFeedbacks.length === 0}
+                    onClick={() => setShowFeedbacks(true)}
+                  >
+                    Recenzije ({userFeedbacks.length})
+                  </Button>
                   {showFeedbacks && (
                     <ModalForm
                       title="Vaše recenzije"
@@ -252,112 +315,129 @@ const Profile = () => {
                     </ModalForm>
                   )}
                 </div>
-              </aside>
-            </Col>
-            <Col sm={4} md={4} lg={8} xlg={8}>
-              <article className="profile__article">
-                <div className="profile__article-edit">
-                  {!edit && (
-                    <>
-                      <span>
-                        <h1>O meni</h1>
-                        {moreInformation && (
-                          <div
-                            className="profile__article-edit--rte"
-                            dangerouslySetInnerHTML={{
-                              __html: moreInformation,
-                            }}
-                          />
-                        )}
-                        {user.about && !moreInformation && (
-                          <div
-                            className="profile__article-edit--rte"
-                            dangerouslySetInnerHTML={{ __html: user.about }}
-                          />
-                        )}
-                      </span>
-                      <Button variant="warning" onClick={() => setEdit(true)}>
-                        Izmijeni
-                      </Button>
-                    </>
-                  )}
+                <div className="profile__delete">
+                  <Button variant="danger" onClick={() => logout()}>
+                    Izbriši profil
+                  </Button>
                 </div>
-                {edit && (
-                  <>
-                    <div className="profile__article-revert">
-                      <h1>Dodajte nešto više o sebi</h1>
-                      <Button
-                        variant="secondary"
-                        size="sm"
-                        onClick={() => setEdit(!edit)}
-                      >
-                        Natrag
-                      </Button>
+              </Col>
+            </Row>
+          </>
+        )}
+        {company && (
+          <>
+            <Row className="profile__row">
+              <Col sm={4} md={6} lg={6} xlg={6}>
+                <aside className="profile__aside">
+                  <h2 className="profile__main-title">Vaš profil</h2>
+                  <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Control
+                      type="text"
+                      disabled
+                      value={company.companyName}
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Control
+                      type="text"
+                      disabled
+                      value={company.companyEmail}
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Control
+                      type="text"
+                      disabled
+                      value={company.companyNumber}
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Control
+                      type="text"
+                      disabled
+                      value={company.companyAddress}
+                    />
+                  </Form.Group>
+                  <article className="profile__article">
+                    <div className="profile__article-edit">
+                      {!edit && (
+                        <Button variant="warning" onClick={() => setEdit(true)}>
+                          Dodajte nešto o tvrtki
+                        </Button>
+                      )}
                     </div>
-                    <Editor
-                      value={moreInformation}
-                      setValue={setMoreInformation}
-                    ></Editor>
-                    <div className="profile__article-buttons">
-                      <Button
-                        size="lg"
-                        onClick={() => {
-                          editProfileInformation.handleFetch(
-                            `https://mechio-api-test.onrender.com/profil/izmijeni/${params.id}`,
-                            { about: moreInformation }
-                          );
-                          setEdit(false);
-                        }}
-                      >
-                        Potvrdi
-                      </Button>
-                    </div>
-                  </>
+                    {edit && (
+                      <>
+                        <div className="profile__article-revert">
+                          <Button
+                            variant="secondary"
+                            size="sm"
+                            onClick={() => setEdit(!edit)}
+                          >
+                            Natrag
+                          </Button>
+                        </div>
+                        <Editor
+                          value={moreInformation}
+                          setValue={setMoreInformation}
+                        ></Editor>
+                        <div className="profile__article-buttons">
+                          <Button
+                            size="lg"
+                            onClick={() => {
+                              editProfileInformation.handleFetch(
+                                `http://localhost:9000/profil/izmijeni/${params.id}`,
+                                { companyDescription: moreInformation }
+                              );
+                              setEdit(false);
+                            }}
+                          >
+                            Potvrdite
+                          </Button>
+                        </div>
+                      </>
+                    )}
+                  </article>
+                </aside>
+              </Col>
+              <Col sm={4} md={5} lg={5} xlg={5}>
+                {!moreInformation && !company.companyDescription &&
+                <div
+                className="profile__article-edit--rte"
+                dangerouslySetInnerHTML={{
+                  __html: "Trenutno nema podataka o tvrtki",
+                }}
+                />
+                }
+                  {moreInformation && (
+                  <div
+                    className="profile__article-edit--rte"
+                    dangerouslySetInnerHTML={{
+                      __html: moreInformation,
+                    }}
+                  />
                 )}
-              </article>
-            </Col>
-            <Col sm={4} md={4} lg={2} xlg={2}>
-              <div className="profile__delete">
-                <Button variant="danger" onClick={() => logout()}>
-                  Izbriši profil
-                </Button>
-              </div>
-            </Col>
-          </Row>
-        </>
-      )}
-      {company && (
-        <>
-          <Row className="profile">
-            <Col sm={4} md={4} lg={2} xlg={2}>
-              <aside className="profile__aside">
-                <div className="profile__about">
-                  <h1 className="profile__about-title">
-                    <span className="profile__style">Ime tvrtke:</span>
-                    <span>{company.companyName}</span>
-                  </h1>
+                {company.companyDescription && !moreInformation && (
+                  <div
+                    className="profile__article-edit--rte"
+                    dangerouslySetInnerHTML={{
+                      __html: company.companyDescription,
+                    }}
+                  />
+                )}
+                <div className="profile__img">
                   <img
-                    src={`https://mechio-api-test.onrender.com/${company.companyImage}`}
+                    src={`http://localhost:9000/${company.companyImage}`}
                     alt={"Image"}
                   />
-                  <p className="profile__about-title">
-                    <span className="profile__style">Email:</span>
-                    <a href={`mailto:${company.companyEmail}`}>
-                      <span>{company.companyEmail}</span>
-                    </a>
-                  </p>
-                  <div className="profile__about-title">
-                    <span className="profile__style">Kontakt:</span>
-                    <span>{company.companyNumber}</span>
-                  </div>
                 </div>
                 <div className="profile__info">
-                  <h2>
-                    Vaši oglasi (<span>{companyJobs.length}</span>)
-                  </h2>
-                  {companyJobs.length > 0 && (
-                    <Button onClick={() => setShowJobs(true)}>Pogledaj</Button>
-                  )}
+                  <Button
+                    disabled={companyJobs.length === 0}
+                    onClick={() => setShowJobs(true)}
+                  >
+                    Oglasi ({companyJobs.length})
+                  </Button>
                   {showJobs && (
                     <ModalForm
                       title="Vaši oglasi"
@@ -382,17 +462,12 @@ const Profile = () => {
                       </ul>
                     </ModalForm>
                   )}
-                </div>
-                <div className="profile__info">
-                  <h2>
-                    Prijavljeni na oglase (
-                    <span>{companyJobApplications.length}</span>)
-                  </h2>
-                  {companyJobApplications.length > 0 && (
-                    <Button onClick={() => setShowJobApplicants(true)}>
-                      Pogledaj
-                    </Button>
-                  )}
+                  <Button
+                    disabled={companyJobApplications.length === 0}
+                    onClick={() => setShowJobApplicants(true)}
+                  >
+                    Prijavljeni ({companyJobApplications.length})
+                  </Button>
                   {showJobApplicants && (
                     <ModalForm
                       title="Prijavljeni na oglase"
@@ -417,83 +492,17 @@ const Profile = () => {
                     </ModalForm>
                   )}
                 </div>
-              </aside>
-            </Col>
-            <Col sm={4} md={4} lg={8} xlg={8}>
-              <article className="profile__article">
-                <div className="profile__article-edit">
-                  {!edit && (
-                    <>
-                      <span>
-                        <h1>O tvrtki</h1>
-                        {moreInformation && (
-                          <div
-                            className="profile__article-edit--rte"
-                            dangerouslySetInnerHTML={{
-                              __html: moreInformation,
-                            }}
-                          />
-                        )}
-                        {company.companyDescription && !moreInformation && (
-                          <div
-                            className="profile__article-edit--rte"
-                            dangerouslySetInnerHTML={{
-                              __html: company.companyDescription,
-                            }}
-                          />
-                        )}
-                      </span>
-                      <Button variant="warning" onClick={() => setEdit(true)}>
-                        Izmijeni
-                      </Button>
-                    </>
-                  )}
+                <div className="profile__delete">
+                  <Button variant="danger" onClick={() => logout()}>
+                    Izbrišite profil
+                  </Button>
                 </div>
-                {edit && (
-                  <>
-                    <div className="profile__article-revert">
-                      <h1>Napišite nešto više o tvrtki</h1>
-                      <Button
-                        variant="secondary"
-                        size="sm"
-                        onClick={() => setEdit(!edit)}
-                      >
-                        Natrag
-                      </Button>
-                    </div>
-                    <Editor
-                      value={moreInformation}
-                      setValue={setMoreInformation}
-                    ></Editor>
-                    <div className="profile__article-buttons">
-                      <Button
-                        size="lg"
-                        onClick={() => {
-                          editProfileInformation.handleFetch(
-                            `https://mechio-api-test.onrender.com/profil/izmijeni/${params.id}`,
-                            { companyDescription: moreInformation }
-                          );
-                          setEdit(false);
-                        }}
-                      >
-                        Potvrdite
-                      </Button>
-                    </div>
-                  </>
-                )}
-              </article>
-            </Col>
-            <Col sm={4} md={4} lg={2} xlg={2}>
-              <div className="profile__delete">
-                <Button variant="danger" onClick={() => logout()}>
-                  Izbrišite profil
-                </Button>
-              </div>
-            </Col>
-          </Row>
-        </>
-      )}
-    </Container>
+              </Col>
+            </Row>
+          </>
+        )}
+      </Container>
+    </section>
   );
 };
 

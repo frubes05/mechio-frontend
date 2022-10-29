@@ -7,6 +7,8 @@ const initialState = {
       _id: '',
       email: '',
       fullname: '',
+      number: '',
+      address: '',
       loggedIn: false,
       exp: 0,
       iat: 0
@@ -26,6 +28,8 @@ type User = {
   email: String;
   user?: boolean;
   fullname: String;
+  address: String;
+  number: String;
 }
 
 type Both = {
@@ -78,6 +82,8 @@ const AuthContextProvider = ({ children }: Children) => {
         _id: '',
         email: '',
         fullname: '',
+        number: '',
+        address: '',
         loggedIn: false,
         exp: 0,
         iat: 0

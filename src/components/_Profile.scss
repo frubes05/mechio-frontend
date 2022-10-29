@@ -1,5 +1,20 @@
 .profile {
-    margin: 80px 0 40px;
+    background: radial-gradient(
+      198.57% 1678.87% at 20.74% 37.38%,
+      #3c4043 6.02%,
+      #00c6b4 100%
+    );
+
+    &__main {
+        &-title {
+            margin-bottom: 16px;
+            @include small-title;
+        }
+    }
+
+    &__container {
+        padding: 80px 0;
+    }
 
     &__style {
         font-size: 14px;
@@ -9,16 +24,26 @@
         font-style: italic;
     }
 
+    &__img {
+        padding: 40px 0;
+        display: flex;
+        justify-content: center;
+        border-top: 1px solid white;
+        border-bottom: 1px solid white;
+        margin-bottom: 20px;
+    }
+
     img {
-        width: 100%;
-        height: auto;
+        width: 300px;
+        height: 300px;
         object-fit: cover;
+        border-radius: 50%;
     }
 
     &__about {
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 24px;
 
         &-title {
             display: flex;
@@ -33,10 +58,6 @@
 
     &__article {
         display: block;
-        margin-top: 16px;
-        padding: 0 40px 0;
-        border-right: 1px solid lightgrey;
-        border-left: 1px solid lightgrey;
         height: 100%;
 
         &-edit {
@@ -44,11 +65,15 @@
             justify-content: space-between;
 
             button {
-                height: fit-content;
+                @include button;
             }
 
             &--rte {
                 width: 100%;
+                @include normal-title-white;
+                font-style: italic;
+                opacity: 0.8;
+                margin: 0 0 20px 0 !important;
             }
         }
 
@@ -56,7 +81,8 @@
             padding: 20px 0 0;
 
             button {
-                width: 100%;
+                @include button-alt;
+                width: 100% !important;
             }
         }
 
@@ -65,15 +91,27 @@
             justify-content: space-between;
             align-items: center;
             padding-bottom: 20px;
+
+            button {
+                @include button;
+            }
+        }
+
+        .quill {
+            background-color: white;
         }
     }
 
     &__info {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        justify-content: space-between;
         gap: 20px;
-        border-top: 1px solid lightgrey;
         padding-top: 20px;
+
+        button {
+            @include button;
+        }
     }
 
     &__aside {
@@ -84,6 +122,18 @@
 
     &__delete {
         margin-top: 16px;
+
+        button {
+            @include button;
+            width: 100% !important;
+            background-color: red !important;
+
+            &:hover {
+                color: white !important;
+                opacity: 0.8;
+                background-color: red !important;
+            }
+        }
     }
 
     &__applications {
@@ -121,5 +171,10 @@
                 font-weight: 400;
             }
         }
+    }
+
+    &__row {
+        display: flex;
+        justify-content: space-between;
     }
 }

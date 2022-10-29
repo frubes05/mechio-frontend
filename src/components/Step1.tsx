@@ -9,7 +9,8 @@ const Step1 = ({
   setCompanyPassword,
   setFullname,
   setPassword,
-  setEmail,
+  setNumber,
+  setAddress,
   emailRef
 }: ISteps & IStep1) => {
   const location = window.location.href.split("/");
@@ -57,6 +58,20 @@ const Step1 = ({
               type="email"
               placeholder="Email"
               ref = {emailRef}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Control
+              type="text"
+              placeholder="Broj mobitela"
+              onChange = {(e) => setNumber!(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Control
+              type="text"
+              placeholder="Adresa"
+              onChange = {(e) => setAddress!(e.target.value)}
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">

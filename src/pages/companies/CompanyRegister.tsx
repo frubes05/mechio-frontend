@@ -39,7 +39,7 @@ const CompanyRegister = ({
       if (companyImage) formData.append("image", companyImage);
       axios
         .post(
-          "https://mechio-api-test.onrender.com/poslodavci/novi-poslodavac",
+          "http://localhost:9000/poslodavci/novi-poslodavac",
           formData
         )
         .then((res) => {

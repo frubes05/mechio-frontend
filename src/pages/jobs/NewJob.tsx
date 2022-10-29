@@ -25,7 +25,7 @@ const NewJob: React.FC<INewJob> = ({ setRefetch, status }) => {
   const navigate = useNavigate();
 
   const addNewJob = useFetch({
-    url: `https://mechio-api-test.onrender.com/poslovi/novi-oglas`,
+    url: `http://localhost:9000/poslovi/novi-oglas`,
     method: "post",
     onSuccess: (data) => {
       data.message !== 200
@@ -62,7 +62,7 @@ const NewJob: React.FC<INewJob> = ({ setRefetch, status }) => {
       date: new Date(),
     };
     addNewJob.handleFetch(
-      "https://mechio-api-test.onrender.com/poslovi/novi-oglas",
+      "http://localhost:9000/poslovi/novi-oglas",
       newPost
     );
   };

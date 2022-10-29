@@ -13,7 +13,7 @@ const Carousel = () => {
   const [lastAdded, setLastAdded] = useState<IJobs[] | null>(null);
 
   const getJobs = useFetch({
-    url: "https://mechio-api-test.onrender.com/poslovi",
+    url: "http://localhost:9000/poslovi",
     method: "get",
     onSuccess: (data) => {
       setLastAdded(data.slice(-8));
@@ -34,7 +34,7 @@ const Carousel = () => {
                       <img
                         className="jobs__card-image"
                         src={
-                          "https://mechio-api-test.onrender.com/" +
+                          "http://localhost:9000/" +
                           job.companyImage
                         }
                       />

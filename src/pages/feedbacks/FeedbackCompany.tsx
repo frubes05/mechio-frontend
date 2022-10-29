@@ -13,7 +13,7 @@ const FeedbackCompany: React.FC<{ company: ICompany }> = ({ company }) => {
               <img
                 className="jobs__card-image"
                 src={
-                  "https://mechio-api-test.onrender.com/" + company.companyImage
+                  "http://localhost:9000/" + company.companyImage
                 }
               />
               <span className="jobs__card-pill">

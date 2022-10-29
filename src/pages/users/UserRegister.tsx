@@ -21,13 +21,15 @@ const UserRegister = ({
   const [fullname, setFullname] = useState<string>("");
   const email = useRef() as RefObject<HTMLInputElement>;
   const [password, setPassword] = useState<string>("");
+  const [number, setNumber] = useState<string>("");
+  const [address, setAddress] = useState<string>("");
   const [about, setAbout] = useState<string>("");
   const [cv, setCv] = useState<string>("");
   const [image, setImage] = useState<File | null>(null);
 
   const checkUser = useFetch({
     url: email.current
-      ? `https://mechio-api-test.onrender.com/posloprimci/odredeni-posloprimac/${email.current!.value}`
+      ? `http://localhost:9000/posloprimci/odredeni-posloprimac/${email.current!.value}`
       : "",
     method: "get",
     onSuccess: (data) => {
@@ -38,7 +40,7 @@ const UserRegister = ({
   });
 
   const registerUser = useFetch({
-    url: `https://mechio-api-test.onrender.com/posloprimci/novi-posloprimac`,
+    url: `http://localhost:9000/posloprimci/novi-posloprimac`,
     method: "post",
     onSuccess: (data) => {
       if (data.token) {
@@ -59,19 +61,21 @@ const UserRegister = ({
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     await checkUser.handleFetch(
-      `https://mechio-api-test.onrender.com/posloprimci/odredeni-posloprimac/${email.current!.value}`
+      `http://localhost:9000/posloprimci/odredeni-posloprimac/${email.current!.value}`
     );
     try {
       const formData = new FormData();
       formData.append("fullname", fullname);
       formData.append("email", email.current!.value);
       formData.append("password", password);
+      formData.append("number", number);
+      formData.append("address", address);
       formData.append("about", about);
       formData.append("cv", cv);
-      if (image) formData.append("image", image);
+      if (image) formData.append("image", image);      
 
       await registerUser.handleFetch(
-        "https://mechio-api-test.onrender.com/posloprimci/novi-posloprimac",
+        "http://localhost:9000/posloprimci/novi-posloprimac",
         formData
       );
     } catch (error) {
@@ -86,6 +90,8 @@ const UserRegister = ({
     <Form onSubmit={submitHandler}>
         <Step1
           setFullname={setFullname}
+          setNumber={setNumber}
+          setAddress={setAddress}
           emailRef = {email}
           setPassword={setPassword}
         ></Step1>
