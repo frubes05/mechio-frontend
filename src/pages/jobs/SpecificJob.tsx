@@ -168,7 +168,7 @@ const SpecificJob: React.FC<ICompanies> = ({
                   </div>
                   <div className="specificjob__top">
                     <p className="specificjob__location">
-                      {job?.location}, {job?.date}
+                      {job?.location}, {moment(job?.date.toString()).format("LL")}.
                     </p>
                     <h1 className="specificjob__title">
                       <span>Radno mjesto:</span> <span className="specificjob__title--main">{job.position}</span>
