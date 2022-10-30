@@ -1,28 +1,38 @@
 .specificjob {
   &__wrapper {
-    margin: 0 40px;
-    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.4);
-    padding: 40px 80px 80px;
-    background: white;
-    position: relative;
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+
+  &__svg {
+    position: absolute;
+    top: 0;
+    z-index: -1;
   }
 
   &__img {
-    margin: 0 40px;
+    display: block;
+    overflow: hidden;
+    border-radius: 10px;
 
     img {
-      height: 400px;
-      width: 100%;
+      height: 300px;
+      width: 300px;
       object-fit: cover;
-      filter: blur(4px);
+      transition: all 0.2s ease-in-out;
+      border-radius: 10px;
+
+      &:hover {
+        transform: scale(1.04);
+      }
     }
   }
 
   &__top {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: flex-start;
-    margin: 34px 0;
+    gap: 16px;
   }
 
   &-cta {
@@ -50,12 +60,29 @@
   &__basic {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    align-items: flex-start;
+    gap: 32px;
+    padding-top: 16px;
+
+    &-info {
+      @include normal-text;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 12px;
+    }
   }
 
   &__title {
     font-size: 44px;
     font-weight: bold;
+    display: flex;
+    flex-direction: column;
+
+    &--main {
+      @include big-title;
+      color: #00c6b4 !important;
+    }
   }
 
   &__list {
@@ -105,19 +132,57 @@
     display: flex;
     flex-direction: column;
     gap: 50px;
+    padding: 20px 0;
   }
 
   &__btn {
     align-self: center;
+
+    &--back {
+      @include button;
+      width: 100% !important;
+    }
+
+    &--choose {
+      @include button-alt;
+      width: 100% !important;
+    }
   }
 
   &__buttons {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    
+
     button {
       width: 100%;
     }
+  }
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__seniority {
+    @include small-title;
+    opacity: 0.8;
+    font-size: 22px !important;
+  }
+
+  &__pay {
+    @include small-title;
+    opacity: 0.8;
+    font-size: 22px !important;
+  }
+
+  &__location {
+    @include normal-text;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    font-style: italic;
+    opacity: 0.6;
+    font-weight: 300;
   }
 }

@@ -1,5 +1,6 @@
 export interface IJobs {
     _id: string,
+    companyId?: string,
     company: string,
     companyImage: string,
     position: string,
