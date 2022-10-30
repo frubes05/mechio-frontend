@@ -21,7 +21,7 @@
     }
 
     img {
-      height: auto;
+      height: 300px;
       width: 100%;
       max-width: 300px;
       object-fit: cover;
@@ -29,8 +29,6 @@
       border-radius: 10px;
 
       @include breakpoint('md') {
-        height: 300px;
-
         &:hover {
           transform: scale(1.04);
         }
