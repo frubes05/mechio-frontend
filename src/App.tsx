@@ -72,7 +72,6 @@ function App() {
         <Route path='/recenzije' element={<Feedbacks status={getCompanies.status}></Feedbacks>}></Route>
         <Route path='/recenzije/:id' element={<SpecificFeedback></SpecificFeedback>}></Route>
         <Route path='/profil/:id' element={<Profile></Profile>} />
-        <Route path='/profil/default/:id' element={<DefaultProfile></DefaultProfile>} />
       </Routes>
       <Footer></Footer>
     </>

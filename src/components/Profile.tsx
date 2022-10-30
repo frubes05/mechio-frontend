@@ -482,7 +482,7 @@ const Profile = () => {
                               key={i}
                               className="profile__applications-application"
                             >
-                              <Link to={`/profil/default/${applicant._id}`}>
+                              <Link to={`/profil/${applicant._id}`}>
                                 <h3>{applicant.fullname}</h3>
                                 <p>{applicant.email}</p>
                               </Link>
