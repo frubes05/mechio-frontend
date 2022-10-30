@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { IJobs } from "../pages/jobs/Jobs.types";
 import { ICompany } from "../pages/companies/Company.types";
 import { Dropdown, Button, Container, Row, Col } from "react-bootstrap";
+import { IFeedback } from "../pages/feedbacks/Feedbacks.types";
 
 const options = [
   { value: "chocolate", label: "Chocolate" },
@@ -11,10 +12,11 @@ const options = [
 
 interface IFilter {
   filterOptions: { en: string; hr: string }[];
-  jobs: IJobs[] | ICompany[];
+  jobs: IJobs[] | ICompany[] | IFeedback[];
   getAllSelected: Function;
   resetSelected: Function;
-  title: string;
+  title?: string;
+  additional?: string;
 }
 
 interface ISelectedValue {
@@ -27,7 +29,8 @@ const Filter: React.FC<IFilter> = ({
   jobs,
   getAllSelected,
   resetSelected,
-  title
+  title,
+  additional
 }) => {
   const [selectedValue, setSelectedValue] = useState<ISelectedValue[] | []>([]);
 
@@ -56,13 +59,13 @@ const Filter: React.FC<IFilter> = ({
   };
 
   return (
-    <Container className="jobs__filter">
+    <Container className={`jobs__filter ${additional ? 'jobs__filter--feedbacks': ''}`}>
       <Row>
         <Col xlg={8} lg={8} md={8}>
           <h5 className="jobs__list-subtitle">Filtriranje mogućnosti</h5>
-          <h2 className="jobs__list-title">
+          {title && <h2 className="jobs__list-title">
             {title}
-          </h2>
+          </h2>}
         </Col>
         <Col>
         <div className="jobs__list-filters">

@@ -132,13 +132,31 @@
   }
 
   &__specifics {
-    margin: 80px 40px;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 80px;
+    padding-bottom: 80px;
+
+    &-subtitle {
+      @include small-title;
+    }
+
+    &-title {
+      @include big-title;
+      display: flex;
+      flex-direction: column;
+
+      &--name {
+        color: #00c6b4 !important;
+      }
+    }
   }
 
   &__specific {
     display: flex;
     flex-direction: column;
     gap: 40px;
+    padding-top: 40px;
 
     &-headline {
       display: flex;
@@ -182,22 +200,56 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
-    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.4);
-    padding: 15px;
 
     &-company {
       display: flex;
+      flex-direction: column;
       justify-content: flex-start;
-      align-items: center;
-      gap: 10px;
+      gap: 16px;
       padding-bottom: 10px;
-      border-bottom: 1px solid lightgray;
 
       img {
-        width: 40px;
-        height: auto;
-        border-radius: 50%;
+        width: 300px;
+        height: 300px;
+        object-fit: cover;
+        border-radius: 10px;
       }
+    }
+
+    &-info {
+      @include normal-text;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      padding-top: 16px;
+      padding-bottom: 16px;
+
+      p {
+        font-weight: inherit;
+      }
+
+      &--text {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 12px;
+      }
+
+      &--title {
+        font-weight: bold;
+        font-size: 28px;
+      }
+
+      &--more {
+        @include small-title;
+        opacity: 0.8;
+        font-size: 22px !important;
+      }
+    }
+
+    &-btn {
+      @include button;
+      width: 100% !important;
     }
   }
 
