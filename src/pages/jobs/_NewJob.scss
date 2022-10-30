@@ -32,9 +32,15 @@
       gap: 24px;
     }
 
-    button {
-      @include button;
-      margin-top: 24px;
+    &-btn {
+      button {
+        @include button;
+        margin-top: 24px;
+      }
     }
+  }
+
+  .quill {
+    background-color: white;
   }
 }

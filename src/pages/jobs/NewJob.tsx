@@ -6,6 +6,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { Container, Row, Col, Form, Button, Accordion } from "react-bootstrap";
 import "react-toastify/dist/ReactToastify.css";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import Editor from "../../components/Editor";
 
 import useFetch from "../../hooks/useFetch";
 
@@ -61,10 +62,7 @@ const NewJob: React.FC<INewJob> = ({ setRefetch, status }) => {
       seniority: selectValue,
       date: new Date(),
     };
-    addNewJob.handleFetch(
-      "http://localhost:9000/poslovi/novi-oglas",
-      newPost
-    );
+    addNewJob.handleFetch("http://localhost:9000/poslovi/novi-oglas", newPost);
   };
 
   return (
@@ -114,16 +112,9 @@ const NewJob: React.FC<INewJob> = ({ setRefetch, status }) => {
               </div>
             </Col>
             <Col md={6} lg={6}>
-              <Form.Group className="mb-3" controlId="formBasicDescription">
-                <Form.Control
-                  as="textarea"
-                  placeholder="Opis očekivanja, kompetencija i pogodnosti rada na poziciji"
-                  style={{ height: "100px" }}
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-              </Form.Group>
+              <Editor value={description} setValue={setDescription}></Editor>
             </Col>
-            <Col md={8} lg={8}>
+            <Col md={8} lg={8} className="newjob__form-btn">
               <Button type="submit">Dodaj novi oglas</Button>
             </Col>
           </Row>

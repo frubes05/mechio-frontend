@@ -11,19 +11,29 @@
   }
 
   &__img {
-    display: block;
+    display: flex;
+    justify-content: center;
     overflow: hidden;
     border-radius: 10px;
 
+    @include breakpoint('md') {
+      display: block;
+    }
+
     img {
-      height: 300px;
-      width: 300px;
+      height: auto;
+      width: 100%;
+      max-width: 300px;
       object-fit: cover;
       transition: all 0.2s ease-in-out;
       border-radius: 10px;
 
-      &:hover {
-        transform: scale(1.04);
+      @include breakpoint('md') {
+        height: 300px;
+
+        &:hover {
+          transform: scale(1.04);
+        }
       }
     }
   }
@@ -117,6 +127,62 @@
     font-size: 18px;
     line-height: 1.5;
     letter-spacing: 0.5px;
+    font-family: 'Poppins', sans-serif;
+
+    span {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    strong {
+      font-weight: 800;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    ul {
+      list-style-type: initial;
+      list-style-position: inside;
+    }
+
+    p {
+      padding: 16px 0;
+      font-size: 22px;
+      font-family: 'Poppins', sans-serif;
+
+      &:first-of-type {
+        padding-top: 0;
+      }
+    }
+
+    li {
+      font-size: 20px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 300;
+    }
+
+    em {
+      font-style: italic;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    a {
+      transition: all 0.2s ease-in-out;
+
+      &:hover {
+        color: blue !important;
+        text-decoration: underline;
+        text-decoration-color: blue;
+      }
+    }
+
+    h3 {
+      font-size: 20px;
+      padding: 16px 0;
+    }
+
+    h4 {
+      font-size: 18px;
+      padding: 12px 0;
+    }
   }
 
   &__company {
@@ -131,7 +197,7 @@
   &__article {
     display: flex;
     flex-direction: column;
-    gap: 50px;
+    gap: 25px;
     padding: 20px 0;
   }
 
@@ -161,7 +227,14 @@
 
   &__row {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 80px;
+
+    @include breakpoint('md') {
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 0;
+    }
   }
 
   &__seniority {
@@ -184,5 +257,21 @@
     font-style: italic;
     opacity: 0.6;
     font-weight: 300;
+  }
+
+  &__first {
+    order: 2;
+
+    @include breakpoint('md') {
+      order: 1;
+    }
+  }
+
+  &__second {
+    order: 1;
+
+    @include breakpoint('md') {
+      order: 2;
+    }
   }
 }

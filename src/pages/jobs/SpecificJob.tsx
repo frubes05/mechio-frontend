@@ -110,7 +110,7 @@ const SpecificJob: React.FC<ICompanies> = ({
         <ToastContainer></ToastContainer>
         <Container className="specificjob__wrapper">
           <Row className="specificjob__row">
-            <Col md={4} lg={4} xlg={4}>
+            <Col md={4} lg={4} xlg={4} className="specificjob__first">
               <Link to={`/profil/${job?.companyId}`} className="specificjob__img">
                 <img
                   src={"http://localhost:9000/" + job?.companyImage}
@@ -138,7 +138,7 @@ const SpecificJob: React.FC<ICompanies> = ({
                 </>  
               )}
             </Col>
-            <Col md={7} lg={7} xlg={7}>
+            <Col md={7} lg={7} xlg={7} className="specificjob__second">
               {job && (
                 <section>
                   <div className="specificjob-cta">
@@ -178,9 +178,7 @@ const SpecificJob: React.FC<ICompanies> = ({
                     <>
                       <article className="specificjob__article">
                         <div className="specificjob__content">
-                          <p className="specificjob__description">
-                            {job.description}
-                          </p>
+                          <p className="specificjob__description" dangerouslySetInnerHTML={{__html: job.description}} />
                         </div>
                         <div className="specificjob__buttons">
                           {state.user && !token?.user && (
