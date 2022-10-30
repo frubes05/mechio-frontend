@@ -3,18 +3,21 @@ import StarRatings from "react-star-ratings";
 
 interface IRating {
     rating: number;
-    setRating: (rating: number) => void;
+    setRating?: (rating: number) => void;
 }
 
 const Rating: React.FC<IRating> = ({ rating, setRating }) => {
   const changeRating = (newRating: any) => {
-    setRating(newRating);
+    if (setRating) {
+      setRating(newRating);
+    }
   };
 
   return (
     <StarRatings
       rating={rating}
-      starRatedColor="blue"
+      starRatedColor="black"
+      starHoverColor="black"
       changeRating={changeRating}
       numberOfStars={5}
       name="rating"

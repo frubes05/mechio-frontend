@@ -15,6 +15,7 @@ import Rating from "../../components/Rating";
 import Filter from "../../components/Filter";
 
 import { filteringService } from "../../services/filtering";
+import FeedbackCategories from "./FeedbackCategories";
 
 const SpecificFeedback = () => {
   const params = useParams();
@@ -35,6 +36,7 @@ const SpecificFeedback = () => {
   const [selectedFeedbacks, setSelectedFeedbacks] = useState<IFeedback[] | []>(
     []
   );
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
 
   const getCompanies = useFetch({
     url: `http://localhost:9000/poslodavci/${params.id}`,
@@ -83,6 +85,7 @@ const SpecificFeedback = () => {
         userId: state?._id || token?._id,
         companyId: company?._id,
         position,
+        category: selectedCategory,
         positives,
         negatives,
         rating,
@@ -118,7 +121,9 @@ const SpecificFeedback = () => {
 
   const resetSelected = () => setSelectedFeedbacks(allFeedbacks);
 
-  console.log(allFeedbacks);
+  const onSelected = (selected: string) => {
+    setSelectedCategory(selected);
+  };
 
   return (
     <>
@@ -133,6 +138,7 @@ const SpecificFeedback = () => {
                       filterOptions={[
                         { en: "position", hr: "Pozicija" },
                         { en: "rating", hr: "Ocjena" },
+                        { en: "category", hr: "Kategorija"}
                       ]}
                       jobs={allFeedbacks}
                       getAllSelected={getAllSelected}
@@ -140,6 +146,12 @@ const SpecificFeedback = () => {
                       title={`Odaberite recenziju za tvrtku ${company.companyName}`}
                       additional="feedbacks"
                     />
+                    {selectedFeedbacks.length === 0 && (
+                      <p className="feedbacks__none">
+                        Trenutno ne postoji recenzija koja zadovoljava odabrane
+                        vrijednosti filtriranja
+                      </p>
+                    )}
                     {allFeedbacks.length > 0 && (
                       <section className="feedbacks__specific">
                         {selectedFeedbacks.map(
@@ -149,10 +161,23 @@ const SpecificFeedback = () => {
                               key={index}
                             >
                               <div className="feedbacks__specific-headline">
-                                <h1>{feedback.position}</h1>
-                                <p className="feedbacks__specific-date">
-                                  {feedback.date}
-                                </p>
+                                <div className="feedbacks__specific-rating">
+                                  <p className="feedbacks__specific-rating--main">
+                                    {feedback.rating}
+                                  </p>
+                                  <div className="feedbacks__specific-rating--img">
+                                    <Rating rating={+feedback.rating}></Rating>
+                                  </div>
+                                </div>
+                                <div className="feedbacks__specific-main">
+                                  <h1>Osvrt od {feedback.position}</h1>
+                                  <p className="feedbacks__specific-date">
+                                    {moment(feedback.date.toString()).format(
+                                      "LL"
+                                    )}
+                                    .
+                                  </p>
+                                </div>
                               </div>
                               <div className="feedbacks__specific-wrapper">
                                 {(feedback.userId === state._id ||
@@ -249,51 +274,55 @@ const SpecificFeedback = () => {
                             className="mb-3"
                             controlId="formBasicEmail"
                           >
-                            <Form.Label>Vaša pozicija</Form.Label>
                             <Form.Control
                               type="text"
-                              placeholder="vaša pozicija"
+                              placeholder="Pozicija"
                               value={position}
                               onChange={(e) => setPosition(e.target.value)}
                             />
                           </Form.Group>
-                          <Form.Group
-                            className="mb-3"
-                            controlId="formBasicPassword"
-                          >
-                            <Form.Label>Neke od prednosti tvrtke</Form.Label>
-                            <Form.Control
-                              type="textarea"
-                              placeholder="Prednosti tvrtke"
-                              value={positives}
-                              onChange={(e) => setPositives(e.target.value)}
-                            />
-                          </Form.Group>
-                          <Form.Group
-                            className="mb-3"
-                            controlId="formBasicPassword"
-                          >
-                            <Form.Label>Neki od nedostataka tvrtke</Form.Label>
-                            <Form.Control
-                              type="textarea"
-                              placeholder="Nedostatci tvrtke"
-                              value={negatives}
-                              onChange={(e) => setNegatives(e.target.value)}
-                            />
-                          </Form.Group>
-                          <Form.Group></Form.Group>
-                          <Form.Group
-                            className="mb-3"
-                            controlId="formBasicEmail"
-                          >
-                            <Form.Label>Vaša ocjena tvrtke</Form.Label>
-                            <Rating
-                              rating={rating}
-                              setRating={setRating}
-                            ></Rating>
-                          </Form.Group>
+                          <FeedbackCategories
+                            onSelected={onSelected}
+                          ></FeedbackCategories>
+                          <ul className={`modal-more ${selectedCategory ? 'modal-more--show': ''}`}>
+                            <Form.Group
+                              className="mb-3"
+                              controlId="formBasicPassword"
+                            >
+                              <Form.Control
+                                as="textarea"
+                                placeholder="Prednosti"
+                                style={{ height: "100px" }}
+                                value={positives}
+                                onChange={(e) => setPositives(e.target.value)}
+                              />
+                            </Form.Group>
+                            <Form.Group
+                              className="mb-3"
+                              controlId="formBasicPassword"
+                            >
+                              <Form.Control
+                                as="textarea"
+                                placeholder="Nedostatci"
+                                style={{ height: "100px" }}
+                                value={negatives}
+                                onChange={(e) => setNegatives(e.target.value)}
+                              />
+                            </Form.Group>
+                            <Form.Group></Form.Group>
+                            <Form.Group
+                              className="mb-3"
+                              controlId="formBasicEmail"
+                            >
+                              <Rating
+                                rating={rating}
+                                setRating={setRating}
+                              ></Rating>
+                            </Form.Group>
+                          </ul>
                           <Form.Group>
                             <Button
+                              className="modal-btn"
                               size="lg"
                               variant="primary"
                               onClick={handleSubmit}
