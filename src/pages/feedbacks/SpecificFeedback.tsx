@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
 import { ICompany, ICompanyToken } from "../companies/Company.types";
 import { AuthContext } from "../../context/AuthContext";
@@ -19,6 +19,7 @@ import FeedbackCategories from "./FeedbackCategories";
 
 const SpecificFeedback = () => {
   const params = useParams();
+  const navigate = useNavigate();
   moment().locale("hr");
   const { state } = useContext(AuthContext);
   const [token, setToken] = useState<ICompanyToken & IUserToken>();
@@ -255,13 +256,20 @@ const SpecificFeedback = () => {
                           </p>
                         </div>
                       </div>
-                      <Button
+                      {(state?.user || token?.user) && <Button
                         className="feedbacks__aside-btn"
                         onClick={() => setShow(true)}
                         disabled={submitted}
                       >
                         Dodaj osvrt
-                      </Button>
+                      </Button>}
+                      {(!state?.user && !token?.user) && <Button
+                        className="feedbacks__aside-btn--alt"
+                        onClick={() => navigate(-1)}
+                        disabled={submitted}
+                      >
+                        Natrag
+                      </Button>}
                       <Modal
                         title="Nova recenzija"
                         show={show}
@@ -321,7 +329,7 @@ const SpecificFeedback = () => {
                             </Form.Group>
                           </ul>
                           <Form.Group>
-                            <Button
+                            {(token?.user || state.user) && <Button
                               className="modal-btn"
                               size="lg"
                               variant="primary"
@@ -329,7 +337,7 @@ const SpecificFeedback = () => {
                               disabled={submitted}
                             >
                               Dodaj recenziju
-                            </Button>
+                            </Button>}
                           </Form.Group>
                         </Form>
                       </Modal>

@@ -8,6 +8,7 @@ import { ICompanyToken, ICompany } from "../pages/companies/Company.types";
 import { IUserToken } from "../pages/users/User.types";
 import { AuthContext } from "../context/AuthContext";
 import ModalForm from "./Modal";
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const Profile = () => {
   const params = useParams();
@@ -36,9 +37,11 @@ const Profile = () => {
       type === "user" ? setUser(data) : setCompany(data);
       if (type === "user") {
         setMoreInformation(data.about);
+        setCompany(null);
       }
       if (type === "company") {
         setMoreInformation(data.companyDescription);
+        setUser(null);
       }
     },
     onError: (error) => {},
@@ -148,6 +151,12 @@ const Profile = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (params.id) {
+      getProfileInformation.handleFetch(`http://localhost:9000/profil/${params.id}`)
+    }
+  }, [params.id])
+
   return (
     <section className="profile">
       <Container className="profile__container">
@@ -172,64 +181,65 @@ const Profile = () => {
                       <Form.Control type="text" disabled value={user.number} />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formBasicPassword">
-                      <Form.Control
-                        type="text"
-                        disabled
-                        value={user.address}
-                      />
+                      <Form.Control type="text" disabled value={user.address} />
                     </Form.Group>
                   </div>
-                  <article className="profile__article">
-                    <div className="profile__article-edit">
-                      {!edit && (
-                        <Button variant="warning" onClick={() => setEdit(true)}>
-                          Dodajte nešto o sebi
-                        </Button>
+                  {(state._id === params.id || token?._id === params.id) && (
+                    <article className="profile__article">
+                      <div className="profile__article-edit">
+                        {!edit && (
+                          <Button
+                            variant="warning"
+                            onClick={() => setEdit(true)}
+                          >
+                            Dodajte nešto o sebi
+                          </Button>
+                        )}
+                      </div>
+                      {edit && (
+                        <>
+                          <div className="profile__article-revert">
+                            <Button
+                              variant="secondary"
+                              size="sm"
+                              onClick={() => setEdit(!edit)}
+                            >
+                              Natrag
+                            </Button>
+                          </div>
+                          <Editor
+                            value={moreInformation}
+                            setValue={setMoreInformation}
+                          ></Editor>
+                          <div className="profile__article-buttons">
+                            <Button
+                              size="lg"
+                              onClick={() => {
+                                editProfileInformation.handleFetch(
+                                  `http://localhost:9000/profil/izmijeni/${params.id}`,
+                                  { about: moreInformation }
+                                );
+                                setEdit(false);
+                              }}
+                            >
+                              Potvrdi
+                            </Button>
+                          </div>
+                        </>
                       )}
-                    </div>
-                    {edit && (
-                      <>
-                        <div className="profile__article-revert">
-                          <Button
-                            variant="secondary"
-                            size="sm"
-                            onClick={() => setEdit(!edit)}
-                          >
-                            Natrag
-                          </Button>
-                        </div>
-                        <Editor
-                          value={moreInformation}
-                          setValue={setMoreInformation}
-                        ></Editor>
-                        <div className="profile__article-buttons">
-                          <Button
-                            size="lg"
-                            onClick={() => {
-                              editProfileInformation.handleFetch(
-                                `http://localhost:9000/profil/izmijeni/${params.id}`,
-                                { about: moreInformation }
-                              );
-                              setEdit(false);
-                            }}
-                          >
-                            Potvrdi
-                          </Button>
-                        </div>
-                      </>
-                    )}
-                  </article>
+                    </article>
+                  )}
                 </aside>
               </Col>
               <Col sm={4} md={5} lg={5} xlg={5}>
-                {!moreInformation && !user?.about &&
-                <div
-                className="profile__article-edit--rte"
-                dangerouslySetInnerHTML={{
-                  __html: "Trenutno nema podataka o korisniku",
-                }}
-                />
-                }
+                {!moreInformation && !user?.about && (
+                  <div
+                    className="profile__article-edit--rte"
+                    dangerouslySetInnerHTML={{
+                      __html: "Trenutno nema podataka o korisniku",
+                    }}
+                  />
+                )}
                 {moreInformation && (
                   <div
                     className="profile__article-edit--rte"
@@ -316,9 +326,16 @@ const Profile = () => {
                   )}
                 </div>
                 <div className="profile__delete">
-                  <Button variant="danger" onClick={() => logout()}>
-                    Izbriši profil
-                  </Button>
+                {(state._id === params.id || token?._id === params.id) && (
+                    <Button className="profile__delete--main" variant="danger" onClick={() => logout()}>
+                      Izbrišite profil
+                    </Button>
+                  )}
+                  {(state._id !== params.id && token?._id !== params.id) && (
+                    <Button className="profile__delete--back" onClick={() => navigate(-1)}>
+                      Natrag
+                    </Button>
+                  )}
                 </div>
               </Col>
             </Row>
@@ -358,58 +375,63 @@ const Profile = () => {
                       value={company.companyAddress}
                     />
                   </Form.Group>
-                  <article className="profile__article">
-                    <div className="profile__article-edit">
-                      {!edit && (
-                        <Button variant="warning" onClick={() => setEdit(true)}>
-                          Dodajte nešto o tvrtki
-                        </Button>
+                  {(state._id === params.id || token?._id === params.id) && (
+                    <article className="profile__article">
+                      <div className="profile__article-edit">
+                        {!edit && (
+                          <Button
+                            variant="warning"
+                            onClick={() => setEdit(true)}
+                          >
+                            Dodajte nešto o tvrtki
+                          </Button>
+                        )}
+                      </div>
+                      {edit && (
+                        <>
+                          <div className="profile__article-revert">
+                            <Button
+                              variant="secondary"
+                              size="sm"
+                              onClick={() => setEdit(!edit)}
+                            >
+                              Natrag
+                            </Button>
+                          </div>
+                          <Editor
+                            value={moreInformation}
+                            setValue={setMoreInformation}
+                          ></Editor>
+                          <div className="profile__article-buttons">
+                            <Button
+                              size="lg"
+                              onClick={() => {
+                                editProfileInformation.handleFetch(
+                                  `http://localhost:9000/profil/izmijeni/${params.id}`,
+                                  { companyDescription: moreInformation }
+                                );
+                                setEdit(false);
+                              }}
+                            >
+                              Potvrdite
+                            </Button>
+                          </div>
+                        </>
                       )}
-                    </div>
-                    {edit && (
-                      <>
-                        <div className="profile__article-revert">
-                          <Button
-                            variant="secondary"
-                            size="sm"
-                            onClick={() => setEdit(!edit)}
-                          >
-                            Natrag
-                          </Button>
-                        </div>
-                        <Editor
-                          value={moreInformation}
-                          setValue={setMoreInformation}
-                        ></Editor>
-                        <div className="profile__article-buttons">
-                          <Button
-                            size="lg"
-                            onClick={() => {
-                              editProfileInformation.handleFetch(
-                                `http://localhost:9000/profil/izmijeni/${params.id}`,
-                                { companyDescription: moreInformation }
-                              );
-                              setEdit(false);
-                            }}
-                          >
-                            Potvrdite
-                          </Button>
-                        </div>
-                      </>
-                    )}
-                  </article>
+                    </article>
+                  )}
                 </aside>
               </Col>
               <Col sm={4} md={5} lg={5} xlg={5}>
-                {!moreInformation && !company.companyDescription &&
-                <div
-                className="profile__article-edit--rte"
-                dangerouslySetInnerHTML={{
-                  __html: "Trenutno nema podataka o tvrtki",
-                }}
-                />
-                }
-                  {moreInformation && (
+                {!moreInformation && !company.companyDescription && (
+                  <div
+                    className="profile__article-edit--rte"
+                    dangerouslySetInnerHTML={{
+                      __html: "Trenutno nema podataka o tvrtki",
+                    }}
+                  />
+                )}
+                {moreInformation && (
                   <div
                     className="profile__article-edit--rte"
                     dangerouslySetInnerHTML={{
@@ -462,46 +484,60 @@ const Profile = () => {
                       </ul>
                     </ModalForm>
                   )}
-                  <Button
-                    disabled={companyJobApplications.length === 0}
-                    onClick={() => setShowJobApplicants(true)}
-                  >
-                    Prijavljeni ({companyJobApplications.length})
-                  </Button>
-                  {showJobApplicants && (
-                    <ModalForm
-                      title="Prijavljeni na oglase"
-                      show={showJobApplicants}
-                      setShow={setShowJobApplicants}
-                      handleClose={() => setShowJobApplicants(false)}
-                    >
-                      <ul className="profile__applications">
-                        {companyJobApplications.length > 0 &&
-                          companyJobApplications.map((applicant: any, i) => (
-                            <li
-                              key={i}
-                              className="profile__applications-application"
-                            >
-                              <Link to={`/profil/${applicant._id}`}>
-                                <h3>{applicant.fullname}</h3>
-                                <p>{applicant.email}</p>
-                              </Link>
-                            </li>
-                          ))}
-                      </ul>
-                    </ModalForm>
+                  {(state._id === params.id || token?._id === params.id) && (
+                    <>
+                      <Button
+                        disabled={companyJobApplications.length === 0}
+                        onClick={() => setShowJobApplicants(true)}
+                      >
+                        Prijavljeni ({companyJobApplications.length})
+                      </Button>
+                      {showJobApplicants && (
+                        <ModalForm
+                          title="Prijavljeni na oglase"
+                          show={showJobApplicants}
+                          setShow={setShowJobApplicants}
+                          handleClose={() => setShowJobApplicants(false)}
+                        >
+                          <ul className="profile__applications">
+                            {companyJobApplications.length > 0 &&
+                              companyJobApplications.map(
+                                (applicant: any, i) => (
+                                  <li
+                                    key={i}
+                                    className="profile__applications-application"
+                                  >
+                                    <Link to={`/profil/${applicant._id}`}>
+                                      <h3>{applicant.fullname}</h3>
+                                      <p>{applicant.email}</p>
+                                    </Link>
+                                  </li>
+                                )
+                              )}
+                          </ul>
+                        </ModalForm>
+                      )}
+                    </>
                   )}
                 </div>
                 <div className="profile__delete">
-                  <Button variant="danger" onClick={() => logout()}>
-                    Izbrišite profil
-                  </Button>
+                  {(state._id === params.id || token?._id === params.id) && (
+                    <Button className="profile__delete--main" variant="danger" onClick={() => logout()}>
+                      Izbrišite profil
+                    </Button>
+                  )}
+                  {(state._id !== params.id && token?._id !== params.id) && (
+                    <Button className="profile__delete--back" onClick={() => navigate(-1)}>
+                      Natrag
+                    </Button>
+                  )}
                 </div>
               </Col>
             </Row>
           </>
         )}
       </Container>
+      {getProfileInformation.status === 'Pending' && <LoadingSpinner></LoadingSpinner>}
     </section>
   );
 };

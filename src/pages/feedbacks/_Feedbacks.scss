@@ -313,6 +313,11 @@
     &-btn {
       @include button;
       width: 100% !important;
+
+      &--alt {
+        @include button-alt;
+        width: 100% !important;
+      }
     }
   }
 
