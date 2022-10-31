@@ -58,6 +58,10 @@ const CompanyLogin = ({
           setStatus("Pending");
         } else {
           handleToastError!(res.data.message);
+          setStatus("Pending");
+          setTimeout(() => {
+            setStatus("Fullfilled");
+          }, 3000);
         }
       });
   };

@@ -61,7 +61,7 @@ function App() {
       </header>
       <BackToTop></BackToTop>
       <Routes>
-        <Route path='/' element={<Home jobs={jobs} status={getJobs.status}></Home>}></Route>
+        <Route path='/' element={<Home status={getJobs.status} />}></Route>
         <Route path='/posloprimci' element={<User status={getJobs.status}></User>}></Route>
         <Route path='/poslodavci' element={<Company status={getJobs.status}></Company>}></Route>
 

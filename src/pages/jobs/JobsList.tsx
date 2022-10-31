@@ -7,7 +7,7 @@ import { filteringService } from "../../services/filtering";
 
 const JobsList: FC<IJobsList> = ({ jobs }) => {
   return (
-    <ul className="jobs__list" id="jobs-list">
+    <ul className="jobs__list">
       <Container>
         <Row>
           {jobs.length > 0 &&

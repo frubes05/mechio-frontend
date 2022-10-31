@@ -50,6 +50,10 @@ const UserLogin = ({
     },
     onError: (error) => {
       handleToastError!(error.message);
+      setStatus("Pending");
+      setTimeout(() => {
+        setStatus("Fullfilled");
+      }, 3000);
     },
   });
 

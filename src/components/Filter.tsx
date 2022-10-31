@@ -59,7 +59,7 @@ const Filter: React.FC<IFilter> = ({
   };
 
   return (
-    <Container className={`jobs__filter ${additional ? 'jobs__filter--feedbacks': ''}`}>
+    <Container className={`jobs__filter ${additional ? 'jobs__filter--feedbacks': ''}`} id="filter">
       <Row>
         <Col xlg={8} lg={8} md={8}>
           <h5 className="jobs__list-subtitle">Filtriranje mogućnosti</h5>

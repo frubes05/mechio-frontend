@@ -7,7 +7,7 @@ const FeedbackCompanies: React.FC<{ companies: ICompany[] }> = ({
   companies,
 }) => {
   return (
-    <ul className="feedbacks__options-list" id="filter">
+    <ul className="feedbacks__options-list">
       <Container>
         <Row>
           {companies &&

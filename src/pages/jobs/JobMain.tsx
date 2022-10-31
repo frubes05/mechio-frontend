@@ -31,7 +31,7 @@ const JobMain = () => {
                 Brzo i jednostavno do novog posla{" "}
               </h1>
               <p>Sve što vam treba u par klikova</p>
-              {(token?.user || state.user || !state || !token) && <Button href="#jobs-list">Istraži poslove</Button>}
+              {(token?.user || state.user || !state || !token) && <Button href="#filter">Istraži poslove</Button>}
               {(token?.company || state.company) && (
                 <Link to={"/poslovi/novi-oglas"}>
                     Dodaj novi oglas

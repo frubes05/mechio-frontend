@@ -7,27 +7,21 @@ import useFetch from "../hooks/useFetch";
 import { carouselConfig } from "./carousel.config";
 import moment from "moment";
 import "moment/locale/hr";
-import LoadingSpinner from "./LoadingSpinner";
 
-const Carousel = () => {
+interface ICarousel {
+  jobs: IJobs[] | null;
+}
+
+const Carousel: React.FC<ICarousel> = ({ jobs }) => {
   moment().locale("hr");
-  const [lastAdded, setLastAdded] = useState<IJobs[] | null>(null);
 
-  const getJobs = useFetch({
-    url: "http://localhost:9000/poslovi",
-    method: "get",
-    onSuccess: (data) => {
-      setLastAdded(data.slice(-8));
-    },
-    onError: (err) => {},
-  });
 
   return (
     <>
-      {lastAdded && lastAdded.length > 0 && (
+      {jobs && jobs.length > 0 && (
         <Container>
-          <Splide options={carouselConfig(lastAdded.length)}>
-            {lastAdded.map((job) => (
+          <Splide options={carouselConfig(jobs.length)}>
+            {jobs.map((job) => (
               <SplideSlide key={job._id}>
                 <Link to={`/poslovi/${job._id}`}>
                   <article className="jobs__card">
@@ -57,7 +51,7 @@ const Carousel = () => {
           </Splide>
         </Container>
       )}
-      {lastAdded?.length === 0 && (
+      {jobs?.length === 0 && (
         <Container>
           <Row>
             <Col>
@@ -66,7 +60,6 @@ const Carousel = () => {
           </Row>
         </Container>
       )}
-      {getJobs.status === 'Pending' && <LoadingSpinner></LoadingSpinner>}
     </>
   );
 };

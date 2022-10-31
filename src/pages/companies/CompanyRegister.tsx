@@ -13,6 +13,8 @@ import Step3 from "../../components/Step3";
 import Step4 from "../../components/Step4";
 import LoadingSpinner from "../../components/LoadingSpinner";
 
+import useFetch from "../../hooks/useFetch";
+
 const CompanyRegister = ({
   changeShowingForm,
   handleToastError,
@@ -26,9 +28,30 @@ const CompanyRegister = ({
   const [companyPassword, setCompanyPassword] = useState<string>("");
   const [companyDescription, setCompanyDescription] = useState<string>("");
   const [companyImage, setCompanyImage] = useState<File | null>(null);
-  const [status, setStatus] = useState<string>('');
+  const [status, setStatus] = useState<string>("");
 
-  const submitHandler = (e: React.FormEvent) => {
+  const registerCompany = useFetch({
+    url: `http://localhost:9000/poslodavci/novi-poslodavac`,
+    method: "post",
+    onSuccess: (data: any) => {
+      if (data.token) {
+        handleToastSuccess!(data.message);
+        const decoded: any = jwt_decode(data.token);
+        dispatch!({ type: "REGISTER", payload: { ...decoded } });
+        localStorage.setItem("decodedToken", JSON.stringify(decoded));
+        setStatus("Pending");
+      }
+    },
+    onError: (error) => {
+      handleToastError!(error);
+      setStatus("Pending");
+      setTimeout(() => {
+        setStatus("Fullfilled");
+      }, 3000);
+    },
+  });
+
+  const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const formData = new FormData();
@@ -39,22 +62,10 @@ const CompanyRegister = ({
       formData.append("companyPassword", companyPassword);
       formData.append("companyDescription", companyDescription);
       if (companyImage) formData.append("image", companyImage);
-      axios
-        .post(
-          "http://localhost:9000/poslodavci/novi-poslodavac",
-          formData
-        )
-        .then((res) => {
-          if (res.data.token) {
-            handleToastSuccess!(res.data.message);
-            const decoded: any = jwt_decode(res.data.token);
-            dispatch!({ type: "REGISTER", payload: { ...decoded } });
-            localStorage.setItem("decodedToken", JSON.stringify(decoded));
-            setStatus('Pending');
-          } else {
-            handleToastError!(res.data.message);
-          }
-        });
+      await registerCompany.handleFetch(
+        "http://localhost:9000/poslodavci/novi-poslodavac",
+        formData
+      );
     } catch (error) {
       console.log(error);
     }
@@ -62,22 +73,22 @@ const CompanyRegister = ({
 
   return (
     <>
-    <Form onSubmit={submitHandler}>
-      <Step1
-        setCompanyName={setCompanyName}
-        setCompanyEmail={setCompanyEmail}
-        setCompanyPassword={setCompanyPassword}
-      />
-      <Step2
-        setCompanyAddress={setCompanyAddress}
-        setCompanyNumber={setCompanyNumber}
-      />
-      <Step4 setCompanyImage={setCompanyImage} />
-      <Button className="company__switch-btn" onClick={changeShowingForm}>
-        Vaša tvrtka već posjeduje račun? Slobodno se prijavite
-      </Button>
-    </Form>
-    {status === "Pending" && <LoadingSpinner />}
+      <Form onSubmit={submitHandler}>
+        <Step1
+          setCompanyName={setCompanyName}
+          setCompanyEmail={setCompanyEmail}
+          setCompanyPassword={setCompanyPassword}
+        />
+        <Step2
+          setCompanyAddress={setCompanyAddress}
+          setCompanyNumber={setCompanyNumber}
+        />
+        <Step4 setCompanyImage={setCompanyImage} />
+        <Button className="company__switch-btn" onClick={changeShowingForm}>
+          Vaša tvrtka već posjeduje račun? Slobodno se prijavite
+        </Button>
+      </Form>
+      {status === "Pending" && <LoadingSpinner />}
     </>
   );
 };

@@ -8,13 +8,11 @@ import HomeAbout from './HomeAbout';
 import { IJobs } from "../jobs/Jobs.types";
 
 interface IHome {
-  jobs: IJobs[],
-  status: string;
+  jobs?: IJobs[],
+  status?: string;
 }
 
 const Home: React.FC<IHome> = ({ jobs, status }) => {
-  const [lastAdded, setLastAdded] = useState<IJobs[] | null>(null);
-
   return (
     <main className='home'>
         <HomeMain></HomeMain>

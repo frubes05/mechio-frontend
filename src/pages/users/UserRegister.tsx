@@ -57,6 +57,10 @@ const UserRegister = ({
     },
     onError: (error) => {
       handleToastError!(error);
+      setStatus("Pending");
+      setTimeout(() => {
+        setStatus("Fullfilled");
+      }, 3000);
     },
   });
 
