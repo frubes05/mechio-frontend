@@ -1,9 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { ICompany } from "../companies/Company.types";
 
+import useFetch from "../../hooks/useFetch";
+
 const FeedbackCompany: React.FC<{ company: ICompany }> = ({ company }) => {
+  const [companyFeedbacksLength, setCompanyFeedbacksLength] = useState<number | null>(null);
+  
+  const getFeedbacks = useFetch({
+    url: `http://localhost:9000/recenzije/${company._id}`,
+    method: "get",
+    onSuccess: (data: any) => {
+      setCompanyFeedbacksLength(data.length);
+    },
+    onError: (error: any) => {},
+  });
+
   return (
     <Col xlg={3} lg={3} md={6} sm={12} className="feedbacks__list-column">
       <Link to={`/recenzije/${company._id}`} id={company._id}>
@@ -17,7 +30,7 @@ const FeedbackCompany: React.FC<{ company: ICompany }> = ({ company }) => {
                 }
               />
               <span className="jobs__card-pill">
-                Recenzije ({company.companyFeedbacks?.length})
+                Recenzije ({companyFeedbacksLength})
               </span>
             </div>
             <div className="jobs__card-content">

@@ -72,7 +72,8 @@
 
             img {
                 height: 300px;
-                object-fit: contain;
+                width: 100%;
+                object-fit: cover;
                 transition: all 0.2s ease-in-out;
             }
         }

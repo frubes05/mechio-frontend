@@ -62,6 +62,13 @@ const Step1 = ({
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Control
+              type="password"
+              placeholder="Password"
+              onChange={(e) => setPassword!(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Control
               type="text"
               placeholder="Broj mobitela"
               onChange = {(e) => setNumber!(e.target.value)}
@@ -72,13 +79,6 @@ const Step1 = ({
               type="text"
               placeholder="Adresa"
               onChange = {(e) => setAddress!(e.target.value)}
-            />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Control
-              type="password"
-              placeholder="Password"
-              onChange={(e) => setPassword!(e.target.value)}
             />
           </Form.Group>
         </>
