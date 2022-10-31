@@ -5,7 +5,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { ICompany, IFormSwitch } from "./Company.types";
 import { Button, Form } from "react-bootstrap";
 
-import useFetch from '../../hooks/useFetch';
+import useFetch from "../../hooks/useFetch";
 import LoadingSpinner from "../../components/LoadingSpinner";
 
 const CompanyLogin = ({
@@ -17,81 +17,97 @@ const CompanyLogin = ({
   const [companies, setCompanies] = useState<ICompany[] | []>([]);
   const [companyEmail, setCompanyEmail] = useState<string>("");
   const [companyPassword, setCompanyPassword] = useState<string>("");
-  const [companyName, setCompanyName] = useState<string>('');
-  const [status, setStatus] = useState<string>('');
+  const [companyName, setCompanyName] = useState<string>("");
+  const [status, setStatus] = useState<string>("");
 
   const checkUser = useFetch({
-    url: `http://localhost:9000/poslodavci/${companyEmail}`,
-    method: 'get',
+    url: companyEmail ? `http://localhost:9000/poslodavci/${companyEmail}` : "",
+    method: "get",
     onSuccess: (data) => {
-      if (data && data.length > 0) {
+      if (data && data.length === 1) {
         setCompanyName(data[0].companyName);
       }
     },
-    onError: (error) => {
-    }
-  })
+    onError: (error) => {},
+  });
 
   const getCompanies = useFetch({
     url: "http://localhost:9000/poslodavci",
-    method: 'get',
+    method: "get",
     onSuccess: (data) => {
       setCompanies(data);
     },
+    onError: (error) => {},
+  });
+
+  const checkLogin = useFetch({
+    url: "http://localhost:9000/poslodavci/login-poslodavac",
+    method: "post",
+    onSuccess: (data) => {
+      if (data.token && companyName) {
+        handleToastSuccess!(data.message);
+        const decoded: any = jwt_decode(data.token);
+        dispatch!({ type: "LOGIN", payload: { ...decoded, companyName } });
+        localStorage.setItem(
+          "decodedToken",
+          JSON.stringify({ ...decoded, companyName })
+        );
+        setStatus("Pending");
+      }
+    },
     onError: (error) => {
-    }
-  })
+      handleToastError!(error.message);
+      setStatus("Pending");
+      setTimeout(() => {
+        setStatus("Fullfilled");
+      }, 3000);
+    },
+  });
 
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    await axios
-      .post("http://localhost:9000/poslodavci/login-poslodavac", {
-        companyEmail,
-        companyPassword,
-      })
-      .then((res) => {
-        if (res.data.token && companyName) {
-          handleToastSuccess!(res.data.message);
-          const decoded: any = jwt_decode(res.data.token);
-          dispatch!({ type: "LOGIN", payload: { ...decoded, companyName } });
-          localStorage.setItem("decodedToken", JSON.stringify({...decoded, companyName}));
-          setStatus("Pending");
-        } else {
-          handleToastError!(res.data.message);
-          setStatus("Pending");
-          setTimeout(() => {
-            setStatus("Fullfilled");
-          }, 3000);
+
+    await checkUser.handleFetch(
+      `http://localhost:9000/poslodavci/${companyEmail}`
+    );
+
+    try {
+      await checkLogin.handleFetch(
+        "http://localhost:9000/poslodavci/login-poslodavac",
+        {
+          companyEmail,
+          companyPassword,
         }
-      });
+      );
+    } catch (error) {}
   };
 
   return (
     <>
-    <Form onSubmit={submitHandler}>
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Control
-          type="email"
-          placeholder="Email"
-          onChange={(e) => setCompanyEmail(e.target.value)}
-        />
-      </Form.Group>
+      <Form onSubmit={submitHandler}>
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Control
+            type="email"
+            placeholder="Email"
+            onChange={(e) => setCompanyEmail(e.target.value)}
+          />
+        </Form.Group>
 
-      <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Control
-          type="password"
-          placeholder="Password"
-          onChange={(e) => setCompanyPassword(e.target.value)}
-        />
-      </Form.Group>
-      <Button variant="primary" type="submit" className="company__login-btn">
-        Ulogirajte se
-      </Button>
-      <Button className="company__switch-btn" onClick={changeShowingForm}>
-        Još niste registrirali tvrtku? Učinite to u par koraka
-      </Button>
-    </Form>
-    {status === "Pending" && <LoadingSpinner />}
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Control
+            type="password"
+            placeholder="Password"
+            onChange={(e) => setCompanyPassword(e.target.value)}
+          />
+        </Form.Group>
+        <Button variant="primary" type="submit" className="company__login-btn">
+          Ulogirajte se
+        </Button>
+        <Button className="company__switch-btn" onClick={changeShowingForm}>
+          Još niste registrirali tvrtku? Učinite to u par koraka
+        </Button>
+      </Form>
+      {status === "Pending" && <LoadingSpinner />}
     </>
   );
 };
