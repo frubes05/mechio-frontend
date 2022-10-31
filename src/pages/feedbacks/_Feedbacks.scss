@@ -411,7 +411,7 @@
     transition: all 0.2s ease-in-out;
 
     &--show {
-      height: 300px;
+      height: 350px;
       visibility: visible;
     }
   }
@@ -431,22 +431,16 @@
     color: #212529;
     font-family: 'Roboto', sans-serif;
 
+    &:focus, &:hover {
+      border-color: #212529 !important;
+      box-shadow: none !important;
+      color: #212529;
+    }
+
     &--selected {
       background-color: #212529 !important;
       border-color: #212529 !important;
-      color: white;
-    }
-
-    &:hover {
-      background-color: #212529 !important;
-      border-color: #212529 !important;
-      color: white;
-    }
-
-    &:focus {
-      background-color: #212529 !important;
-      border-color: #00c6b4;
-      box-shadow: 0 0 0 0.25rem #00c6b4;
+      color: white !important;
     }
   }
 
@@ -473,5 +467,28 @@
 
   .container {
     padding: 16px;
+  }
+
+  &-rating {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-bottom: 32px;
+    padding-top: 16px;
+
+    .star-ratings {
+      align-self: center;
+    }
+  }
+
+  &-header {
+    button {
+      background-color: #dc3545;
+      opacity: 1;
+      margin: 0 !important;
+      color: white;
+    }
+
+    border-bottom: 1px solid #b1acac
   }
 }

@@ -10,6 +10,15 @@ const FeedbackCategories: React.FC<{onSelected: Function, categories: {category:
     }
   }, [selected]);
 
+
+  const handleSelected = (payload: {hr: string, category: string}) => {
+    if (selected?.hr === payload.hr) {
+      setSelected(null);
+    } else {
+      setSelected({hr: payload.hr, category: payload.category})
+    }
+  }
+
   return (
     <>
       <Form.Label>Odaberite kategoriju</Form.Label>
@@ -22,7 +31,7 @@ const FeedbackCategories: React.FC<{onSelected: Function, categories: {category:
                   className={`modal-category ${
                     selected ? "modal-category--selected" : ""
                   }`}
-                  onClick={() => setSelected({hr: category.hr, category: category.category})}
+                  onClick={() => handleSelected({hr: category.hr, category: category.category})}
                 >
                   {category.hr}
                 </Button>
@@ -33,7 +42,7 @@ const FeedbackCategories: React.FC<{onSelected: Function, categories: {category:
               <li key={category.hr}>
                 <Button
                   className="modal-category"
-                  onClick={() => setSelected({ category: category.category, hr: category.hr})}
+                  onClick={() => handleSelected({ category: category.category, hr: category.hr})}
                 >
                   {category.hr}
                 </Button>

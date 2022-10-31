@@ -60,7 +60,10 @@ const SpecificFeedback = () => {
   const [selectedFeedbacks, setSelectedFeedbacks] = useState<IFeedback[] | []>(
     []
   );
-  const [selectedCategory, setSelectedCategory] = useState<{hr: string, category: string} | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<{
+    hr: string;
+    category: string;
+  } | null>(null);
 
   const getCompanies = useFetch({
     url: `http://localhost:9000/poslodavci/${params.id}`,
@@ -100,7 +103,14 @@ const SpecificFeedback = () => {
   });
 
   const handleShow = () => setShow(true);
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setPosition("");
+    setNegatives("");
+    setPositives("");
+    setRating(0);
+    setSelectedCategory(null);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -119,6 +129,11 @@ const SpecificFeedback = () => {
         "http://localhost:9000/recenzije/nova-recenzija",
         feedback
       );
+      setPosition("");
+      setNegatives("");
+      setPositives("");
+      setRating(0);
+      setSelectedCategory(null);
     }
     handleClose();
   };
@@ -144,9 +159,9 @@ const SpecificFeedback = () => {
 
   const resetSelected = () => setSelectedFeedbacks(allFeedbacks);
 
-  const onSelected = (selected: {hr: string, category: string}) => {
+  const onSelected = (selected: { hr: string; category: string }) => {
     if (selected) {
-      setSelectedCategory({ category: selected.category, hr: selected.hr});
+      setSelectedCategory({ category: selected.category, hr: selected.hr });
     }
   };
 
@@ -188,67 +203,77 @@ const SpecificFeedback = () => {
                       <section className="feedbacks__specific">
                         {selectedFeedbacks.map(
                           (feedback: IFeedback, index: number) => {
-                            const getCategoryName = categories.find(cat => cat.hr === feedback.category)?.category;
-                            return <article
-                              className="feedbacks__specific-article"
-                              key={index}
-                            >
-                              <div className="feedbacks__specific-headline">
-                                <div className="feedbacks__specific-rating">
-                                  <p className="feedbacks__specific-rating--main">
-                                    {feedback.rating}
-                                  </p>
-                                  <div className="feedbacks__specific-rating--img">
-                                    <Rating rating={+feedback.rating}></Rating>
+                            const getCategoryName = categories.find(
+                              (cat) => cat.hr === feedback.category
+                            )?.category;
+                            return (
+                              <article
+                                className="feedbacks__specific-article"
+                                key={index}
+                              >
+                                <div className="feedbacks__specific-headline">
+                                  <div className="feedbacks__specific-rating">
+                                    <p className="feedbacks__specific-rating--main">
+                                      {feedback.rating}
+                                    </p>
+                                    <div className="feedbacks__specific-rating--img">
+                                      <Rating
+                                        rating={+feedback.rating}
+                                      ></Rating>
+                                    </div>
+                                  </div>
+                                  <div className="feedbacks__specific-main">
+                                    <h1>Osvrt od {feedback.position}</h1>
+                                    <p className="feedbacks__specific-date">
+                                      {moment(feedback.date.toString()).format(
+                                        "LL"
+                                      )}
+                                      .
+                                    </p>
                                   </div>
                                 </div>
-                                <div className="feedbacks__specific-main">
-                                  <h1>Osvrt od {feedback.position}</h1>
-                                  <p className="feedbacks__specific-date">
-                                    {moment(feedback.date.toString()).format(
-                                      "LL"
-                                    )}
-                                    .
+                                <div className="feedbacks__specific-wrapper">
+                                  <p
+                                    className={`feedbacks__specific-category feedbacks__specific-category--${getCategoryName}`}
+                                  >
+                                    <span>{feedback.category}</span>
                                   </p>
+                                  {(feedback.userId === state._id ||
+                                    feedback.userId === token?._id) && (
+                                    <div className="feedbacks__specific-delete">
+                                      <Button
+                                        variant="danger"
+                                        onClick={() =>
+                                          handleDelete(feedback._id)
+                                        }
+                                      >
+                                        X
+                                      </Button>
+                                    </div>
+                                  )}
+                                  <ul className="feedbacks__specific-overview">
+                                    <h2 className="feedbacks__specific-title">
+                                      Prednosti
+                                    </h2>
+                                    <p
+                                      className="feedbacks__specific-text"
+                                      dangerouslySetInnerHTML={{
+                                        __html: feedback.positives,
+                                      }}
+                                    />
+                                    <h2 className="feedbacks__specific-title">
+                                      Nedostatci
+                                    </h2>
+                                    <p
+                                      className="feedbacks__specific-text"
+                                      dangerouslySetInnerHTML={{
+                                        __html: feedback.negatives,
+                                      }}
+                                    />
+                                  </ul>
                                 </div>
-                              </div>
-                              <div className="feedbacks__specific-wrapper">
-                                <p className={`feedbacks__specific-category feedbacks__specific-category--${getCategoryName}`}>
-                                  <span>{feedback.category}</span>
-                                </p>
-                                {(feedback.userId === state._id ||
-                                  feedback.userId === token?._id) && (
-                                  <div className="feedbacks__specific-delete">
-                                    <Button
-                                      variant="danger"
-                                      onClick={() => handleDelete(feedback._id)}
-                                    >
-                                      X
-                                    </Button>
-                                  </div>
-                                )}
-                                <ul className="feedbacks__specific-overview">
-                                  <h2 className="feedbacks__specific-title">
-                                    Prednosti
-                                  </h2>
-                                  <p
-                                    className="feedbacks__specific-text"
-                                    dangerouslySetInnerHTML={{
-                                      __html: feedback.positives,
-                                    }}
-                                  />
-                                  <h2 className="feedbacks__specific-title">
-                                    Nedostatci
-                                  </h2>
-                                  <p
-                                    className="feedbacks__specific-text"
-                                    dangerouslySetInnerHTML={{
-                                      __html: feedback.negatives,
-                                    }}
-                                  />
-                                </ul>
-                              </div>
-                            </article>
+                              </article>
+                            );
                           }
                         )}
                       </section>
@@ -332,7 +357,9 @@ const SpecificFeedback = () => {
                           ></FeedbackCategories>
                           <ul
                             className={`modal-more ${
-                              selectedCategory && selectedCategory.category ? "modal-more--show" : ""
+                              selectedCategory && selectedCategory.category
+                                ? "modal-more--show"
+                                : "modal-more--remove"
                             }`}
                           >
                             <Form.Group
@@ -359,15 +386,19 @@ const SpecificFeedback = () => {
                                 onChange={(e) => setNegatives(e.target.value)}
                               />
                             </Form.Group>
-                            <Form.Group></Form.Group>
                             <Form.Group
                               className="mb-3"
                               controlId="formBasicEmail"
                             >
-                              <Rating
-                                rating={rating}
-                                setRating={setRating}
-                              ></Rating>
+                              <div className="modal-rating">
+                                <Form.Label>
+                                  Odaberite ocjenu kategorije
+                                </Form.Label>
+                                <Rating
+                                  rating={rating}
+                                  setRating={setRating}
+                                ></Rating>
+                              </div>
                             </Form.Group>
                           </ul>
                           <Form.Group>
