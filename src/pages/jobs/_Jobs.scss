@@ -72,7 +72,7 @@
 
             img {
                 height: 300px;
-                object-fit: cover;
+                object-fit: contain;
                 transition: all 0.2s ease-in-out;
             }
         }
