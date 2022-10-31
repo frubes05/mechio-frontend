@@ -20,12 +20,12 @@ const Company: React.FC<ICompany> = ({ status }) => {
   };
 
   const handleToastError = (message: string) =>
-    toast.error(message, { autoClose: 2000 });
+    toast.error(message, { autoClose: 1000 });
   const handleToastSuccess = (message: string) => {
-    toast.success(message, { autoClose: 2000 });
+    toast.success(message, { autoClose: 1000 });
     setTimeout(() => {
       navigate("/poslovi");
-    }, 4000);
+    }, 2000);
   };
 
   return (

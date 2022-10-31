@@ -118,6 +118,7 @@ const SpecificFeedback = () => {
       const feedback = {
         userId: state?._id || token?._id,
         companyId: company?._id,
+        companyImage: company?.companyImage,
         position,
         category: selectedCategory?.hr,
         positives,

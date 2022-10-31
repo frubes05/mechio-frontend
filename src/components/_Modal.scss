@@ -1,0 +1,113 @@
+.modal {
+    &-content {
+      border-radius: 0;
+      background-color: #f6f6f6;
+      max-width: 600px !important;
+      margin: 0 auto;
+    }
+  
+    &-more {
+      position: relative;
+      top: 0;
+      height: 0;
+      visibility: hidden;
+      transition: all 0.2s ease-in-out;
+  
+      &--show {
+        height: 350px;
+        visibility: visible;
+      }
+    }
+  
+    &-categories {
+      display: flex;
+      justify-content: flex-start;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+  
+    &-category {
+      background-color: transparent !important;
+      border: 1px solid #212529;
+      padding: 10px 20px;
+      border-radius: 30px;
+      color: #212529;
+      font-family: 'Roboto', sans-serif;
+  
+      &:focus, &:hover {
+        border-color: #212529 !important;
+        box-shadow: none !important;
+        color: #212529;
+      }
+  
+      &--selected {
+        background-color: #212529 !important;
+        border-color: #212529 !important;
+        color: white !important;
+      }
+    }
+  
+    &-header {
+      border-bottom: none;
+  
+      .h4 {
+        @include big-title;
+        font-size: 28px !important;
+        line-height: 32px !important;
+      }
+    }
+  
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+  
+    &-btn {
+      @include button-alt;
+      width: 100% !important;
+    }
+  
+    .container {
+      padding: 16px;
+    }
+  
+    &-rating {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding-bottom: 32px;
+      padding-top: 16px;
+  
+      .star-ratings {
+        align-self: center;
+      }
+    }
+  
+    &-header {
+      button {
+        background-color: #dc3545;
+        opacity: 1;
+        margin: 0 !important;
+        color: white;
+      }
+  
+      border-bottom: 1px solid #b1acac
+    }
+
+    h3 {
+        @include big-title;
+        font-size: 28px !important;
+        line-height: 32px !important;
+        margin: 0 !important;
+    }
+  
+    &-date {
+      @include normal-text;
+      opacity: 0.8;
+      font-size: 20px !important;
+      line-height: 28px !important;
+      font-style: italic;
+      font-weight: 300 !important;
+    }
+  }

@@ -8,9 +8,12 @@ import { ICompanyToken, ICompany } from "../pages/companies/Company.types";
 import { IUserToken } from "../pages/users/User.types";
 import { AuthContext } from "../context/AuthContext";
 import ModalForm from "./Modal";
-import LoadingSpinner from '../components/LoadingSpinner';
+import LoadingSpinner from "../components/LoadingSpinner";
+import moment from "moment";
+import "moment/locale/hr";
 
 const Profile = () => {
+  moment().locale("hr");
   const params = useParams();
   const navigate = useNavigate();
   const { state, dispatch, showAll, setShowAll } = useContext(AuthContext);
@@ -154,9 +157,11 @@ const Profile = () => {
 
   useEffect(() => {
     if (params.id) {
-      getProfileInformation.handleFetch(`http://localhost:9000/profil/${params.id}`)
+      getProfileInformation.handleFetch(
+        `http://localhost:9000/profil/${params.id}`
+      );
     }
-  }, [params.id])
+  }, [params.id]);
 
   useEffect(() => {
     if (state.user || state.company) {
@@ -293,8 +298,8 @@ const Profile = () => {
                                 <img
                                   src={`http://localhost:9000/${app.companyImage}`}
                                 ></img>
-                                <h3>{app.company}</h3>
-                                <p>{app.position}</p>
+                                <h3>{app.position}</h3>
+                                <p className="modal-date">{moment(app.date.toString()).format("LL")}.</p>
                               </Link>
                             </li>
                           ))}
@@ -323,8 +328,13 @@ const Profile = () => {
                               className="profile__applications-application"
                             >
                               <Link to={`/recenzije/${info.companyId}`}>
-                                <h3>{info.position}</h3>
-                                <p>{info.date}</p>
+                                <img
+                                  src={`http://localhost:9000/${info.companyImage}`}
+                                />
+                                <h3>{info.category}</h3>
+                                <p className="modal-date">
+                                  {moment(info.date.toString()).format("LL")}.
+                                </p>
                               </Link>
                             </li>
                           ))}
@@ -333,13 +343,20 @@ const Profile = () => {
                   )}
                 </div>
                 <div className="profile__delete">
-                {(state._id === params.id || token?._id === params.id) && (
-                    <Button className="profile__delete--main" variant="danger" onClick={() => logout()}>
+                  {(state._id === params.id || token?._id === params.id) && (
+                    <Button
+                      className="profile__delete--main"
+                      variant="danger"
+                      onClick={() => logout()}
+                    >
                       Izbrišite profil
                     </Button>
                   )}
-                  {(state._id !== params.id && token?._id !== params.id) && (
-                    <Button className="profile__delete--back" onClick={() => navigate(-1)}>
+                  {state._id !== params.id && token?._id !== params.id && (
+                    <Button
+                      className="profile__delete--back"
+                      onClick={() => navigate(-1)}
+                    >
                       Natrag
                     </Button>
                   )}
@@ -529,12 +546,19 @@ const Profile = () => {
                 </div>
                 <div className="profile__delete">
                   {(state._id === params.id || token?._id === params.id) && (
-                    <Button className="profile__delete--main" variant="danger" onClick={() => logout()}>
+                    <Button
+                      className="profile__delete--main"
+                      variant="danger"
+                      onClick={() => logout()}
+                    >
                       Izbrišite profil
                     </Button>
                   )}
-                  {(state._id !== params.id && token?._id !== params.id) && (
-                    <Button className="profile__delete--back" onClick={() => navigate(-1)}>
+                  {state._id !== params.id && token?._id !== params.id && (
+                    <Button
+                      className="profile__delete--back"
+                      onClick={() => navigate(-1)}
+                    >
                       Natrag
                     </Button>
                   )}
@@ -544,7 +568,9 @@ const Profile = () => {
           </>
         )}
       </Container>
-      {getProfileInformation.status === 'Pending' && <LoadingSpinner></LoadingSpinner>}
+      {getProfileInformation.status === "Pending" && (
+        <LoadingSpinner></LoadingSpinner>
+      )}
     </section>
   );
 };
