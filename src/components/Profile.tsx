@@ -169,6 +169,8 @@ const Profile = () => {
     }
   }, [state]);
 
+  console.log(state, token, params.id);
+
   return (
     <section className="profile">
       <Container className="profile__container">
@@ -273,77 +275,79 @@ const Profile = () => {
                   />
                 </div>
                 <div>{user.cv}</div>
-                <div className="profile__info">
-                  <Button
-                    disabled={user.applications.length === 0}
-                    onClick={() => setShowApplication(true)}
-                  >
-                    Prijave ({userApplications.length})
-                  </Button>
-                  {showApplication && (
-                    <ModalForm
-                      title="Vaše prijave na oglase"
-                      show={showApplication}
-                      setShow={setShowApplication}
-                      handleClose={() => setShowApplication(false)}
+                {state._id === params.id && token?._id === params.id && (
+                  <div className="profile__info">
+                    <Button
+                      disabled={user.applications.length === 0}
+                      onClick={() => setShowApplication(true)}
                     >
-                      <ul className="profile__applications">
-                        {userApplications.length > 0 &&
-                          userApplications.map((app: any, i) => (
-                            <li
-                              key={i}
-                              className="profile__applications-application"
-                            >
-                              <Link to={`/poslovi/${app._id}`}>
-                                <img
-                                  src={`http://localhost:9000/${app.companyImage}`}
-                                ></img>
-                                <h3>{app.position}</h3>
-                                <p className="modal-date">
-                                  {moment(app.date.toString()).format("LL")}.
-                                </p>
-                              </Link>
-                            </li>
-                          ))}
-                      </ul>
-                    </ModalForm>
-                  )}
-                  <Button
-                    disabled={userFeedbacks.length === 0}
-                    onClick={() => setShowFeedbacks(true)}
-                  >
-                    Recenzije ({userFeedbacks.length})
-                  </Button>
-                  {showFeedbacks && (
-                    <ModalForm
-                      title="Vaše recenzije"
-                      show={showFeedbacks}
-                      setShow={setShowFeedbacks}
-                      handleClose={() => setShowFeedbacks(false)}
+                      Prijave ({userApplications.length})
+                    </Button>
+                    {showApplication && (
+                      <ModalForm
+                        title="Vaše prijave na oglase"
+                        show={showApplication}
+                        setShow={setShowApplication}
+                        handleClose={() => setShowApplication(false)}
+                      >
+                        <ul className="profile__applications">
+                          {userApplications.length > 0 &&
+                            userApplications.map((app: any, i) => (
+                              <li
+                                key={i}
+                                className="profile__applications-application"
+                              >
+                                <Link to={`/poslovi/${app._id}`}>
+                                  <img
+                                    src={`http://localhost:9000/${app.companyImage}`}
+                                  ></img>
+                                  <h3>{app.position}</h3>
+                                  <p className="modal-date">
+                                    {moment(app.date.toString()).format("LL")}.
+                                  </p>
+                                </Link>
+                              </li>
+                            ))}
+                        </ul>
+                      </ModalForm>
+                    )}
+                    <Button
+                      disabled={userFeedbacks.length === 0}
+                      onClick={() => setShowFeedbacks(true)}
                     >
-                      <ul className="profile__applications">
-                        {userFeedbacks &&
-                          userFeedbacks.length > 0 &&
-                          userFeedbacks.map((info: any, i) => (
-                            <li
-                              key={i}
-                              className="profile__applications-application"
-                            >
-                              <Link to={`/recenzije/${info.companyId}`}>
-                                <img
-                                  src={`http://localhost:9000/${info.companyImage}`}
-                                />
-                                <h3>{info.category}</h3>
-                                <p className="modal-date">
-                                  {moment(info.date.toString()).format("LL")}.
-                                </p>
-                              </Link>
-                            </li>
-                          ))}
-                      </ul>
-                    </ModalForm>
-                  )}
-                </div>
+                      Recenzije ({userFeedbacks.length})
+                    </Button>
+                    {showFeedbacks && (
+                      <ModalForm
+                        title="Vaše recenzije"
+                        show={showFeedbacks}
+                        setShow={setShowFeedbacks}
+                        handleClose={() => setShowFeedbacks(false)}
+                      >
+                        <ul className="profile__applications">
+                          {userFeedbacks &&
+                            userFeedbacks.length > 0 &&
+                            userFeedbacks.map((info: any, i) => (
+                              <li
+                                key={i}
+                                className="profile__applications-application"
+                              >
+                                <Link to={`/recenzije/${info.companyId}`}>
+                                  <img
+                                    src={`http://localhost:9000/${info.companyImage}`}
+                                  />
+                                  <h3>{info.category}</h3>
+                                  <p className="modal-date">
+                                    {moment(info.date.toString()).format("LL")}.
+                                  </p>
+                                </Link>
+                              </li>
+                            ))}
+                        </ul>
+                      </ModalForm>
+                    )}
+                  </div>
+                )}
                 <div className="profile__delete">
                   {(state._id === params.id || token?._id === params.id) && (
                     <Button
@@ -531,10 +535,14 @@ const Profile = () => {
                             {companyJobApplications.length > 0 &&
                               companyJobApplications.map(
                                 (applicant: any, i) => {
-                                  const allFromCompany = applicant.applications.filter((application: any) => application.companyId === params.id);
+                                  const allFromCompany =
+                                    applicant.applications.filter(
+                                      (application: any) =>
+                                        application.companyId === params.id
+                                    );
                                   if (allFromCompany.length > 0) {
-                                    return allFromCompany.map((app:any) => 
-                                    <li
+                                    return allFromCompany.map((app: any) => (
+                                      <li
                                         key={i}
                                         className="profile__applications-application"
                                       >
@@ -543,10 +551,12 @@ const Profile = () => {
                                             src={`http://localhost:9000/${applicant.image}`}
                                           />
                                           <h3>{applicant.fullname}</h3>
-                                          <p className="modal-date">{app.position}</p>
+                                          <p className="modal-date">
+                                            {app.position}
+                                          </p>
                                         </Link>
                                       </li>
-                                    )
+                                    ));
                                   }
                                 }
                               )}
