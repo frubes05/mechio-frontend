@@ -21,14 +21,16 @@ const CompanyLogin = ({
   const [status, setStatus] = useState<string>("");
 
   const checkUser = useFetch({
-    url: companyEmail ? `http://localhost:9000/poslodavci/${companyEmail}` : "",
+    url: companyEmail ? `http://localhost:9000/poslodavci/email/${companyEmail}` : "",
     method: "get",
     onSuccess: (data) => {
-      if (data && data.length === 1) {
-        setCompanyName(data[0].companyName);
+      if (data) {
+        setCompanyName(data.companyName);
       }
     },
-    onError: (error) => {},
+    onError: (error) => {
+      console.log(error);
+    },
   });
 
   const getCompanies = useFetch({
@@ -44,6 +46,7 @@ const CompanyLogin = ({
     url: "http://localhost:9000/poslodavci/login-poslodavac",
     method: "post",
     onSuccess: (data) => {
+      console.log(data, companyName);
       if (data.token && companyName) {
         handleToastSuccess!(data.message);
         const decoded: any = jwt_decode(data.token);
@@ -68,7 +71,7 @@ const CompanyLogin = ({
     e.preventDefault();
 
     await checkUser.handleFetch(
-      `http://localhost:9000/poslodavci/${companyEmail}`
+      `http://localhost:9000/poslodavci/email/${companyEmail}`
     );
 
     try {
