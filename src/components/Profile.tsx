@@ -169,8 +169,6 @@ const Profile = () => {
     }
   }, [state]);
 
-  console.log(state, token, params.id);
-
   return (
     <section className="profile">
       <Container className="profile__container">

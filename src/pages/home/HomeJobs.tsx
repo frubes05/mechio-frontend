@@ -13,12 +13,11 @@ const HomeJobs = () => {
     url: "http://localhost:9000/poslovi",
     method: "get",
     onSuccess: (data) => {
-      getJobs.handleFetch('http://localhost:9000/poslovi')
       setJobs(data.slice(-8));
+      getJobs.handleFetch("http://localhost:9000/poslovi");
     },
     onError: (err) => {},
-  });
-  
+  });  
 
   return (
     <div className="home__jobs">

@@ -1,5 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
-import axios from "axios";
+import React, { useState, useContext } from "react";
 import jwt_decode from "jwt-decode";
 import { AuthContext } from "../../context/AuthContext";
 import { ICompany, IFormSwitch } from "./Company.types";
@@ -29,7 +28,6 @@ const CompanyLogin = ({
       }
     },
     onError: (error) => {
-      console.log(error);
     },
   });
 
@@ -46,7 +44,6 @@ const CompanyLogin = ({
     url: "http://localhost:9000/poslodavci/login-poslodavac",
     method: "post",
     onSuccess: (data) => {
-      console.log(data, companyName);
       if (data.token && companyName) {
         handleToastSuccess!(data.message);
         const decoded: any = jwt_decode(data.token);
