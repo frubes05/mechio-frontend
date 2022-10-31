@@ -66,9 +66,9 @@ function App() {
         <Route path='/poslodavci' element={<Company status={getJobs.status}></Company>}></Route>
 
         <Route path='/poslovi' element={<Jobs status={getJobs.status}></Jobs>}></Route>
-        <Route path='/poslovi/novi-oglas' element={<NewJob setRefetch={setRefetch} status={getJobs.status}></NewJob>}></Route>
-        <Route path='/poslovi/:id' element={<SpecificJob setRefetch={setRefetch} companies={companies} status={getJobs.status}></SpecificJob>}></Route>
-        <Route path='/poslovi/izmijeni-oglas/:id' element={<ChangeJob setRefetch={setRefetch} status={getJobs.status}></ChangeJob>}></Route>
+        <Route path='/poslovi/novi-oglas' element={<NewJob setRefetch={setRefetch}></NewJob>}></Route>
+        <Route path='/poslovi/:id' element={<SpecificJob setRefetch={setRefetch} companies={companies}></SpecificJob>}></Route>
+        <Route path='/poslovi/izmijeni-oglas/:id' element={<ChangeJob setRefetch={setRefetch}></ChangeJob>}></Route>
         <Route path='/recenzije' element={<Feedbacks status={getCompanies.status}></Feedbacks>}></Route>
         <Route path='/recenzije/:id' element={<SpecificFeedback></SpecificFeedback>}></Route>
         <Route path='/profil/:id' element={<Profile></Profile>} />

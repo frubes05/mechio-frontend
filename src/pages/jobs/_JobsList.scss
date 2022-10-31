@@ -21,7 +21,6 @@
         .dropdown {
             button {
                 @include button;
-
                 width: 100% !important;
 
                 @include breakpoint('md') {
@@ -41,6 +40,24 @@
 
                     &:not(:first-of-type) {
                         border-top: 1px solid #eee;
+                    }
+                }
+            }
+        }
+
+        &--condensed {
+            flex-direction: column;
+        
+            @include breakpoint('lg') {
+                flex-direction: row;
+            }
+
+            .dropdown {
+                button {
+                    width: 100% !important;
+
+                    @include breakpoint('lg') {
+                        width: fit-content !important;
                     }
                 }
             }
@@ -75,5 +92,20 @@
 
     &-title {
         @include big-title;
+    }
+
+    &-condensed {
+        display: flex;
+        justify-content: flex-start;
+        padding-bottom: 24px;
+
+        button {
+            margin-left: 0;
+            width: 100% !important;
+
+            @include breakpoint('lg') {
+                width: fit-content !important;
+            }
+        }
     }
 }

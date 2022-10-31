@@ -17,6 +17,7 @@ interface IFilter {
   resetSelected: Function;
   title?: string;
   additional?: string;
+  condensed?: boolean;
 }
 
 interface ISelectedValue {
@@ -30,7 +31,8 @@ const Filter: React.FC<IFilter> = ({
   getAllSelected,
   resetSelected,
   title,
-  additional
+  additional,
+  condensed,
 }) => {
   const [selectedValue, setSelectedValue] = useState<ISelectedValue[] | []>([]);
 
@@ -59,62 +61,75 @@ const Filter: React.FC<IFilter> = ({
   };
 
   return (
-    <Container className={`jobs__filter ${additional ? 'jobs__filter--feedbacks': ''}`} id="filter">
+    <Container
+      className={`jobs__filter ${additional ? "jobs__filter--feedbacks" : ""}`}
+      id="filter"
+    >
       <Row>
         <Col xlg={8} lg={8} md={8}>
           <h5 className="jobs__list-subtitle">Filtriranje mogućnosti</h5>
-          {title && <h2 className="jobs__list-title">
-            {title}
-          </h2>}
+          {title && <h2 className="jobs__list-title">{title}</h2>}
         </Col>
         <Col>
-        <div className="jobs__list-filters">
-          {filterOptions &&
-            filterOptions.map((option: any, id: number) => {
-              let newElements = Array.from(
-                new Set(jobs.map((job: any) => job[option.en]))
-              );
-              newElements = newElements.map((elem) => {
-                return {
-                  [option.en]: elem,
-                };
-              });
-              return (
-                <Dropdown key={id}>
-                  <Dropdown.Toggle variant="success" id="dropdown-basic">
-                    {option.hr}
-                  </Dropdown.Toggle>
+          <div className={`jobs__list-filters ${condensed ? 'jobs__list-filters--condensed' : ''}`}>
+            {filterOptions &&
+              filterOptions.map((option: any, id: number) => {
+                let newElements = Array.from(
+                  new Set(jobs.map((job: any) => job[option.en]))
+                );
+                newElements = newElements.map((elem) => {
+                  return {
+                    [option.en]: elem,
+                  };
+                });
+                return (
+                  <Dropdown key={id}>
+                    <Dropdown.Toggle variant="success" id="dropdown-basic">
+                      {option.hr}
+                    </Dropdown.Toggle>
 
-                  <Dropdown.Menu>
-                    {jobs &&
-                      jobs.length > 0 &&
-                      newElements.map((job: any, i: number) => {
-                        return (
-                          <Dropdown.Item
-                            key={`${id}-${i}`}
-                            onClick={() =>
-                              handleSelectedValue(job[option.en], option.en)
-                            }
-                          >
-                            {job[option.en]}
-                          </Dropdown.Item>
-                        );
-                      })}
-                  </Dropdown.Menu>
-                </Dropdown>
-              );
-            })}
-          <Button
-            className="jobs__list-reset"
-            onClick={() => handleResetSelected()}
-          >
-            Reset
-          </Button>
-        </div>
-        <p className="jobs__list-filtervalues">
-          Odabrane vrijednosti ({selectedValue.length}):{" "}
-          <span>{selectedValue.map((elem) => elem.value).join(", ")}</span>
-        </p>
+                    <Dropdown.Menu>
+                      {jobs &&
+                        jobs.length > 0 &&
+                        newElements.map((job: any, i: number) => {
+                          return (
+                            <Dropdown.Item
+                              key={`${id}-${i}`}
+                              onClick={() =>
+                                handleSelectedValue(job[option.en], option.en)
+                              }
+                            >
+                              {job[option.en]}
+                            </Dropdown.Item>
+                          );
+                        })}
+                    </Dropdown.Menu>
+                  </Dropdown>
+                );
+              })}
+            {!condensed && (
+              <Button
+                className="jobs__list-reset"
+                onClick={() => handleResetSelected()}
+              >
+                Reset
+              </Button>
+            )}
+          </div>
+          {condensed && (
+            <div className="jobs__list-condensed">
+              <Button
+                className="jobs__list-reset"
+                onClick={() => handleResetSelected()}
+              >
+                Reset
+              </Button>
+            </div>
+          )}
+          <p className="jobs__list-filtervalues">
+            Odabrane vrijednosti ({selectedValue.length}):{" "}
+            <span>{selectedValue.map((elem) => elem.value).join(", ")}</span>
+          </p>
         </Col>
       </Row>
     </Container>

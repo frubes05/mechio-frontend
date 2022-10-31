@@ -18,19 +18,18 @@ import useFetch from "../../hooks/useFetch";
 interface ICompanies {
   companies: ICompany[];
   setRefetch: (bool: boolean) => void;
-  status: string;
 }
 
 const SpecificJob: React.FC<ICompanies> = ({
   companies,
   setRefetch,
-  status,
 }) => {
   moment().locale("hr");
   const { state } = useContext(AuthContext);
   const [token, setToken] = useState<ICompanyToken & IUserToken>();
   const [job, setJob] = useState<null | IJobs>(null);
   const [showing, setShowing] = useState<boolean>(false);
+  const [status, setStatus] = useState<string>('');
   const params = useParams();
   const navigate = useNavigate();
 
@@ -90,17 +89,19 @@ const SpecificJob: React.FC<ICompanies> = ({
     );
   };
 
-  const handleDelete = () =>
+  const handleDelete = () => {
     deleteSpecificJob.handleFetch(
       `http://localhost:9000/poslovi/izbrisi-oglas/${params.id}`
     );
+    setStatus('Pending');
+    }
 
   const selected = companies
     ? companies.filter(
         (company) =>
-          (company.companyName === state.companyName ||
-            company.companyName === token?.companyName) &&
-          job?.company === company.companyName
+          (company._id === state._id ||
+            company._id === token?._id) &&
+          job?.companyId === company._id
       )
     : null;
 
@@ -111,32 +112,43 @@ const SpecificJob: React.FC<ICompanies> = ({
         <Container className="specificjob__wrapper">
           <Row className="specificjob__row">
             <Col md={4} lg={4} xlg={4} className="specificjob__first">
-              <Link to={`/profil/${job?.companyId}`} className="specificjob__img">
-                <img
-                  src={"http://localhost:9000/" + job?.companyImage}
-                  alt={job?.company}
-                />
-              </Link>
-              {job && (
-                <>
-                <article className="specificjob__article">
-                  <div className="specificjob__basic">
-                    <h2 className="specificjob__basic-info">
-                      <span>Tvrtka:</span>
-                      <span className="specificjob__company">{job.company}</span>
-                    </h2>
-                    <p className="specificjob__basic-info">
-                      <span>Senioritet:</span>
-                      <span className="specificjob__seniority">{job.seniority}</span>
-                    </p>
-                    <p className="specificjob__basic-info">
-                      <span>Plaća:</span>
-                      <span className="specificjob__pay">{job.pay} HRK (Neto)</span>
-                    </p>
-                  </div>
-                </article>
-                </>  
-              )}
+              <div className="specificjob__sticky">
+                <Link
+                  to={`/profil/${job?.companyId}`}
+                  className="specificjob__img"
+                >
+                  <img
+                    src={"http://localhost:9000/" + job?.companyImage}
+                    alt={job?.company}
+                  />
+                </Link>
+                {job && (
+                  <>
+                    <article className="specificjob__article">
+                      <div className="specificjob__basic">
+                        <h2 className="specificjob__basic-info">
+                          <span>Tvrtka:</span>
+                          <span className="specificjob__company">
+                            {job.company}
+                          </span>
+                        </h2>
+                        <p className="specificjob__basic-info">
+                          <span>Senioritet:</span>
+                          <span className="specificjob__seniority">
+                            {job.seniority}
+                          </span>
+                        </p>
+                        <p className="specificjob__basic-info">
+                          <span>Plaća:</span>
+                          <span className="specificjob__pay">
+                            {job.pay} HRK (Neto)
+                          </span>
+                        </p>
+                      </div>
+                    </article>
+                  </>
+                )}
+              </div>
             </Col>
             <Col md={7} lg={7} xlg={7} className="specificjob__second">
               {job && (
@@ -152,33 +164,44 @@ const SpecificJob: React.FC<ICompanies> = ({
                         Natrag
                       </Button>
                     )}
-                    {selected!.length > 0 && (
-                      <>
-                        <Link to={`/poslovi/izmijeni-oglas/${job?._id}`}>
-                          <FaRegEdit className="specificjob-cta__edit" />
-                        </Link>
-                        <button
-                          className="specificjob-cta__delete"
-                          onClick={handleDelete}
-                        >
-                          <RiDeleteBin6Line />
-                        </button>
-                      </>
-                    )}
                   </div>
                   <div className="specificjob__top">
-                    <p className="specificjob__location">
-                      {job?.location}, {moment(job?.date.toString()).format("LL")}.
-                    </p>
+                    <div className="specificjob__location">
+                      {companies && selected!.length > 0 && (
+                        <div className="specificjob__location-icons">
+                          <Link to={`/poslovi/izmijeni-oglas/${job?._id}`}>
+                            <FaRegEdit className="specificjob-cta__edit" />
+                          </Link>
+                          <button
+                            className="specificjob-cta__delete"
+                            onClick={handleDelete}
+                          >
+                            <RiDeleteBin6Line />
+                          </button>
+                        </div>
+                      )}
+                      <span className="specificjob__location">
+                        {job?.location},{" "}
+                        {moment(job?.date.toString()).format("LL")}.
+                      </span>
+                    </div>
                     <h1 className="specificjob__title">
-                      <span>Radno mjesto:</span> <span className="specificjob__title--main">{job.position}</span>
+                      <span>Radno mjesto:</span>{" "}
+                      <span className="specificjob__title--main">
+                        {job.position}
+                      </span>
                     </h1>
                   </div>
                   {job && (
                     <>
                       <article className="specificjob__article">
                         <div className="specificjob__content">
-                          <p className="specificjob__description" dangerouslySetInnerHTML={{__html: job.description}} />
+                          <p
+                            className="specificjob__description"
+                            dangerouslySetInnerHTML={{
+                              __html: job.description,
+                            }}
+                          />
                         </div>
                         <div className="specificjob__buttons">
                           {state.user && !token?.user && (
@@ -217,7 +240,12 @@ const SpecificJob: React.FC<ICompanies> = ({
             </Col>
           </Row>
         </Container>
-        {fetchSpecificJob.status === "Pending" && <LoadingSpinner></LoadingSpinner>}
+        {fetchSpecificJob.status === "Pending" && (
+          <LoadingSpinner></LoadingSpinner>
+        )}
+        {status === "Pending" && (
+          <LoadingSpinner></LoadingSpinner>
+        )}
       </div>
       <svg
         xmlns="http://www.w3.org/2000/svg"

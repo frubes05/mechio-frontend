@@ -12,10 +12,9 @@ import useFetch from "../../hooks/useFetch";
 
 interface INewJob {
   setRefetch: (bool: boolean) => void;
-  status: string;
 }
 
-const NewJob: React.FC<INewJob> = ({ setRefetch, status }) => {
+const NewJob: React.FC<INewJob> = ({ setRefetch }) => {
   const { state } = useContext(AuthContext);
   const [position, setPosition] = useState<string>("");
   const [location, setLocation] = useState<string>("");
@@ -23,6 +22,7 @@ const NewJob: React.FC<INewJob> = ({ setRefetch, status }) => {
   const [pay, setPay] = useState<string>("");
   const [token, setToken] = useState<ICompanyToken | null>(null);
   const [description, setDescription] = useState<string>("");
+  const [status, setStatus] = useState<string>("");
   const navigate = useNavigate();
 
   const addNewJob = useFetch({
@@ -36,6 +36,7 @@ const NewJob: React.FC<INewJob> = ({ setRefetch, status }) => {
         navigate(-1);
       }, 4000);
       setRefetch(true);
+      setStatus('Pending');
     },
     onError: (error) => {
       toast.error("Došlo je do pogrješke", { autoClose: 3000 });

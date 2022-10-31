@@ -5,6 +5,7 @@ import 'react-quill/dist/quill.snow.css';
 interface IValue {
     value: string;
     setValue: (value: string) => void;
+    defaultValue?: string;
 }
 
 const modules = {
@@ -22,9 +23,9 @@ const modules = {
       ],
 }
 
-const Editor: React.FC<IValue> = ({value, setValue}) => {
+const Editor: React.FC<IValue> = ({value, setValue, defaultValue=''}) => {
   const quill = useRef(ReactQuill);
-  return <ReactQuill theme="snow" value={value} onChange={setValue} modules={modules}/>;
+  return <ReactQuill theme="snow" defaultValue={defaultValue} onChange={setValue} modules={modules}/>;
 }
 
 export default Editor;

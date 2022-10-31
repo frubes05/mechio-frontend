@@ -190,6 +190,40 @@
 
   &__location {
     font-style: italic;
+    align-items: center;
+
+    &-icons {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 12px;
+
+      a {
+        svg {
+          fill: #d1b849;
+          transition: all 0.2s ease-in-out;
+        }
+
+        &:hover {
+          svg {
+            fill: #ffde4d;
+          }
+        }
+      }
+
+      button {
+        svg {
+          fill: rgb(147, 26, 26);
+          transition: all 0.2s ease-in-out;
+        }
+
+        &:hover {
+          svg {
+            fill: red;
+          }
+        }
+      }
+    }
   }
 
   &__article {
@@ -271,5 +305,10 @@
     @include breakpoint('md') {
       order: 2;
     }
+  }
+
+  &__sticky {
+    position: sticky;
+    top: 40px;
   }
 }

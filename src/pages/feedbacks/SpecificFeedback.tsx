@@ -176,6 +176,7 @@ const SpecificFeedback = () => {
                       resetSelected={resetSelected}
                       title={`Odaberite recenziju za tvrtku ${company.companyName}`}
                       additional="feedbacks"
+                      condensed
                     />
                     {selectedFeedbacks.length === 0 && (
                       <p className="feedbacks__none">

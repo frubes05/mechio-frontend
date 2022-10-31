@@ -40,6 +40,10 @@
     }
   }
 
+  &__btn {
+    @include button;
+  }
+
   .quill {
     background-color: white;
   }
