@@ -73,7 +73,6 @@ const Company: React.FC<ICompany> = ({ status }) => {
           </Col>
         </Row>
       </Container>
-      {status === "Pending" && <LoadingSpinner></LoadingSpinner>}
     </section>
   );
 };

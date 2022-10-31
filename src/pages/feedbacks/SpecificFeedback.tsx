@@ -16,6 +16,7 @@ import Filter from "../../components/Filter";
 
 import { filteringService } from "../../services/filtering";
 import FeedbackCategories from "./FeedbackCategories";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const SpecificFeedback = () => {
   const params = useParams();
@@ -347,6 +348,7 @@ const SpecificFeedback = () => {
               )}
             </Row>
           </Container>
+          {getCompanies.status === 'Pending' && <LoadingSpinner></LoadingSpinner>}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 2560 1440"

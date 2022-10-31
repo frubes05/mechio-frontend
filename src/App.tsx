@@ -52,7 +52,7 @@ function App() {
       getCompanies.handleFetch('http://localhost:9000/poslodavci');
     }
     setRefetch(false);
-  }, [refetch])
+  }, [refetch]);
   
   return (
     <>

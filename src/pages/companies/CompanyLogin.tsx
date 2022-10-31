@@ -6,6 +6,7 @@ import { ICompany, IFormSwitch } from "./Company.types";
 import { Button, Form } from "react-bootstrap";
 
 import useFetch from '../../hooks/useFetch';
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const CompanyLogin = ({
   handleToastError,
@@ -17,6 +18,7 @@ const CompanyLogin = ({
   const [companyEmail, setCompanyEmail] = useState<string>("");
   const [companyPassword, setCompanyPassword] = useState<string>("");
   const [companyName, setCompanyName] = useState<string>('');
+  const [status, setStatus] = useState<string>('');
 
   const checkUser = useFetch({
     url: `http://localhost:9000/poslodavci/${companyEmail}`,
@@ -53,6 +55,7 @@ const CompanyLogin = ({
           const decoded: any = jwt_decode(res.data.token);
           dispatch!({ type: "LOGIN", payload: { ...decoded, companyName } });
           localStorage.setItem("decodedToken", JSON.stringify({...decoded, companyName}));
+          setStatus("Pending");
         } else {
           handleToastError!(res.data.message);
         }
@@ -60,6 +63,7 @@ const CompanyLogin = ({
   };
 
   return (
+    <>
     <Form onSubmit={submitHandler}>
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Control
@@ -83,6 +87,8 @@ const CompanyLogin = ({
         Još niste registrirali tvrtku? Učinite to u par koraka
       </Button>
     </Form>
+    {status === "Pending" && <LoadingSpinner />}
+    </>
   );
 };
 

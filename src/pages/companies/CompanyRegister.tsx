@@ -11,6 +11,7 @@ import Step1 from "../../components/Step1";
 import Step2 from "../../components/Step2";
 import Step3 from "../../components/Step3";
 import Step4 from "../../components/Step4";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const CompanyRegister = ({
   changeShowingForm,
@@ -25,6 +26,7 @@ const CompanyRegister = ({
   const [companyPassword, setCompanyPassword] = useState<string>("");
   const [companyDescription, setCompanyDescription] = useState<string>("");
   const [companyImage, setCompanyImage] = useState<File | null>(null);
+  const [status, setStatus] = useState<string>('');
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,6 +50,7 @@ const CompanyRegister = ({
             const decoded: any = jwt_decode(res.data.token);
             dispatch!({ type: "REGISTER", payload: { ...decoded } });
             localStorage.setItem("decodedToken", JSON.stringify(decoded));
+            setStatus('Pending');
           } else {
             handleToastError!(res.data.message);
           }
@@ -58,6 +61,7 @@ const CompanyRegister = ({
   };
 
   return (
+    <>
     <Form onSubmit={submitHandler}>
       <Step1
         setCompanyName={setCompanyName}
@@ -73,6 +77,8 @@ const CompanyRegister = ({
         Vaša tvrtka već posjeduje račun? Slobodno se prijavite
       </Button>
     </Form>
+    {status === "Pending" && <LoadingSpinner />}
+    </>
   );
 };
 

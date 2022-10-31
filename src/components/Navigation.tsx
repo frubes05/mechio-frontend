@@ -14,10 +14,9 @@ import { BiUserCircle } from "react-icons/bi";
 import { AiOutlineLogout } from "react-icons/ai";
 
 const Navigation = () => {
-  const { state, dispatch } = useContext(AuthContext);
+  const { state, dispatch, setShowAll, showAll } = useContext(AuthContext);
   const [iconState, setIconState] = useState<boolean>(false);
   const [token, setToken] = useState<(ICompanyToken & IUserToken) | null>(null);
-  const [showAll, setShowAll] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {

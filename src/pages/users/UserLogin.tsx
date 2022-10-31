@@ -6,6 +6,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { IFormSwitch } from "./User.types";
 
 import useFetch from "../../hooks/useFetch";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const UserLogin = ({
   changeShowingForm,
@@ -16,6 +17,7 @@ const UserLogin = ({
   const email = useRef() as RefObject<HTMLInputElement>;
   const [password, setPassword] = useState<string>("");
   const [fullname, setFullname] = useState<string>("");
+  const [status, setStatus] = useState<string>("");
 
   const getUser = useFetch({
     url: email.current
@@ -43,6 +45,7 @@ const UserLogin = ({
           "decodedToken",
           JSON.stringify({ ...decoded, fullname })
         );
+        setStatus("Pending");
       }
     },
     onError: (error) => {
@@ -67,6 +70,7 @@ const UserLogin = ({
   };
 
   return (
+    <>
     <Form onSubmit={submitHandler}>
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Control type="email" placeholder="Email" ref={email} />
@@ -86,6 +90,8 @@ const UserLogin = ({
         Još nisi registriran? Učini to u par koraka
       </Button>
     </Form>
+    {status === 'Pending' && <LoadingSpinner/>}
+    </>
   );
 };
 

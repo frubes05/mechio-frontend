@@ -7,6 +7,7 @@ import useFetch from "../hooks/useFetch";
 import { carouselConfig } from "./carousel.config";
 import moment from "moment";
 import "moment/locale/hr";
+import LoadingSpinner from "./LoadingSpinner";
 
 const Carousel = () => {
   moment().locale("hr");
@@ -65,6 +66,7 @@ const Carousel = () => {
           </Row>
         </Container>
       )}
+      {getJobs.status === 'Pending' && <LoadingSpinner></LoadingSpinner>}
     </>
   );
 };

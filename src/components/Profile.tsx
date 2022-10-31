@@ -13,7 +13,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 const Profile = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const { state, dispatch } = useContext(AuthContext);
+  const { state, dispatch, showAll, setShowAll } = useContext(AuthContext);
   const [showApplication, setShowApplication] = useState<boolean>(false);
   const [showFeedbacks, setShowFeedbacks] = useState<boolean>(false);
   const [showJobs, setShowJobs] = useState<boolean>(false);
@@ -129,6 +129,7 @@ const Profile = () => {
   }, []);
 
   const logout = () => {
+    setShowAll(false);
     deleteProfile.handleFetch(
       `http://localhost:9000/profil/izbrisi/${params.id}`
     );
@@ -156,6 +157,12 @@ const Profile = () => {
       getProfileInformation.handleFetch(`http://localhost:9000/profil/${params.id}`)
     }
   }, [params.id])
+
+  useEffect(() => {
+    if (state.user || state.company) {
+      setShowAll(true);
+    }
+  }, [state]);
 
   return (
     <section className="profile">

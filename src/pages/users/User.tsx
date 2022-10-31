@@ -69,7 +69,6 @@ const User: React.FC<IUser> = ({ status }) => {
           </Col>
         </Row>
       </Container>
-      {status === "Pending" && <LoadingSpinner></LoadingSpinner>}
     </section>
   );
 };

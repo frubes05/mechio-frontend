@@ -76,7 +76,7 @@ const Feedbacks: React.FC<IFeedbacks> = ({ status }) => {
         </Container>
       )}
       {companies.length > 0 && <FeedbackCompanies companies={selectedCompanies}/>}
-      {status === 'Pending' && <LoadingSpinner></LoadingSpinner>}
+      {getCompanies.status === 'Pending' && <LoadingSpinner></LoadingSpinner>}
     </main>
   );
 };

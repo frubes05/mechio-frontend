@@ -217,7 +217,7 @@ const SpecificJob: React.FC<ICompanies> = ({
             </Col>
           </Row>
         </Container>
-        {status === "Pending" && <LoadingSpinner></LoadingSpinner>}
+        {fetchSpecificJob.status === "Pending" && <LoadingSpinner></LoadingSpinner>}
       </div>
       <svg
         xmlns="http://www.w3.org/2000/svg"

@@ -1,4 +1,4 @@
-import React, { Children, useReducer } from "react";
+import React, { Children, useReducer, useState } from "react";
 
 const initialState = {
   state: {
@@ -14,6 +14,8 @@ const initialState = {
       iat: 0
   },
   dispatch: () => {},
+  showAll: false,
+  setShowAll: () => {}
 };
 
 type Company = {
@@ -43,6 +45,8 @@ type Initial = Company & User & Both
 type Context = {
   state: Initial;
   dispatch?: React.Dispatch<Actions>;
+  showAll: boolean;
+  setShowAll: Function;
 };
 
 type Actions =
@@ -76,6 +80,7 @@ const AuthContextReducer = (state: Initial, action: Actions): Initial => {
 };
 
 const AuthContextProvider = ({ children }: Children) => {
+    const [showAll, setShowAll] = useState<boolean>(false);
     const [state, dispatch] = useReducer(AuthContextReducer, {
         companyEmail: '',
         companyName: '',
@@ -89,7 +94,7 @@ const AuthContextProvider = ({ children }: Children) => {
         iat: 0
     });
 
-  return <AuthContext.Provider value={{state, dispatch}}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{state, dispatch, showAll, setShowAll}}>{children}</AuthContext.Provider>;
 };
 
 export {AuthContext, AuthContextProvider};

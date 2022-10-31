@@ -77,7 +77,7 @@ const Jobs: React.FC<IJob> = ({ status }) => {
         </Container>
       )}
       {selectedJobs.length > 0 && <JobsList jobs={selectedJobs}></JobsList>}
-      {status === "Pending" && <LoadingSpinner></LoadingSpinner>}
+      {getJobs.status === "Pending" && <LoadingSpinner></LoadingSpinner>}
     </main>
   );
 };
