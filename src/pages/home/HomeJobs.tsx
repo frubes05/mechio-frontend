@@ -8,7 +8,6 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 
 const HomeJobs = () => {
   const [jobs, setJobs] = useState<IJobs[] | []>([]);
-  const [status, setStatus] = useState<string>('');
 
   const getJobs = useFetch({
     url: "http://localhost:9000/poslovi",

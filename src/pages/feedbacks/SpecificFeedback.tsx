@@ -18,6 +18,29 @@ import { filteringService } from "../../services/filtering";
 import FeedbackCategories from "./FeedbackCategories";
 import LoadingSpinner from "../../components/LoadingSpinner";
 
+const categories = [
+  {
+    category: "team",
+    hr: "Tim",
+  },
+  {
+    category: "projects",
+    hr: "Projekti",
+  },
+  {
+    category: "technology",
+    hr: "Tehnologije",
+  },
+  {
+    category: "culture",
+    hr: "Kultura",
+  },
+  {
+    category: "pay",
+    hr: "Plaća",
+  },
+];
+
 const SpecificFeedback = () => {
   const params = useParams();
   const navigate = useNavigate();
@@ -27,7 +50,6 @@ const SpecificFeedback = () => {
   const [feedbackId, setFeedbackId] = useState<string | null>(null);
   const [company, setCompany] = useState<null | ICompany>();
   const [show, setShow] = useState<boolean>(false);
-  const [submitted, setSubmitted] = useState<boolean>(false);
   const [position, setPosition] = useState<string>("");
   const [positives, setPositives] = useState<string>("");
   const [negatives, setNegatives] = useState<string>("");
@@ -38,7 +60,7 @@ const SpecificFeedback = () => {
   const [selectedFeedbacks, setSelectedFeedbacks] = useState<IFeedback[] | []>(
     []
   );
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [selectedCategory, setSelectedCategory] = useState<{hr: string, category: string} | null>(null);
 
   const getCompanies = useFetch({
     url: `http://localhost:9000/poslodavci/${params.id}`,
@@ -87,7 +109,7 @@ const SpecificFeedback = () => {
         userId: state?._id || token?._id,
         companyId: company?._id,
         position,
-        category: selectedCategory,
+        category: selectedCategory?.hr,
         positives,
         negatives,
         rating,
@@ -99,7 +121,6 @@ const SpecificFeedback = () => {
       );
     }
     handleClose();
-    setSubmitted(true);
   };
 
   useEffect(() => {
@@ -123,9 +144,17 @@ const SpecificFeedback = () => {
 
   const resetSelected = () => setSelectedFeedbacks(allFeedbacks);
 
-  const onSelected = (selected: string) => {
-    setSelectedCategory(selected);
+  const onSelected = (selected: {hr: string, category: string}) => {
+    if (selected) {
+      setSelectedCategory({ category: selected.category, hr: selected.hr});
+    }
   };
+
+  useEffect(() => {
+    if (allFeedbacks) {
+      setSelectedFeedbacks(allFeedbacks);
+    }
+  }, [allFeedbacks]);
 
   return (
     <>
@@ -140,7 +169,7 @@ const SpecificFeedback = () => {
                       filterOptions={[
                         { en: "position", hr: "Pozicija" },
                         { en: "rating", hr: "Ocjena" },
-                        { en: "category", hr: "Kategorija"}
+                        { en: "category", hr: "Kategorija" },
                       ]}
                       jobs={allFeedbacks}
                       getAllSelected={getAllSelected}
@@ -157,8 +186,9 @@ const SpecificFeedback = () => {
                     {allFeedbacks.length > 0 && (
                       <section className="feedbacks__specific">
                         {selectedFeedbacks.map(
-                          (feedback: IFeedback, index: number) => (
-                            <article
+                          (feedback: IFeedback, index: number) => {
+                            const getCategoryName = categories.find(cat => cat.hr === feedback.category)?.category;
+                            return <article
                               className="feedbacks__specific-article"
                               key={index}
                             >
@@ -182,6 +212,9 @@ const SpecificFeedback = () => {
                                 </div>
                               </div>
                               <div className="feedbacks__specific-wrapper">
+                                <p className={`feedbacks__specific-category feedbacks__specific-category--${getCategoryName}`}>
+                                  <span>{feedback.category}</span>
+                                </p>
                                 {(feedback.userId === state._id ||
                                   feedback.userId === token?._id) && (
                                   <div className="feedbacks__specific-delete">
@@ -215,7 +248,7 @@ const SpecificFeedback = () => {
                                 </ul>
                               </div>
                             </article>
-                          )
+                          }
                         )}
                       </section>
                     )}
@@ -257,20 +290,22 @@ const SpecificFeedback = () => {
                           </p>
                         </div>
                       </div>
-                      {(state?.user || token?.user) && <Button
-                        className="feedbacks__aside-btn"
-                        onClick={() => setShow(true)}
-                        disabled={submitted}
-                      >
-                        Dodaj osvrt
-                      </Button>}
-                      {(!state?.user && !token?.user) && <Button
-                        className="feedbacks__aside-btn--alt"
-                        onClick={() => navigate(-1)}
-                        disabled={submitted}
-                      >
-                        Natrag
-                      </Button>}
+                      {(state?.user || token?.user) && (
+                        <Button
+                          className="feedbacks__aside-btn"
+                          onClick={() => setShow(true)}
+                        >
+                          Dodaj osvrt
+                        </Button>
+                      )}
+                      {!state?.user && !token?.user && (
+                        <Button
+                          className="feedbacks__aside-btn--alt"
+                          onClick={() => navigate(-1)}
+                        >
+                          Natrag
+                        </Button>
+                      )}
                       <Modal
                         title="Nova recenzija"
                         show={show}
@@ -292,8 +327,13 @@ const SpecificFeedback = () => {
                           </Form.Group>
                           <FeedbackCategories
                             onSelected={onSelected}
+                            categories={categories}
                           ></FeedbackCategories>
-                          <ul className={`modal-more ${selectedCategory ? 'modal-more--show': ''}`}>
+                          <ul
+                            className={`modal-more ${
+                              selectedCategory && selectedCategory.category ? "modal-more--show" : ""
+                            }`}
+                          >
                             <Form.Group
                               className="mb-3"
                               controlId="formBasicPassword"
@@ -330,15 +370,16 @@ const SpecificFeedback = () => {
                             </Form.Group>
                           </ul>
                           <Form.Group>
-                            {(token?.user || state.user) && <Button
-                              className="modal-btn"
-                              size="lg"
-                              variant="primary"
-                              onClick={handleSubmit}
-                              disabled={submitted}
-                            >
-                              Dodaj recenziju
-                            </Button>}
+                            {(token?.user || state.user) && (
+                              <Button
+                                className="modal-btn"
+                                size="lg"
+                                variant="primary"
+                                onClick={handleSubmit}
+                              >
+                                Dodaj recenziju
+                              </Button>
+                            )}
                           </Form.Group>
                         </Form>
                       </Modal>
@@ -348,7 +389,9 @@ const SpecificFeedback = () => {
               )}
             </Row>
           </Container>
-          {getCompanies.status === 'Pending' && <LoadingSpinner></LoadingSpinner>}
+          {getFeedbacks.status === "Pending" && (
+            <LoadingSpinner></LoadingSpinner>
+          )}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 2560 1440"

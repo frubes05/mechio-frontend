@@ -1,31 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Button, Form } from "react-bootstrap";
 
-const categories = [
-  {
-    category: "team",
-    hr: "Tim",
-  },
-  {
-    category: "projects",
-    hr: "Projekti",
-  },
-  {
-    category: "technology",
-    hr: "Tehnologije",
-  },
-  {
-    category: "culture",
-    hr: "Kultura",
-  },
-  {
-    category: "pay",
-    hr: "Plaća",
-  },
-];
-
-const FeedbackCategories: React.FC<{onSelected: Function}> = ({onSelected}) => {
-  const [selected, setSelected] = useState<string>("");
+const FeedbackCategories: React.FC<{onSelected: Function, categories: {category: string; hr: string}[]}> = ({onSelected, categories}) => {
+  const [selected, setSelected] = useState<{hr: string, category: string} | null>(null);
 
   useEffect(() => {
     if (selected) {
@@ -38,14 +15,14 @@ const FeedbackCategories: React.FC<{onSelected: Function}> = ({onSelected}) => {
       <Form.Label>Odaberite kategoriju</Form.Label>
       <ul className="modal-categories">
         {categories.map((category) => {
-          if (category.category === selected) {
+          if (category.category === selected?.category) {
             return (
               <li key={category.hr}>
                 <Button
                   className={`modal-category ${
                     selected ? "modal-category--selected" : ""
                   }`}
-                  onClick={() => setSelected(category.hr)}
+                  onClick={() => setSelected({hr: category.hr, category: category.category})}
                 >
                   {category.hr}
                 </Button>
@@ -56,7 +33,7 @@ const FeedbackCategories: React.FC<{onSelected: Function}> = ({onSelected}) => {
               <li key={category.hr}>
                 <Button
                   className="modal-category"
-                  onClick={() => setSelected(category.hr)}
+                  onClick={() => setSelected({ category: category.category, hr: category.hr})}
                 >
                   {category.hr}
                 </Button>

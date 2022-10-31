@@ -180,6 +180,7 @@
     &-wrapper {
       background-color: rgb(246, 246, 246);
       border: 1px solid #b1acac;
+      position: relative;
     }
 
     &-date {
@@ -253,6 +254,44 @@
           width: 15px !important;
           height: 15px !important;
         }
+      }
+    }
+
+    &-category {
+      position: absolute;
+      right: -1px;
+      top: -32px;
+      padding: 5px 10px;
+      z-index: -1;
+      border-radius: 5px 5px 0 0;
+      box-shadow: 3px 6px 29px 6px #dcdcdc;
+
+      span {
+        @include big-title;
+        font-size: 16px !important;
+        margin: 0 !important;
+        line-height: 22px !important;
+        color: white !important;
+      }
+
+      &--projects {
+        background-color: #00c6b4;
+      }
+
+      &--technology {
+        background-color: #0d6efd;
+      }
+
+      &--pay {
+        background-color: #ffde4d;
+      }
+
+      &--team {
+        background-color: #3c4043;
+      }
+
+      &--culture {
+        background-color: red;
       }
     }
   }
