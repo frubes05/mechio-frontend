@@ -299,7 +299,9 @@ const Profile = () => {
                                   src={`http://localhost:9000/${app.companyImage}`}
                                 ></img>
                                 <h3>{app.position}</h3>
-                                <p className="modal-date">{moment(app.date.toString()).format("LL")}.</p>
+                                <p className="modal-date">
+                                  {moment(app.date.toString()).format("LL")}.
+                                </p>
                               </Link>
                             </li>
                           ))}
@@ -500,8 +502,10 @@ const Profile = () => {
                             >
                               <Link to={`/poslovi/${job._id}`}>
                                 <h3>{job.position}</h3>
-                                <p>{job.location}</p>
-                                <p>{job.date}</p>
+                                <p className="modal-date">
+                                  {job.location},{" "}
+                                  {moment(job.date.toString()).format("LL")}.
+                                </p>
                               </Link>
                             </li>
                           ))}
@@ -526,17 +530,25 @@ const Profile = () => {
                           <ul className="profile__applications">
                             {companyJobApplications.length > 0 &&
                               companyJobApplications.map(
-                                (applicant: any, i) => (
-                                  <li
-                                    key={i}
-                                    className="profile__applications-application"
-                                  >
-                                    <Link to={`/profil/${applicant._id}`}>
-                                      <h3>{applicant.fullname}</h3>
-                                      <p>{applicant.email}</p>
-                                    </Link>
-                                  </li>
-                                )
+                                (applicant: any, i) => {
+                                  const allFromCompany = applicant.applications.filter((application: any) => application.companyId === params.id);
+                                  if (allFromCompany.length > 0) {
+                                    return allFromCompany.map((app:any) => 
+                                    <li
+                                        key={i}
+                                        className="profile__applications-application"
+                                      >
+                                        <Link to={`/profil/${applicant._id}`}>
+                                          <img
+                                            src={`http://localhost:9000/${applicant.image}`}
+                                          />
+                                          <h3>{applicant.fullname}</h3>
+                                          <p className="modal-date">{app.position}</p>
+                                        </Link>
+                                      </li>
+                                    )
+                                  }
+                                }
                               )}
                           </ul>
                         </ModalForm>
