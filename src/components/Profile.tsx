@@ -34,7 +34,7 @@ const Profile = () => {
   const [companyJobApplications, setCompanyJobApplications] = useState([]);
 
   const getProfileInformation = useFetch({
-    url: `http://localhost:9000/profil/${params.id}`,
+    url: `https://mechio-test.onrender.com/profil/${params.id}`,
     method: "get",
     onSuccess: (information) => {
       const { data, type } = information;
@@ -52,7 +52,7 @@ const Profile = () => {
   });
 
   const getUserFeedbacks = useFetch({
-    url: `http://localhost:9000/profil/feedbacks/${params.id}`,
+    url: `https://mechio-test.onrender.com/profil/feedbacks/${params.id}`,
     method: "get",
     onSuccess: (data) => {
       setFeedbackInformation(data);
@@ -61,7 +61,7 @@ const Profile = () => {
   });
 
   const getSpecificUserFeedback = useFetch({
-    url: `http://localhost:9000/profil/userfeedbacks/${params.id}`,
+    url: `https://mechio-test.onrender.com/profil/userfeedbacks/${params.id}`,
     method: "get",
     onSuccess: (data) => {
       setUserFeedbacks(data);
@@ -70,7 +70,7 @@ const Profile = () => {
   });
 
   const getCompanyJobs = useFetch({
-    url: `http://localhost:9000/profil/jobs/${params.id}`,
+    url: `https://mechio-test.onrender.com/profil/jobs/${params.id}`,
     method: "get",
     onSuccess: (data) => {
       setCompanyJobs(data);
@@ -79,7 +79,7 @@ const Profile = () => {
   });
 
   const getCompanyJobApplications = useFetch({
-    url: `http://localhost:9000/profil/applications/${params.id}`,
+    url: `https://mechio-test.onrender.com/profil/applications/${params.id}`,
     method: "get",
     onSuccess: (data) => {
       setCompanyJobApplications(data);
@@ -88,7 +88,7 @@ const Profile = () => {
   });
 
   const getUserJobApplications = useFetch({
-    url: `http://localhost:9000/profil/userapplications/${params.id}`,
+    url: `https://mechio-test.onrender.com/profil/userapplications/${params.id}`,
     method: "get",
     onSuccess: (data) => {
       setUserApplications(data);
@@ -97,7 +97,7 @@ const Profile = () => {
   });
 
   const editProfileInformation = useFetch({
-    url: `http://localhost:9000/profil/izmijeni/${params.id}`,
+    url: `https://mechio-test.onrender.com/profil/izmijeni/${params.id}`,
     method: "put",
     onSuccess: (information) => {
       const { data, type } = information;
@@ -113,7 +113,7 @@ const Profile = () => {
   });
 
   const deleteProfile = useFetch({
-    url: `http://localhost:9000/profil/izbrisi/${params.id}`,
+    url: `https://mechio-test.onrender.com/profil/izbrisi/${params.id}`,
     method: "delete",
     onSuccess: (data) => {
       localStorage.removeItem("decodedToken");
@@ -135,7 +135,7 @@ const Profile = () => {
   const logout = () => {
     setShowAll(false);
     deleteProfile.handleFetch(
-      `http://localhost:9000/profil/izbrisi/${params.id}`
+      `https://mechio-test.onrender.com/profil/izbrisi/${params.id}`
     );
     const href = window.location.href.split("/");
     const location = href[href.length - 1];
@@ -159,7 +159,7 @@ const Profile = () => {
   useEffect(() => {
     if (params.id) {
       getProfileInformation.handleFetch(
-        `http://localhost:9000/profil/${params.id}`
+        `https://mechio-test.onrender.com/profil/${params.id}`
       );
     }
   }, [params.id]);
@@ -231,7 +231,7 @@ const Profile = () => {
                               size="lg"
                               onClick={() => {
                                 editProfileInformation.handleFetch(
-                                  `http://localhost:9000/profil/izmijeni/${params.id}`,
+                                  `https://mechio-test.onrender.com/profil/izmijeni/${params.id}`,
                                   { about: moreInformation }
                                 );
                                 setEdit(false);
@@ -271,12 +271,12 @@ const Profile = () => {
                 )}
                 <div className="profile__img">
                   <img
-                    src={`http://localhost:9000/${user.image}`}
+                    src={`https://mechio-test.onrender.com/${user.image}`}
                     alt={user.fullname}
                   />
                 </div>
                 <div className="profile__cv">
-                  <a href={`http://localhost:9000/${user.cv}`} target='_blank'>
+                  <a href={`https://mechio-test.onrender.com/${user.cv}`} target='_blank'>
                     <BsFillFilePdfFill></BsFillFilePdfFill>
                   </a>
                 </div>
@@ -304,7 +304,7 @@ const Profile = () => {
                               >
                                 <Link to={`/poslovi/${app._id}`}>
                                   <img
-                                    src={`http://localhost:9000/${app.companyImage}`}
+                                    src={`https://mechio-test.onrender.com/${app.companyImage}`}
                                   ></img>
                                   <h3>{app.position}</h3>
                                   <p className="modal-date">
@@ -339,7 +339,7 @@ const Profile = () => {
                               >
                                 <Link to={`/recenzije/${info.companyId}`}>
                                   <img
-                                    src={`http://localhost:9000/${info.companyImage}`}
+                                    src={`https://mechio-test.onrender.com/${info.companyImage}`}
                                   />
                                   <h3>{info.category}</h3>
                                   <p className="modal-date">
@@ -442,7 +442,7 @@ const Profile = () => {
                               size="lg"
                               onClick={() => {
                                 editProfileInformation.handleFetch(
-                                  `http://localhost:9000/profil/izmijeni/${params.id}`,
+                                  `https://mechio-test.onrender.com/profil/izmijeni/${params.id}`,
                                   { companyDescription: moreInformation }
                                 );
                                 setEdit(false);
@@ -484,7 +484,7 @@ const Profile = () => {
                 )}
                 <div className="profile__img">
                   <img
-                    src={`http://localhost:9000/${company.companyImage}`}
+                    src={`https://mechio-test.onrender.com/${company.companyImage}`}
                     alt={"Image"}
                   />
                 </div>
@@ -553,7 +553,7 @@ const Profile = () => {
                                       >
                                         <Link to={`/profil/${applicant._id}`}>
                                           <img
-                                            src={`http://localhost:9000/${applicant.image}`}
+                                            src={`https://mechio-test.onrender.com/${applicant.image}`}
                                           />
                                           <h3>{applicant.fullname}</h3>
                                           <p className="modal-date">

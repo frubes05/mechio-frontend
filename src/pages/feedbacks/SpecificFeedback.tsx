@@ -66,7 +66,7 @@ const SpecificFeedback = () => {
   } | null>(null);
 
   const getCompanies = useFetch({
-    url: `http://localhost:9000/poslodavci/${params.id}`,
+    url: `https://mechio-test.onrender.com/poslodavci/${params.id}`,
     method: "get",
     onSuccess: (data: any) => {
       setCompany(data);
@@ -75,7 +75,7 @@ const SpecificFeedback = () => {
   });
 
   const getFeedbacks = useFetch({
-    url: `http://localhost:9000/recenzije/${params.id}`,
+    url: `https://mechio-test.onrender.com/recenzije/${params.id}`,
     method: "get",
     onSuccess: (data: any) => {
       setAllFeedbacks(data);
@@ -84,10 +84,10 @@ const SpecificFeedback = () => {
   });
 
   const submitFeedback = useFetch({
-    url: "http://localhost:9000/recenzije/nova-recenzija",
+    url: "https://mechio-test.onrender.com/recenzije/nova-recenzija",
     method: "post",
     onSuccess: (data: any) => {
-      getFeedbacks.handleFetch(`http://localhost:9000/recenzije/${params.id}`);
+      getFeedbacks.handleFetch(`https://mechio-test.onrender.com/recenzije/${params.id}`);
     },
     onError: (error: any) => {},
   });
@@ -127,7 +127,7 @@ const SpecificFeedback = () => {
         date: new Date(),
       };
       submitFeedback.handleFetch(
-        "http://localhost:9000/recenzije/nova-recenzija",
+        "https://mechio-test.onrender.com/recenzije/nova-recenzija",
         feedback
       );
       setPosition("");
@@ -150,7 +150,7 @@ const SpecificFeedback = () => {
   const handleDelete = (id: string) => {
     setFeedbackId(id);
     deleteFeedback.handleFetch(
-      `http://localhost:9000/recenzije/izbrisi/${company?._id}/${id}`
+      `https://mechio-test.onrender.com/recenzije/izbrisi/${company?._id}/${id}`
     );
   };
 
@@ -286,7 +286,7 @@ const SpecificFeedback = () => {
                         <Link to={`/profil/${company._id}`}>
                           <img
                             src={
-                              "http://localhost:9000/" + company?.companyImage
+                              "https://mechio-test.onrender.com/" + company?.companyImage
                             }
                           ></img>
                         </Link>

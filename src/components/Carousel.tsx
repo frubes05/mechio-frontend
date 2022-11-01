@@ -29,7 +29,7 @@ const Carousel: React.FC<ICarousel> = ({ jobs }) => {
                       <img
                         className="jobs__card-image"
                         src={
-                          "http://localhost:9000/" +
+                          "https://mechio-test.onrender.com/" +
                           job.companyImage
                         }
                       />

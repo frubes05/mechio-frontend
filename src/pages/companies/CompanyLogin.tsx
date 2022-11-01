@@ -20,7 +20,7 @@ const CompanyLogin = ({
   const [status, setStatus] = useState<string>("");
 
   const checkUser = useFetch({
-    url: companyEmail ? `http://localhost:9000/poslodavci/email/${companyEmail}` : "",
+    url: companyEmail ? `https://mechio-test.onrender.com/poslodavci/email/${companyEmail}` : "",
     method: "get",
     onSuccess: (data) => {
       if (data) {
@@ -32,7 +32,7 @@ const CompanyLogin = ({
   });
 
   const getCompanies = useFetch({
-    url: "http://localhost:9000/poslodavci",
+    url: "https://mechio-test.onrender.com/poslodavci",
     method: "get",
     onSuccess: (data) => {
       setCompanies(data);
@@ -41,7 +41,7 @@ const CompanyLogin = ({
   });
 
   const checkLogin = useFetch({
-    url: "http://localhost:9000/poslodavci/login-poslodavac",
+    url: "https://mechio-test.onrender.com/poslodavci/login-poslodavac",
     method: "post",
     onSuccess: (data) => {
       if (data.token && companyName) {
@@ -68,12 +68,12 @@ const CompanyLogin = ({
     e.preventDefault();
 
     await checkUser.handleFetch(
-      `http://localhost:9000/poslodavci/email/${companyEmail}`
+      `https://mechio-test.onrender.com/poslodavci/email/${companyEmail}`
     );
 
     try {
       await checkLogin.handleFetch(
-        "http://localhost:9000/poslodavci/login-poslodavac",
+        "https://mechio-test.onrender.com/poslodavci/login-poslodavac",
         {
           companyEmail,
           companyPassword,
