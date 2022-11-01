@@ -4,7 +4,6 @@ import { IJobs } from "../jobs/Jobs.types";
 import useFetch from "../../hooks/useFetch";
 
 import Carousel from "../../components/Carousel";
-import LoadingSpinner from "../../components/LoadingSpinner";
 
 const HomeJobs = () => {
   const [jobs, setJobs] = useState<IJobs[] | []>([]);
@@ -14,7 +13,10 @@ const HomeJobs = () => {
     method: "get",
     onSuccess: (data) => {
       setJobs(data.slice(-8));
-      getJobs.handleFetch("https://mechio-api-test.onrender.com/poslovi");
+      if (localStorage.getItem('initial') === 'true') {
+        getJobs.handleFetch("https://mechio-api-test.onrender.com/poslovi");
+        localStorage.removeItem('initial');
+      }
     },
     onError: (err) => {},
   });  

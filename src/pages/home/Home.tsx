@@ -13,6 +13,11 @@ interface IHome {
 }
 
 const Home: React.FC<IHome> = ({ jobs, status }) => {
+
+  useEffect(() => {
+    localStorage.setItem('initial', 'true');
+  }, [])
+
   return (
     <main className='home'>
         <HomeMain></HomeMain>
