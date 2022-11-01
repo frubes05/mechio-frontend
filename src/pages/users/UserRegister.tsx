@@ -23,7 +23,7 @@ const UserRegister = ({
   const [number, setNumber] = useState<string>("");
   const [address, setAddress] = useState<string>("");
   const [about, setAbout] = useState<string>("");
-  const [cv, setCv] = useState<string>("");
+  const [cv, setCv] = useState<File | null>(null);
   const [image, setImage] = useState<File | null>(null);
   const [status, setStatus] = useState<string>("");
 
@@ -79,7 +79,9 @@ const UserRegister = ({
       formData.append("number", number);
       formData.append("address", address);
       formData.append("about", about);
-      formData.append("cv", cv);
+      if (cv) {
+        formData.append("cv", cv);
+      }
       if (image) formData.append("image", image);
 
       await registerUser.handleFetch(
@@ -93,6 +95,10 @@ const UserRegister = ({
     setImage(file);
   };
 
+  const onPDFInput = (file: File, valid: any) => {
+    setCv(file);
+  }
+
   return (
     <>
       <Form onSubmit={submitHandler}>
@@ -103,7 +109,7 @@ const UserRegister = ({
           emailRef={email}
           setPassword={setPassword}
         ></Step1>
-        <Step3 setCv={setCv} onInput={onInput}></Step3>
+        <Step3 onPDFInput={onPDFInput} onInput={onInput}></Step3>
         <Button className="user__switch-btn" onClick={changeShowingForm}>
           Posjeduješ već račun? Slobodno se prijavi
         </Button>

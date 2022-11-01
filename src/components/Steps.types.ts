@@ -28,7 +28,7 @@ export interface IStep2 {
 
 export interface IStep3 {
     setCompanyDescription?: Function,
-    setCv?: Function,
+    onPDFInput?: Function,
     onInput?: Function
 };
 

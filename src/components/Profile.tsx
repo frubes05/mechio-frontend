@@ -11,6 +11,7 @@ import ModalForm from "./Modal";
 import LoadingSpinner from "../components/LoadingSpinner";
 import moment from "moment";
 import "moment/locale/hr";
+import {BsFillFilePdfFill} from 'react-icons/bs';
 
 const Profile = () => {
   moment().locale("hr");
@@ -169,6 +170,8 @@ const Profile = () => {
     }
   }, [state]);
 
+  console.log(state, token, user, company);
+
   return (
     <section className="profile">
       <Container className="profile__container">
@@ -272,8 +275,12 @@ const Profile = () => {
                     alt={user.fullname}
                   />
                 </div>
-                <div>{user.cv}</div>
-                {state._id === params.id && token?._id === params.id && (
+                <div className="profile__cv">
+                  <a href={`http://localhost:9000/${user.cv}`} target='_blank'>
+                    <BsFillFilePdfFill></BsFillFilePdfFill>
+                  </a>
+                </div>
+                {(state._id === params.id || token?._id === params.id) && (
                   <div className="profile__info">
                     <Button
                       disabled={user.applications.length === 0}

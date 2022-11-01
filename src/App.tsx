@@ -19,7 +19,6 @@ import { IJobs } from "./pages/jobs/Jobs.types";
 import useFetch from './hooks/useFetch';
 import SpecificFeedback from './pages/feedbacks/SpecificFeedback';
 import Profile from './components/Profile';
-import DefaultProfile from './components/DefaultProfile';
 
 function App() {
   const [companies, setCompanies] = useState<ICompany[] | []>([]);

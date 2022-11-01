@@ -183,4 +183,15 @@
         display: flex;
         justify-content: space-between;
     }
+
+    &__cv {
+        display: flex;
+        justify-content: flex-start;
+
+        svg {
+            fill: #dc4437;
+            height: 100px;
+            width: 100px;
+        }
+    }
 }

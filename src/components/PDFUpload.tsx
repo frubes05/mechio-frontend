@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form, FormControl } from 'react-bootstrap';
 
-const ImageUpload = ({onInput}: {onInput: Function}) => {
+const PDFUpload = ({onInput}: {onInput: Function}) => {
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null | ArrayBuffer>(null);
   const [isValid, setIsValid] = useState(false);
@@ -35,13 +35,13 @@ const ImageUpload = ({onInput}: {onInput: Function}) => {
 
   return (
     <Form.Group className='image-upload'>
-        <FormControl type='file' accept='.jpg,.png,.jpeg' onChange={pickedHandler} name='image'></FormControl>
-        <div className="image-upload__preview">
-            {typeof(previewUrl) === 'string' && <img src={previewUrl} alt="Preview" />}
-            {!previewUrl && <p className='image-upload--text'>Odaberite sliku</p>}
+        <FormControl type='file' accept='.pdf' onChange={pickedHandler} name='pdf'></FormControl>
+        <div className="pdf-upload__preview">
+            {typeof(previewUrl) === 'string' && <p className='image-upload--text'>Odabrali ste PDF</p>}
+            {!previewUrl && <p className='image-upload--text'>Odaberite PDF</p>}
         </div>
     </Form.Group>
   )
 }
 
-export default ImageUpload
+export default PDFUpload

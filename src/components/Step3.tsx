@@ -2,10 +2,11 @@ import React from "react";
 import { Form, Button } from "react-bootstrap";
 import { IStep3, ISteps } from "./Steps.types";
 import ImageUpload from "./ImageUpload";
+import PDFUpload from "./PDFUpload";
 
 const Step3 = ({
   setCompanyDescription,
-  setCv,
+  onPDFInput,
   onInput,
   nextStep,
   previousStep,
@@ -36,13 +37,7 @@ const Step3 = ({
       )}
       {lastItem === "posloprimci" && (
         <>
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Control
-              type="text"
-              placeholder="Životopis"
-              onChange={(e) => setCv!(e.target.value)}
-            />
-          </Form.Group>
+          <PDFUpload onInput={onPDFInput!}/>
           <ImageUpload onInput={onInput!} />
           <div className="user__form-buttons">
             <Button variant="primary" type="submit" className="user__login-btn">
