@@ -10,11 +10,11 @@ const HomeJobs = () => {
   const [jobs, setJobs] = useState<IJobs[] | []>([]);
 
   const getJobs = useFetch({
-    url: "https://mechio-test.onrender.com/poslovi",
+    url: "https://mechio-api-test.onrender.com/poslovi",
     method: "get",
     onSuccess: (data) => {
       setJobs(data.slice(-8));
-      getJobs.handleFetch("https://mechio-test.onrender.com/poslovi");
+      getJobs.handleFetch("https://mechio-api-test.onrender.com/poslovi");
     },
     onError: (err) => {},
   });  
