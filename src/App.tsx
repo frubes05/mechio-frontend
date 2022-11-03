@@ -35,7 +35,7 @@ function App() {
   useEffect(() => {
     ReactGA.initialize('G-CV32D0XT00');
 
-    ReactGA.pageview('/');
+    ReactGA.pageview(window.location.pathname + window.location.search);
   }, [])
 
   const getCompanies = useFetch({
