@@ -37,7 +37,7 @@ const UserRegister = ({
     method: "get",
     onSuccess: (data) => {
       setFullname(data[0]?.fullname);
-      ReactGA.initialize('G-CV32D0XT00');
+      ReactGA.initialize('G-2WT4FBM32X');
       ReactGA.event({
         category: 'Posloprimci',
         action: 'Registracija'
