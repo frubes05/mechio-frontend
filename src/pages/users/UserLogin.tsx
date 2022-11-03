@@ -47,6 +47,7 @@ const UserLogin = ({
           JSON.stringify({ ...decoded, fullname })
         );
         setStatus("Pending");
+        ReactGA.initialize('G-CV32D0XT00');
         ReactGA.event({
           category: 'Posloprimci',
           action: 'Login'
