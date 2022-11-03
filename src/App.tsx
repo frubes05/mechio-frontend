@@ -19,6 +19,7 @@ import { IJobs } from "./pages/jobs/Jobs.types";
 import useFetch from './hooks/useFetch';
 import SpecificFeedback from './pages/feedbacks/SpecificFeedback';
 import Profile from './components/Profile';
+import ReactGA from 'react-ga';
 
 declare global {
   interface Window {
@@ -26,11 +27,16 @@ declare global {
   }
 }
 
-
 function App() {
   const [companies, setCompanies] = useState<ICompany[] | []>([]);
   const [jobs, setJobs] = useState<[] | IJobs[]>([]);
   const [refetch, setRefetch] = useState<boolean>(false);
+
+  useEffect(() => {
+    ReactGA.initialize('G-9FRGCD4DT9');
+
+    ReactGA.pageview('/');
+  }, [])
 
   const getCompanies = useFetch({
     url: "https://mechio-api-test.onrender.com/poslodavci",
