@@ -19,7 +19,7 @@ import { IJobs } from "./pages/jobs/Jobs.types";
 import useFetch from './hooks/useFetch';
 import SpecificFeedback from './pages/feedbacks/SpecificFeedback';
 import Profile from './components/Profile';
-import ReactGA from 'react-ga';
+import ReactGA from 'react-ga4';
 
 declare global {
   interface Window {
@@ -27,15 +27,15 @@ declare global {
   }
 }
 
+ReactGA.initialize('G-HH1RVSZ4D3');
+
 function App() {
   const [companies, setCompanies] = useState<ICompany[] | []>([]);
   const [jobs, setJobs] = useState<[] | IJobs[]>([]);
   const [refetch, setRefetch] = useState<boolean>(false);
 
   useEffect(() => {
-    ReactGA.initialize('G-2WT4FBM32X');
-
-    ReactGA.pageview('/');
+    ReactGA.send('pageview');
   }, [])
 
   const getCompanies = useFetch({

@@ -7,7 +7,7 @@ import { IFormSwitch } from "./User.types";
 
 import useFetch from "../../hooks/useFetch";
 import LoadingSpinner from "../../components/LoadingSpinner";
-import ReactGA from 'react-ga';
+import ReactGA from 'react-ga4';
 
 const UserLogin = ({
   changeShowingForm,
@@ -47,11 +47,6 @@ const UserLogin = ({
           JSON.stringify({ ...decoded, fullname })
         );
         setStatus("Pending");
-        ReactGA.initialize('G-2WT4FBM32X');
-        ReactGA.event({
-          category: 'Posloprimci',
-          action: 'Login'
-        })
       }
     },
     onError: (error) => {
