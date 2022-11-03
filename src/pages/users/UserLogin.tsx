@@ -7,6 +7,7 @@ import { IFormSwitch } from "./User.types";
 
 import useFetch from "../../hooks/useFetch";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import { GTMTrackingHelper } from "../../services/GTMService";
 
 const UserLogin = ({
   changeShowingForm,

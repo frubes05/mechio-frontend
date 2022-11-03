@@ -9,12 +9,16 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 import Editor from "../../components/Editor";
 
 import useFetch from "../../hooks/useFetch";
+import { GTMTrackingHelper } from "../../services/GTMService";
+import moment from "moment";
+import "moment/locale/hr";
 
 interface INewJob {
   setRefetch: (bool: boolean) => void;
 }
 
 const NewJob: React.FC<INewJob> = ({ setRefetch }) => {
+  moment().locale("hr");
   const { state } = useContext(AuthContext);
   const [position, setPosition] = useState<string>("");
   const [location, setLocation] = useState<string>("");
@@ -64,6 +68,7 @@ const NewJob: React.FC<INewJob> = ({ setRefetch }) => {
       date: new Date(),
     };
     addNewJob.handleFetch("https://mechio-api-test.onrender.com/poslovi/novi-oglas", newPost);
+    GTMTrackingHelper('Klik', 'Novi oglas', 'Poslovi',  `${state.companyName || token?.companyName}`, `${moment((new Date())).format("LL")}`);
   };
 
   return (

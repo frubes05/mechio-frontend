@@ -17,6 +17,7 @@ import Filter from "../../components/Filter";
 import { filteringService } from "../../services/filtering";
 import FeedbackCategories from "./FeedbackCategories";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import { GTMTrackingHelper } from "../../services/GTMService";
 
 const categories = [
   {
@@ -88,6 +89,7 @@ const SpecificFeedback = () => {
     method: "post",
     onSuccess: (data: any) => {
       getFeedbacks.handleFetch(`https://mechio-api-test.onrender.com/recenzije/${params.id}`);
+      GTMTrackingHelper('Klik', 'Dodana recenzija', 'Recenzije', `${company?.companyName}`, null)
     },
     onError: (error: any) => {},
   });

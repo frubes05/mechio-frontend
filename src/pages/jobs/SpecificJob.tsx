@@ -15,6 +15,8 @@ import { FaRegEdit } from "react-icons/fa";
 
 import useFetch from "../../hooks/useFetch";
 
+import {GTMTrackingHelper} from '../../services/GTMService';
+
 interface ICompanies {
   companies: ICompany[];
   setRefetch: (bool: boolean) => void;
@@ -51,6 +53,7 @@ const SpecificJob: React.FC<ICompanies> = ({
         navigate(-1);
       }, 4000);
       setRefetch(true);
+      GTMTrackingHelper('Klik', 'Obrisan posao', `${job?.position}`, `${job?.company}`, `${job?.location}`)
     },
     onError: (error) => {
       toast.error("Došlo je do pogrješke", { autoClose: 3000 });
@@ -65,6 +68,7 @@ const SpecificJob: React.FC<ICompanies> = ({
         ? toast.error(data.message, { autoClose: 3000 })
         : toast.success(data.message, { autoClose: 3000 });
       setRefetch(true);
+      GTMTrackingHelper('Klik', 'Prijava', `${job?.position}`, `${job?.company}`, null)
     },
     onError: (error) => {
       toast.error("Došlo je do pogrješke", { autoClose: 3000 });

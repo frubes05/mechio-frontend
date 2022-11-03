@@ -20,6 +20,13 @@ import useFetch from './hooks/useFetch';
 import SpecificFeedback from './pages/feedbacks/SpecificFeedback';
 import Profile from './components/Profile';
 
+declare global {
+  interface Window {
+    dataLayer: any;
+  }
+}
+
+
 function App() {
   const [companies, setCompanies] = useState<ICompany[] | []>([]);
   const [jobs, setJobs] = useState<[] | IJobs[]>([]);

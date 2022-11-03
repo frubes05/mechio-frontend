@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { ICompany } from "../companies/Company.types";
 
 import useFetch from "../../hooks/useFetch";
+import { GTMTrackingHelper } from "../../services/GTMService";
 
 const FeedbackCompany: React.FC<{ company: ICompany }> = ({ company }) => {
   const [companyFeedbacksLength, setCompanyFeedbacksLength] = useState<number | null>(null);
@@ -19,7 +20,7 @@ const FeedbackCompany: React.FC<{ company: ICompany }> = ({ company }) => {
 
   return (
     <Col xlg={3} lg={3} md={6} sm={12} className="feedbacks__list-column">
-      <Link to={`/recenzije/${company._id}`} id={company._id}>
+      <Link to={`/recenzije/${company._id}`} id={company._id} onClick={() => GTMTrackingHelper('Klik', 'Preusmjeravanje na tvrtku', `${company.companyName}`, `${company.companyAddress}`, null)}>
         <li className="feedbacks__options-item">
           <article className="jobs__card">
             <div className="jobs__card-picture">
