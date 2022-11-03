@@ -42,6 +42,10 @@ function App() {
     url: "https://mechio-api-test.onrender.com/poslodavci",
     method: 'get',
     onSuccess: (data) => {
+      ReactGA.event({
+        action: 'HAHHA',
+        category: 'hehhe'
+      })
       setCompanies(data);
     },
     onError: (error) => {
