@@ -33,7 +33,7 @@ function App() {
   const [refetch, setRefetch] = useState<boolean>(false);
 
   useEffect(() => {
-    ReactGA.initialize('G-9FRGCD4DT9');
+    ReactGA.initialize('G-CV32D0XT00');
 
     ReactGA.pageview('/');
   }, [])
