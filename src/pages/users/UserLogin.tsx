@@ -7,7 +7,7 @@ import { IFormSwitch } from "./User.types";
 
 import useFetch from "../../hooks/useFetch";
 import LoadingSpinner from "../../components/LoadingSpinner";
-import { GTMTrackingHelper } from "../../services/GTMService";
+import ReactGA from 'react-ga';
 
 const UserLogin = ({
   changeShowingForm,
@@ -47,6 +47,10 @@ const UserLogin = ({
           JSON.stringify({ ...decoded, fullname })
         );
         setStatus("Pending");
+        ReactGA.event({
+          category: 'Posloprimci',
+          action: 'Login'
+        })
       }
     },
     onError: (error) => {

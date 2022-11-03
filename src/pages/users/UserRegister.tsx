@@ -10,6 +10,7 @@ import Step3 from "../../components/Step3";
 
 import useFetch from "../../hooks/useFetch";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import ReactGA from "react-ga";
 
 const UserRegister = ({
   changeShowingForm,
@@ -36,6 +37,10 @@ const UserRegister = ({
     method: "get",
     onSuccess: (data) => {
       setFullname(data[0]?.fullname);
+      ReactGA.event({
+        category: 'Posloprimci',
+        action: 'Registracija'
+      })
     },
     onError: (error) => {},
   });
