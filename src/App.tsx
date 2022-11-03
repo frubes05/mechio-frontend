@@ -35,17 +35,13 @@ function App() {
   useEffect(() => {
     ReactGA.initialize('G-2WT4FBM32X');
 
-    ReactGA.pageview(window.location.pathname + window.location.search);
+    ReactGA.pageview('/');
   }, [])
 
   const getCompanies = useFetch({
     url: "https://mechio-api-test.onrender.com/poslodavci",
     method: 'get',
     onSuccess: (data) => {
-      ReactGA.event({
-        action: 'HAHHA',
-        category: 'hehhe'
-      })
       setCompanies(data);
     },
     onError: (error) => {
