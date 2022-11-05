@@ -12,6 +12,8 @@ import Filter from "../../components/Filter";
 import { filteringService } from "../../services/filtering";
 import { Container, Row, Col } from "react-bootstrap";
 
+import ReactGA from 'react-ga4';
+
 interface IJob {
   status: string;
 }
@@ -41,6 +43,7 @@ const Jobs: React.FC<IJob> = ({ status }) => {
       const tokenReal = JSON.parse(tokenObj!);
       setToken(tokenReal);
     }
+    ReactGA.event('poslovi', {category: 'inicijalno__učitavanje', action: 'inicijalno učitavanje poslova', label: `${(state.user || token?._id) && state.fullname} ${(state.company || token?.company) && state.companyName} ${(!state.user || !token?._id) && (!state.company || !token?.company) && 'Anoniman korisnik'}`})
   }, []);
 
   const getAllSelected = (filterOptions: IJobs[]) => {
