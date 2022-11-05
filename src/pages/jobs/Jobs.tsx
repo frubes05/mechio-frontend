@@ -13,6 +13,7 @@ import { filteringService } from "../../services/filtering";
 import { Container, Row, Col } from "react-bootstrap";
 
 import ReactGA from 'react-ga4';
+import { IUserToken } from "../users/User.types";
 
 interface IJob {
   status: string;
@@ -21,7 +22,7 @@ interface IJob {
 const Jobs: React.FC<IJob> = ({ status }) => {
   const { state } = useContext(AuthContext);
   const [selectedJobs, setSelectedJobs] = useState<IJobs[] | []>([]);
-  const [token, setToken] = useState<ICompanyToken>();
+  const [token, setToken] = useState<ICompanyToken & IUserToken>();
   const [showSpinner, setShowSpinner] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [jobs, setJobs] = useState<IJobs[]>([]);
@@ -43,7 +44,7 @@ const Jobs: React.FC<IJob> = ({ status }) => {
       const tokenReal = JSON.parse(tokenObj!);
       setToken(tokenReal);
     }
-    ReactGA.event('/poslovi', {category: 'inicijalno_učitavanje_poslova', action: 'inicijalno učitavanje poslova', label: `${(state.user || token?._id) && state.fullname} ${(state.company || token?.company) && state.companyName} ${(!state.user || !token?._id) && (!state.company || !token?.company) && 'Anoniman korisnik'}`})
+    ReactGA.event('/poslovi', {category: 'inicijalno_učitavanje_poslova', action: 'inicijalno učitavanje poslova', label: `${(state.user || token?.user) ? (state.fullname || token?.user) : (state.company || token?.company) ? (state.companyName || token?.companyName) : 'Anoniman korisnik'}`})
   }, []);
 
   const getAllSelected = (filterOptions: IJobs[]) => {
