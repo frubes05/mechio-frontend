@@ -14,6 +14,7 @@ import Step4 from "../../components/Step4";
 import LoadingSpinner from "../../components/LoadingSpinner";
 
 import useFetch from "../../hooks/useFetch";
+import ReactGA from "react-ga4";
 
 const CompanyRegister = ({
   changeShowingForm,
@@ -40,6 +41,10 @@ const CompanyRegister = ({
         dispatch!({ type: "REGISTER", payload: { ...decoded } });
         localStorage.setItem("decodedToken", JSON.stringify(decoded));
         setStatus("Pending");
+        ReactGA.event("tvrtka_registracija", {
+          category: "tvrtka_registracija",
+          action: "Registracija tvrtke",
+        });
       }
     },
     onError: (error) => {

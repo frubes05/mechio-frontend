@@ -37,10 +37,10 @@ function App() {
   useEffect(() => {
     ReactGA.send("pageview");
 
-    ReactGA.event("initialLoad", {
-      category: "initialLoad",
-      action: "Load the initial page",
-    });
+    ReactGA.event('inicijalno_učitavanje', {
+      category: 'inicijalno_učitavanja',
+      action: 'Inicijalno učitavanje stranice'
+    })
   }, []);
 
   const getCompanies = useFetch({

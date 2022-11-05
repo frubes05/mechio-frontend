@@ -54,6 +54,10 @@ const UserRegister = ({
           JSON.stringify({ ...decoded, fullname })
         );
         setStatus("Pending");
+        ReactGA.event("korisnička_registracija", {
+          category: "korisnička_registracija",
+          action: "Nova Registracija",
+        });
       }
     },
     onError: (error) => {
