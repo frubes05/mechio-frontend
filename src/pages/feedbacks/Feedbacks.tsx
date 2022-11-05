@@ -45,7 +45,7 @@ const Feedbacks: React.FC<IFeedbacks> = ({ status }) => {
       const tokenReal = JSON.parse(tokenObj!);
       setToken(tokenReal);
     }
-    ReactGA.event('recenzije', {category: 'inicijalno__učitavanje', action: 'inicijalno učitavanje recenzija', label: `${(state.user || token?._id) && state.fullname} ${(state.company || token?.company) && state.companyName} ${(!state.user || !token?._id) && (!state.company || !token?.company) && 'Anoniman korisnik'}`})
+    ReactGA.event('/recenzije', {category: 'inicijalno_učitavanje_recenzija', action: 'inicijalno učitavanje recenzija', label: `${(state.user || token?._id) && state.fullname} ${(state.company || token?.company) && state.companyName} ${(!state.user || !token?._id) && (!state.company || !token?.company) && 'Anoniman korisnik'}`})
   }, []);
 
   const getAllSelected = (filterOptions: ICompany[]) => {

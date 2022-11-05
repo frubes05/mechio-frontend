@@ -139,7 +139,7 @@ const Navigation = () => {
                     ? "navbar__list-link--active navbar__list-link"
                     : "navbar__list-link"
                 }
-                onClick={() => ReactGA.event('recenzije', {category: 'Recenzije', action: 'Preusmjeravanje na recenzije'})}
+                onClick={() => ReactGA.event('/recenzije', {category: 'preusmjeravanje_na_recenzije', action: 'Preusmjeravanje na recenzije'})}
               >
                 Recenzije
               </NavLink>
@@ -152,7 +152,7 @@ const Navigation = () => {
                     ? "navbar__list-link--active navbar__list-link"
                     : "navbar__list-link"
                 }
-                onClick={() => ReactGA.event('poslovi', {category: 'Poslovi', action: 'Preusmjeravanje na poslove'})}
+                onClick={() => ReactGA.event('/poslovi', {category: 'preusmjeravanje_na_poslove', action: 'Preusmjeravanje na poslove'})}
               >
                 Poslovi
               </NavLink>

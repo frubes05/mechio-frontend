@@ -37,8 +37,8 @@ function App() {
   useEffect(() => {
     ReactGA.send("pageview");
 
-    ReactGA.event('inicijalno_učitavanje', {
-      category: 'inicijalno_učitavanja',
+    ReactGA.event('/', {
+      category: 'inicijalno_učitavanja_stranice',
       action: 'Inicijalno učitavanje stranice'
     })
   }, []);
