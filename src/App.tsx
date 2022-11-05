@@ -36,6 +36,11 @@ function App() {
 
   useEffect(() => {
     ReactGA.send('pageview');
+
+    ReactGA.event({
+      category: 'initialLoad',
+      action: 'Load the initial page'
+    })
   }, [])
 
   const getCompanies = useFetch({
