@@ -13,6 +13,9 @@ import { BsGearWideConnected } from "react-icons/bs";
 import { BiUserCircle } from "react-icons/bi";
 import { AiOutlineLogout } from "react-icons/ai";
 
+import ReactGA from 'react-ga4';
+import { isBoolean } from "util";
+
 const Navigation = () => {
   const { state, dispatch, setShowAll, showAll } = useContext(AuthContext);
   const [iconState, setIconState] = useState<boolean>(false);
@@ -28,6 +31,7 @@ const Navigation = () => {
   }, []);
 
   const logout = async () => {
+    ReactGA.event('logout', {category: 'logout', action: 'Odjava', label: state.user || token?.user || state.companyName || token?.companyName});
     setShowAll(false);
     const href = window.location.href.split("/");
     const location = href[href.length - 1];
@@ -135,6 +139,7 @@ const Navigation = () => {
                     ? "navbar__list-link--active navbar__list-link"
                     : "navbar__list-link"
                 }
+                onClick={() => ReactGA.event('recenzije', {category: 'Recenzije', action: 'Preusmjeravanje na recenzije'})}
               >
                 Recenzije
               </NavLink>
@@ -147,6 +152,7 @@ const Navigation = () => {
                     ? "navbar__list-link--active navbar__list-link"
                     : "navbar__list-link"
                 }
+                onClick={() => ReactGA.event('poslovi', {category: 'Poslovi', action: 'Preusmjeravanje na poslove'})}
               >
                 Poslovi
               </NavLink>
