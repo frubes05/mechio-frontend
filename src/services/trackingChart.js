@@ -31,6 +31,7 @@ export const formatBarChart = (data) => {
     elements,
     type: "line",
     xAxis: "name",
+    yAxis: 'Iznos',
     dataKey1: "prijava",
     dataKey2: "posjet",
   };
@@ -93,6 +94,7 @@ export const formatSpecificJobs = (data) => {
     elements,
     type: "bar",
     xAxis: "position",
+    yAxis: 'Iznos',
     dataKey1: "prijava",
     dataKey2: "posjet",
   };

@@ -83,7 +83,7 @@ const ChartsContainer: React.FC<IChartsData> = ({ data }) => {
                   <Label offset={0} position="insideBottom" />
                 </XAxis>
                 <YAxis
-                  label={{ value: "Iznos", angle: -90, position: "inside" }}
+                  label={{ value: formattedData[i].yAxis, angle: -90, position: "outside" }}
                 />
                 <Tooltip />
                 <Legend />
@@ -120,7 +120,7 @@ const ChartsContainer: React.FC<IChartsData> = ({ data }) => {
               >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey={formattedData[i].xAxis} />
-                <YAxis />
+                <YAxis label={{ value: formattedData[i].yAxis, angle: -90, position: "outside" }} />
                 <Tooltip />
                 <Legend verticalAlign="top" height={36} />
                 <Line

@@ -59,11 +59,8 @@
       }
 
       &--rte {
-        width: 100%;
-        @include normal-title-white;
-        font-style: italic;
-        opacity: 0.8;
-        margin: 0 0 20px 0 !important;
+        font-size: 28px;
+        font-weight: bold;
       }
     }
 
