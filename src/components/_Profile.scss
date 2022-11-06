@@ -1,197 +1,188 @@
 .profile {
-    background: radial-gradient(
-      198.57% 1678.87% at 20.74% 37.38%,
-      #3c4043 6.02%,
-      #00c6b4 100%
-    );
-
-    &__main {
-        &-title {
-            margin-bottom: 16px;
-            @include small-title;
-        }
+  &__main {
+    &-title {
+      @include small-title;
     }
+  }
 
-    &__container {
-        padding: 80px 0;
+  &__container {
+    padding: 80px 0;
+  }
+
+  &__style {
+    font-size: 14px;
+    font-weight: 300;
+    color: darkgray;
+    line-height: 20px;
+    font-style: italic;
+  }
+
+  &__img {
+    display: flex;
+    justify-content: flex-start;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+  }
+
+  img {
+    width: 100%;
+    max-width: 300px;
+    height: 300px;
+    object-fit: contain;
+  }
+
+  &__about {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    &-title {
+      display: flex;
+      flex-direction: column;
+
+      a {
+        font-weight: 400;
+        color: initial;
+      }
     }
+  }
 
-    &__style {
-        font-size: 14px;
-        font-weight: 300;
-        color: darkgray;
-        line-height: 20px;
+  &__article {
+    display: block;
+
+    &-edit {
+      display: flex;
+      justify-content: space-between;
+
+      button {
+        @include button;
+      }
+
+      &--rte {
+        width: 100%;
+        @include normal-title-white;
         font-style: italic;
+        opacity: 0.8;
+        margin: 0 0 20px 0 !important;
+      }
     }
 
-    &__img {
-        padding: 40px 0;
-        display: flex;
-        justify-content: center;
-        border-top: 1px solid white;
-        border-bottom: 1px solid white;
-        margin-bottom: 20px;
+    &-buttons {
+      padding: 20px 0 0;
+
+      button {
+        @include button-alt;
+        width: 100% !important;
+      }
     }
 
-    img {
-        width: 300px;
-        height: 300px;
-        object-fit: cover;
-        border-radius: 50%;
+    &-revert {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 20px;
+
+      button {
+        @include button;
+      }
     }
 
-    &__about {
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
+    .quill {
+      background-color: white;
+    }
+  }
 
-        &-title {
-            display: flex;
-            flex-direction: column;
+  &__info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 15px;
 
-            a {
-                font-weight: 400;
-                color: initial;
-            }
-        }
+    button {
+      @include button-alt-none;
+      font: 700 16px "Roboto", sans-serif !important;
+    }
+  }
+
+  &__aside {
+    display: block;
+    position: sticky;
+    top: 80px;
+
+    &--top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  &__delete {
+    display: flex;
+    justify-content: flex-end;
+
+    svg {
+      fill: rgb(147, 26, 26);
+      transition: all 0.2s ease-in-out;
     }
 
-    &__article {
+    &:hover {
+      svg {
+        fill: red;
+      }
+    }
+  }
+
+  &__applications {
+    &-application {
+      padding: 10px 0;
+
+      &:not(:first-of-type) {
+        border-top: 1px solid lightgrey;
+      }
+
+      a {
         display: block;
-        height: 100%;
-
-        &-edit {
-            display: flex;
-            justify-content: space-between;
-
-            button {
-                @include button;
-            }
-
-            &--rte {
-                width: 100%;
-                @include normal-title-white;
-                font-style: italic;
-                opacity: 0.8;
-                margin: 0 0 20px 0 !important;
-            }
-        }
-
-        &-buttons {
-            padding: 20px 0 0;
-
-            button {
-                @include button-alt;
-                width: 100% !important;
-            }
-        }
-
-        &-revert {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 20px;
-
-            button {
-                @include button;
-            }
-        }
-
-        .quill {
-            background-color: white;
-        }
-    }
-
-    &__info {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        gap: 20px;
-        padding-top: 20px;
-
-        button {
-            @include button;
-        }
-    }
-
-    &__aside {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    &__delete {
-        margin-top: 16px;
-
-        &--main {
-            @include button;
-            width: 100% !important;
-            background-color: red !important;
-
-            &:hover {
-                color: white !important;
-                opacity: 0.8;
-                background-color: red !important;
-            }
-        }
-
-        &--back {
-            @include button-alt;
-            width: 100% !important;
-        }
-    }
-
-    &__applications {
-        &-application {
-            padding: 10px 0;
-
-            &:not(:first-of-type) {
-                border-top: 1px solid lightgrey;
-            }
-
-            a {
-                display: block;
-                display: flex;
-                justify-content: flex-start;
-                align-items: center;
-                gap: 20px;
-                width: 100%;
-                color: inherit;
-            }
-
-            img {
-                height: 50px;
-                width: 50px;
-                object-fit: cover;
-                border-radius: 50%;
-            }
-
-            h3 {
-                font-size: 20px;
-                font-weight: 500;
-            }
-
-            p {
-                margin-left: auto;
-                font-size: 22px;
-                font-weight: 400;
-            }
-        }
-    }
-
-    &__row {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    &__cv {
         display: flex;
         justify-content: flex-start;
+        align-items: center;
+        gap: 20px;
+        width: 100%;
+        color: inherit;
+      }
 
-        svg {
-            fill: #dc4437;
-            height: 100px;
-            width: 100px;
-        }
+      img {
+        height: 50px;
+        width: 50px;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+
+      h3 {
+        font-size: 20px;
+        font-weight: 500;
+      }
+
+      p {
+        margin-left: auto;
+        font-size: 22px;
+        font-weight: 400;
+      }
     }
+  }
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__cv {
+    display: flex;
+    justify-content: flex-start;
+
+    svg {
+      fill: #dc4437;
+      height: 100px;
+      width: 100px;
+    }
+  }
 }

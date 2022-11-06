@@ -39,3 +39,22 @@
     border: 1px solid #3c4043;
   }
 }
+
+@mixin button-alt-none {
+  display: inline-block;
+  background: none;
+  font: 700 16px "Roboto", sans-serif;
+  color: #282828;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 0;
+  border: none !important;
+  width: fit-content !important;
+  box-shadow: none !important;
+  @content;
+
+  &:hover {
+    color: #00c6b4;
+    background-color: transparent !important;
+  }
+}

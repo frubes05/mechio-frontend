@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, {
+  useEffect,
+  useState,
+  useContext,
+  useRef,
+  LegacyRef,
+} from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import { Container, Col, Row, Button, Modal, Form } from "react-bootstrap";
@@ -12,12 +18,14 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import moment from "moment";
 import "moment/locale/hr";
 import { BsFillFilePdfFill } from "react-icons/bs";
+import { RiDeleteBin6Line } from "react-icons/ri";
 import ChartsContainer from "./ChartsContainer";
 
 const Profile = () => {
   moment().locale("hr");
   const params = useParams();
   const navigate = useNavigate();
+  const articleWidth = useRef<HTMLElement>() as LegacyRef<HTMLElement>;
   const { state, dispatch, showAll, setShowAll } = useContext(AuthContext);
   const [showApplication, setShowApplication] = useState<boolean>(false);
   const [showFeedbacks, setShowFeedbacks] = useState<boolean>(false);
@@ -394,86 +402,199 @@ const Profile = () => {
         {company && (
           <>
             <Row className="profile__row">
-              <Col sm={4} md={6} lg={6} xlg={6}>
+              <Col sm={4} md={4} lg={4}>
                 <aside className="profile__aside">
-                  <h2 className="profile__main-title">Vaš profil</h2>
-                  <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Control
-                      type="text"
-                      disabled
-                      value={company.companyName}
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Control
-                      type="text"
-                      disabled
-                      value={company.companyEmail}
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Control
-                      type="text"
-                      disabled
-                      value={company.companyNumber}
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Control
-                      type="text"
-                      disabled
-                      value={company.companyAddress}
-                    />
-                  </Form.Group>
-                  {(state._id === params.id || token?._id === params.id) && (
-                    <article className="profile__article">
-                      <div className="profile__article-edit">
-                        {!edit && (
-                          <Button
-                            variant="warning"
-                            onClick={() => setEdit(true)}
-                          >
-                            Dodajte nešto o tvrtki
-                          </Button>
-                        )}
-                      </div>
-                      {edit && (
+                  <div className="profile__aside--top">
+                    <h2 className="profile__main-title">Vaš profil</h2>
+                    <div className="profile__info">
+                      <Button
+                        disabled={companyJobs.length === 0}
+                        onClick={() => setShowJobs(true)}
+                      >
+                        Oglasi ({companyJobs.length})
+                      </Button>
+                      {showJobs && (
+                        <ModalForm
+                          title="Vaši oglasi"
+                          show={showJobs}
+                          setShow={setShowJobs}
+                          handleClose={() => setShowJobs(false)}
+                        >
+                          <ul className="profile__applications">
+                            {companyJobs.length > 0 &&
+                              companyJobs.map((job: any, i) => (
+                                <li
+                                  key={i}
+                                  className="profile__applications-application"
+                                >
+                                  <Link to={`/poslovi/${job._id}`}>
+                                    <h3>{job.position}</h3>
+                                    <p className="modal-date">
+                                      {job.location},{" "}
+                                      {moment(job.date.toString()).format("LL")}
+                                      .
+                                    </p>
+                                  </Link>
+                                </li>
+                              ))}
+                          </ul>
+                        </ModalForm>
+                      )}
+                      {(state._id === params.id ||
+                        token?._id === params.id) && (
                         <>
-                          <div className="profile__article-revert">
-                            <Button
-                              variant="secondary"
-                              size="sm"
-                              onClick={() => setEdit(!edit)}
+                          <Button
+                            disabled={companyJobApplications.length === 0}
+                            onClick={() => setShowJobApplicants(true)}
+                          >
+                            Prijavljeni ({companyJobApplications.length})
+                          </Button>
+                          {showJobApplicants && (
+                            <ModalForm
+                              title="Prijavljeni na oglase"
+                              show={showJobApplicants}
+                              setShow={setShowJobApplicants}
+                              handleClose={() => setShowJobApplicants(false)}
                             >
-                              Natrag
-                            </Button>
-                          </div>
-                          <Editor
-                            value={moreInformation}
-                            setValue={setMoreInformation}
-                          ></Editor>
-                          <div className="profile__article-buttons">
-                            <Button
-                              size="lg"
-                              onClick={() => {
-                                editProfileInformation.handleFetch(
-                                  `http://localhost:9000/profil/izmijeni/${params.id}`,
-                                  { companyDescription: moreInformation }
-                                );
-                                setEdit(false);
-                              }}
-                            >
-                              Potvrdite
-                            </Button>
-                          </div>
+                              <ul className="profile__applications">
+                                {companyJobApplications.length > 0 &&
+                                  companyJobApplications.map(
+                                    (applicant: any, i) => {
+                                      const allFromCompany =
+                                        applicant.applications.filter(
+                                          (application: any) =>
+                                            application.companyId === params.id
+                                        );
+                                      if (allFromCompany.length > 0) {
+                                        return allFromCompany.map(
+                                          (app: any) => (
+                                            <li
+                                              key={i}
+                                              className="profile__applications-application"
+                                            >
+                                              <Link
+                                                to={`/profil/${applicant._id}`}
+                                              >
+                                                <img
+                                                  src={`http://localhost:9000/${applicant.image}`}
+                                                />
+                                                <h3>{applicant.fullname}</h3>
+                                                <p className="modal-date">
+                                                  {app.position}
+                                                </p>
+                                              </Link>
+                                            </li>
+                                          )
+                                        );
+                                      }
+                                    }
+                                  )}
+                              </ul>
+                            </ModalForm>
+                          )}
                         </>
                       )}
-                    </article>
-                  )}
+                    </div>
+                  </div>
+                  <div className="profile__img">
+                    <img
+                      src={`http://localhost:9000/${company.companyImage}`}
+                      alt={"Image"}
+                    />
+                  </div>
+                  <article className="specificjob__article">
+                    <div className="specificjob__basic">
+                      <h2 className="specificjob__basic-info">
+                        <span>Tvrtka:</span>
+                        <span className="specificjob__company">
+                          {company.companyName}
+                        </span>
+                      </h2>
+                      <p className="specificjob__basic-info">
+                        <span>Email:</span>
+                        <span className="specificjob__seniority">
+                          {company.companyEmail}
+                        </span>
+                      </p>
+                      <p className="specificjob__basic-info">
+                        <span>Kontakt:</span>
+                        <span className="specificjob__pay">
+                          {company.companyNumber}
+                        </span>
+                      </p>
+                      <p className="specificjob__basic-info">
+                        <span>Adresa:</span>
+                        <span className="specificjob__pay">
+                          {company.companyAddress}
+                        </span>
+                      </p>
+                    </div>
+                  </article>
+                  <div className="profile__article-edit">
+                    {!edit && (
+                      <Button variant="warning" onClick={() => setEdit(true)}>
+                        Dodajte nešto o tvrtki
+                      </Button>
+                    )}
+                  </div>
                 </aside>
               </Col>
-              <Col sm={4} md={5} lg={5} xlg={5}>
-                {!moreInformation && !company.companyDescription && (
+              <Col sm={4} md={7} lg={7} xlg={7}>
+                {(state._id === params.id || token?._id === params.id) && (
+                  <article className="profile__article" ref={articleWidth}>
+                    <div className="profile__delete">
+                      {(state._id === params.id ||
+                        token?._id === params.id) && (
+                          <button
+                            className="specificjob-cta__delete"
+                            onClick={() => logout()}
+                          >
+                            <RiDeleteBin6Line />
+                          </button>
+                      )}
+                      {state._id !== params.id && token?._id !== params.id && (
+                        <Button
+                          className="profile__delete--back"
+                          onClick={() => navigate(-1)}
+                        >
+                          Natrag
+                        </Button>
+                      )}
+                    </div>
+                    {edit && (
+                      <>
+                        <div className="profile__article-revert">
+                          <Button
+                            variant="secondary"
+                            size="sm"
+                            onClick={() => setEdit(!edit)}
+                          >
+                            Natrag
+                          </Button>
+                        </div>
+                        <Editor
+                          value={moreInformation}
+                          setValue={setMoreInformation}
+                        ></Editor>
+                        <div className="profile__article-buttons">
+                          <Button
+                            size="lg"
+                            onClick={() => {
+                              editProfileInformation.handleFetch(
+                                `http://localhost:9000/profil/izmijeni/${params.id}`,
+                                { companyDescription: moreInformation }
+                              );
+                              setEdit(false);
+                            }}
+                          >
+                            Potvrdite
+                          </Button>
+                        </div>
+                      </>
+                    )}
+                  </article>
+                )}
+                {!edit && !moreInformation && !company.companyDescription && (
                   <div
                     className="profile__article-edit--rte"
                     dangerouslySetInnerHTML={{
@@ -481,7 +602,7 @@ const Profile = () => {
                     }}
                   />
                 )}
-                {moreInformation && (
+                {!edit && moreInformation && (
                   <div
                     className="profile__article-edit--rte"
                     dangerouslySetInnerHTML={{
@@ -489,7 +610,7 @@ const Profile = () => {
                     }}
                   />
                 )}
-                {company.companyDescription && !moreInformation && (
+                {!edit && company.companyDescription && !moreInformation && (
                   <div
                     className="profile__article-edit--rte"
                     dangerouslySetInnerHTML={{
@@ -497,119 +618,7 @@ const Profile = () => {
                     }}
                   />
                 )}
-                <div className="profile__img">
-                  <img
-                    src={`http://localhost:9000/${company.companyImage}`}
-                    alt={"Image"}
-                  />
-                </div>
-                <div className="profile__info">
-                  <Button
-                    disabled={companyJobs.length === 0}
-                    onClick={() => setShowJobs(true)}
-                  >
-                    Oglasi ({companyJobs.length})
-                  </Button>
-                  {showJobs && (
-                    <ModalForm
-                      title="Vaši oglasi"
-                      show={showJobs}
-                      setShow={setShowJobs}
-                      handleClose={() => setShowJobs(false)}
-                    >
-                      <ul className="profile__applications">
-                        {companyJobs.length > 0 &&
-                          companyJobs.map((job: any, i) => (
-                            <li
-                              key={i}
-                              className="profile__applications-application"
-                            >
-                              <Link to={`/poslovi/${job._id}`}>
-                                <h3>{job.position}</h3>
-                                <p className="modal-date">
-                                  {job.location},{" "}
-                                  {moment(job.date.toString()).format("LL")}.
-                                </p>
-                              </Link>
-                            </li>
-                          ))}
-                      </ul>
-                    </ModalForm>
-                  )}
-                  {(state._id === params.id || token?._id === params.id) && (
-                    <>
-                      <Button
-                        disabled={companyJobApplications.length === 0}
-                        onClick={() => setShowJobApplicants(true)}
-                      >
-                        Prijavljeni ({companyJobApplications.length})
-                      </Button>
-                      {showJobApplicants && (
-                        <ModalForm
-                          title="Prijavljeni na oglase"
-                          show={showJobApplicants}
-                          setShow={setShowJobApplicants}
-                          handleClose={() => setShowJobApplicants(false)}
-                        >
-                          <ul className="profile__applications">
-                            {companyJobApplications.length > 0 &&
-                              companyJobApplications.map(
-                                (applicant: any, i) => {
-                                  const allFromCompany =
-                                    applicant.applications.filter(
-                                      (application: any) =>
-                                        application.companyId === params.id
-                                    );
-                                  if (allFromCompany.length > 0) {
-                                    return allFromCompany.map((app: any) => (
-                                      <li
-                                        key={i}
-                                        className="profile__applications-application"
-                                      >
-                                        <Link to={`/profil/${applicant._id}`}>
-                                          <img
-                                            src={`http://localhost:9000/${applicant.image}`}
-                                          />
-                                          <h3>{applicant.fullname}</h3>
-                                          <p className="modal-date">
-                                            {app.position}
-                                          </p>
-                                        </Link>
-                                      </li>
-                                    ));
-                                  }
-                                }
-                              )}
-                          </ul>
-                        </ModalForm>
-                      )}
-                    </>
-                  )}
-                </div>
-                <div className="profile__delete">
-                  {(state._id === params.id || token?._id === params.id) && (
-                    <Button
-                      className="profile__delete--main"
-                      variant="danger"
-                      onClick={() => logout()}
-                    >
-                      Izbrišite profil
-                    </Button>
-                  )}
-                  {state._id !== params.id && token?._id !== params.id && (
-                    <Button
-                      className="profile__delete--back"
-                      onClick={() => navigate(-1)}
-                    >
-                      Natrag
-                    </Button>
-                  )}
-                </div>
-              </Col>
-            </Row>
-            <Row>
-              <Col lg={12} md={12}>
-                {trackingData && trackingData?.length > 0 && (
+                {!edit && trackingData && trackingData?.length > 0 && (
                   <ChartsContainer data={trackingData}></ChartsContainer>
                 )}
               </Col>
@@ -620,6 +629,75 @@ const Profile = () => {
       {getProfileInformation.status === "Pending" && (
         <LoadingSpinner></LoadingSpinner>
       )}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 2560 1440"
+        className="specificjob__svg"
+        width="2560"
+        height="1440"
+        preserveAspectRatio="xMidYMid slice"
+        style={{
+          width: "100%",
+          height: "100%",
+          transform: "translate3d(0px, 0px, 0px)",
+        }}
+      >
+        <defs>
+          <clipPath id="__lottie_element_2">
+            <rect width="2560" height="1440" x="0" y="0"></rect>
+          </clipPath>
+        </defs>
+        <g clipPath="url(#__lottie_element_2)">
+          <g
+            transform="matrix(3.3580501079559326,0,0,3.3580501079559326,1094.73828125,-278.769287109375)"
+            opacity="0.1"
+            style={{ display: "block" }}
+          >
+            <g
+              opacity="1"
+              transform="matrix(1,0,0,1,218.82699584960938,242.18699645996094)"
+            >
+              <path
+                fill="rgb(156,150,150)"
+                fillOpacity="1"
+                d=" M-218.822998046875,-87.19499969482422 C-218.822998046875,-87.19499969482422 -218.822998046875,87.19599914550781 -218.822998046875,87.19599914550781 C-218.822998046875,111.41699981689453 -205.9010009765625,133.79800415039062 -184.9250030517578,145.90899658203125 C-184.9250030517578,145.90899658203125 -33.89799880981445,233.10400390625 -33.89799880981445,233.10400390625 C-12.92199993133545,245.21499633789062 12.92199993133545,245.21499633789062 33.89899826049805,233.10400390625 C33.89899826049805,233.10400390625 184.9250030517578,145.90899658203125 184.9250030517578,145.90899658203125 C205.90199279785156,133.79800415039062 218.822998046875,111.41699981689453 218.822998046875,87.19599914550781 C218.822998046875,87.19599914550781 218.822998046875,-87.19499969482422 218.822998046875,-87.19499969482422 C218.822998046875,-111.41600036621094 205.90199279785156,-133.79800415039062 184.9250030517578,-145.9080047607422 C184.9250030517578,-145.9080047607422 33.89899826049805,-233.10400390625 33.89899826049805,-233.10400390625 C12.92199993133545,-245.21499633789062 -12.92199993133545,-245.21499633789062 -33.89799880981445,-233.10400390625 C-33.89799880981445,-233.10400390625 -184.9250030517578,-145.9080047607422 -184.9250030517578,-145.9080047607422 C-205.9010009765625,-133.79800415039062 -218.822998046875,-111.41600036621094 -218.822998046875,-87.19499969482422z"
+              ></path>
+            </g>
+          </g>
+          <g
+            transform="matrix(1.0870699882507324,0,0,1.0870699882507324,762.3887939453125,666.703125)"
+            opacity="0.1"
+            style={{ display: "block" }}
+          >
+            <g
+              opacity="1"
+              transform="matrix(1,0,0,1,218.82699584960938,242.18699645996094)"
+            >
+              <path
+                fill="rgb(156,150,150)"
+                fillOpacity="1"
+                d=" M-218.822998046875,-87.19499969482422 C-218.822998046875,-87.19499969482422 -218.822998046875,87.19599914550781 -218.822998046875,87.19599914550781 C-218.822998046875,111.41699981689453 -205.9010009765625,133.79800415039062 -184.9250030517578,145.90899658203125 C-184.9250030517578,145.90899658203125 -33.89799880981445,233.10400390625 -33.89799880981445,233.10400390625 C-12.92199993133545,245.21499633789062 12.92199993133545,245.21499633789062 33.89899826049805,233.10400390625 C33.89899826049805,233.10400390625 184.9250030517578,145.90899658203125 184.9250030517578,145.90899658203125 C205.90199279785156,133.79800415039062 218.822998046875,111.41699981689453 218.822998046875,87.19599914550781 C218.822998046875,87.19599914550781 218.822998046875,-87.19499969482422 218.822998046875,-87.19499969482422 C218.822998046875,-111.41600036621094 205.90199279785156,-133.79800415039062 184.9250030517578,-145.9080047607422 C184.9250030517578,-145.9080047607422 33.89899826049805,-233.10400390625 33.89899826049805,-233.10400390625 C12.92199993133545,-245.21499633789062 -12.92199993133545,-245.21499633789062 -33.89799880981445,-233.10400390625 C-33.89799880981445,-233.10400390625 -184.9250030517578,-145.9080047607422 -184.9250030517578,-145.9080047607422 C-205.9010009765625,-133.79800415039062 -218.822998046875,-111.41600036621094 -218.822998046875,-87.19499969482422z"
+              ></path>
+            </g>
+          </g>
+          <g
+            transform="matrix(0.34793999791145325,0,0,0.34793999791145325,2475.351806640625,615.2410888671875)"
+            opacity="0.1"
+            style={{ display: "block" }}
+          >
+            <g
+              opacity="1"
+              transform="matrix(1,0,0,1,218.82699584960938,242.18699645996094)"
+            >
+              <path
+                fill="rgb(156,150,150)"
+                fillOpacity="1"
+                d=" M-218.822998046875,-87.19499969482422 C-218.822998046875,-87.19499969482422 -218.822998046875,87.19599914550781 -218.822998046875,87.19599914550781 C-218.822998046875,111.41699981689453 -205.9010009765625,133.79800415039062 -184.9250030517578,145.90899658203125 C-184.9250030517578,145.90899658203125 -33.89799880981445,233.10400390625 -33.89799880981445,233.10400390625 C-12.92199993133545,245.21499633789062 12.92199993133545,245.21499633789062 33.89899826049805,233.10400390625 C33.89899826049805,233.10400390625 184.9250030517578,145.90899658203125 184.9250030517578,145.90899658203125 C205.90199279785156,133.79800415039062 218.822998046875,111.41699981689453 218.822998046875,87.19599914550781 C218.822998046875,87.19599914550781 218.822998046875,-87.19499969482422 218.822998046875,-87.19499969482422 C218.822998046875,-111.41600036621094 205.90199279785156,-133.79800415039062 184.9250030517578,-145.9080047607422 C184.9250030517578,-145.9080047607422 33.89899826049805,-233.10400390625 33.89899826049805,-233.10400390625 C12.92199993133545,-245.21499633789062 -12.92199993133545,-245.21499633789062 -33.89799880981445,-233.10400390625 C-33.89799880981445,-233.10400390625 -184.9250030517578,-145.9080047607422 -184.9250030517578,-145.9080047607422 C-205.9010009765625,-133.79800415039062 -218.822998046875,-111.41600036621094 -218.822998046875,-87.19499969482422z"
+              ></path>
+            </g>
+          </g>
+        </g>
+      </svg>
     </section>
   );
 };
