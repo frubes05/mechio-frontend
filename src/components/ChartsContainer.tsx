@@ -36,7 +36,6 @@ const ChartsContainer: React.FC<IChartsData> = ({ data }) => {
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="position">
                 <Label
-                  value="Ukupne dnevne prijave i posjeti na oglase"
                   offset={0}
                   position="insideBottom"
                 />

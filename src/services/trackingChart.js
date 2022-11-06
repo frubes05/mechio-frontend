@@ -58,7 +58,6 @@ export const formatSpecificJobs = (data) => {
         date: moment(elem.date).format("DD.MM.YYYY"),
       };
     });
-    console.log(elements);
     elements = elements.map(el => {
       return {
         name: el.jobId,
@@ -67,7 +66,7 @@ export const formatSpecificJobs = (data) => {
         prijava: elements.filter(elem =>  elem.jobId === el.jobId && elem.action === 'Prijava').length
       }
     });
-    elements = removeDuplicates(elements, 'jobId');
+    elements = removeDuplicates(elements, 'name');
     return elements;
 }
 

@@ -146,6 +146,7 @@ const SpecificJob: React.FC<ICompanies> = ({
         userId: user,
         userLocation: 'Zagreb',
         jobId: params.id,
+        jobPosition: job?.position,
         date: new Date()
       })
     }
