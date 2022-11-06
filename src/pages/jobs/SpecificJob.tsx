@@ -36,7 +36,7 @@ const SpecificJob: React.FC<ICompanies> = ({
   const navigate = useNavigate();
 
   const fetchSpecificJob = useFetch({
-    url: `https://mechio-api-test.onrender.com/poslovi/${params.id}`,
+    url: `http://localhost:9000/poslovi/${params.id}`,
     method: "get",
     onSuccess: (data) => {
       setJob(data);
@@ -45,7 +45,7 @@ const SpecificJob: React.FC<ICompanies> = ({
   });
 
   const deleteSpecificJob = useFetch({
-    url: `https://mechio-api-test.onrender.com/poslovi/izbrisi-oglas/${params.id}`,
+    url: `http://localhost:9000/poslovi/izbrisi-oglas/${params.id}`,
     method: "delete",
     onSuccess: (data) => {
       toast.success("Oglas uspjesno obrisan", { autoClose: 3000 });
@@ -61,7 +61,7 @@ const SpecificJob: React.FC<ICompanies> = ({
   });
 
   const admitToSpecificJob = useFetch({
-    url: `https://mechio-api-test.onrender.com/poslovi/prijava/${params.id}`,
+    url: `http://localhost:9000/poslovi/prijava/${params.id}`,
     method: "post",
     onSuccess: (data) => {
       data.message !== 200
@@ -75,6 +75,17 @@ const SpecificJob: React.FC<ICompanies> = ({
     },
   });
 
+  const trackAdmitance = useFetch({
+    url: `http://localhost:9000/analitika`,
+    method: 'post',
+    onSuccess: (data) => {
+      return;
+    },
+    onError: (data) => {
+      return;
+    }
+  });
+
   useEffect(() => {
     if (localStorage.getItem("decodedToken")) {
       const tokenObj = localStorage.getItem("decodedToken");
@@ -86,16 +97,27 @@ const SpecificJob: React.FC<ICompanies> = ({
   const sendApplication = (e: React.FormEvent) => {
     setShowing(!showing);
     admitToSpecificJob.handleFetch(
-      `https://mechio-api-test.onrender.com/poslovi/prijava/${params.id}`,
+      `http://localhost:9000/poslovi/prijava/${params.id}`,
       {
         userId: state._id || token?._id,
       }
     );
+    trackAdmitance.handleFetch('http://localhost:9000/analitika', {
+      action: 'Prijava',
+      category: 'Posao',
+      companyId: job?.companyId,
+      isEmployed: false,
+      isRegistered: true,
+      userId: state._id || token?._id,
+      userLocation: 'Zagreb',
+      jobId: params.id,
+      date: new Date()
+    })
   };
 
   const handleDelete = () => {
     deleteSpecificJob.handleFetch(
-      `https://mechio-api-test.onrender.com/poslovi/izbrisi-oglas/${params.id}`
+      `http://localhost:9000/poslovi/izbrisi-oglas/${params.id}`
     );
     setStatus('Pending');
     }
@@ -108,6 +130,25 @@ const SpecificJob: React.FC<ICompanies> = ({
           job?.companyId === company._id
       )
     : null;
+
+  
+  useEffect(() => {
+   const user = (state._id || token?._id) ?? 'null';
+    
+    if (job) {
+      trackAdmitance.handleFetch('http://localhost:9000/analitika', {
+        action: 'Posjet',
+        category: 'Posao',
+        companyId: job.companyId,
+        isEmployed: false,
+        isRegistered: !!(state._id || token?._id),
+        userId: user,
+        userLocation: 'Zagreb',
+        jobId: params.id,
+        date: new Date()
+      })
+    }
+  }, [job]);
 
   return (
     <>
@@ -122,7 +163,7 @@ const SpecificJob: React.FC<ICompanies> = ({
                   className="specificjob__img"
                 >
                   <img
-                    src={"https://mechio-api-test.onrender.com/" + job?.companyImage}
+                    src={"http://localhost:9000/" + job?.companyImage}
                     alt={job?.company}
                   />
                 </Link>

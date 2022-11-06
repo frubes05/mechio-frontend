@@ -10,7 +10,7 @@ const FeedbackCompany: React.FC<{ company: ICompany }> = ({ company }) => {
   const [companyFeedbacksLength, setCompanyFeedbacksLength] = useState<number | null>(null);
   
   const getFeedbacks = useFetch({
-    url: `https://mechio-api-test.onrender.com/recenzije/${company._id}`,
+    url: `http://localhost:9000/recenzije/${company._id}`,
     method: "get",
     onSuccess: (data: any) => {
       setCompanyFeedbacksLength(data.length);
@@ -27,7 +27,7 @@ const FeedbackCompany: React.FC<{ company: ICompany }> = ({ company }) => {
               <img
                 className="jobs__card-image"
                 src={
-                  "https://mechio-api-test.onrender.com/" + company.companyImage
+                  "http://localhost:9000/" + company.companyImage
                 }
               />
               <span className="jobs__card-pill">

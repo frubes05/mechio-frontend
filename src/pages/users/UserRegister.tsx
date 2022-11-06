@@ -30,7 +30,7 @@ const UserRegister = ({
 
   const checkUser = useFetch({
     url: email.current
-      ? `https://mechio-api-test.onrender.com/posloprimci/odredeni-posloprimac/${
+      ? `http://localhost:9000/posloprimci/odredeni-posloprimac/${
           email.current!.value
         }`
       : "",
@@ -42,7 +42,7 @@ const UserRegister = ({
   });
 
   const registerUser = useFetch({
-    url: `https://mechio-api-test.onrender.com/posloprimci/novi-posloprimac`,
+    url: `http://localhost:9000/posloprimci/novi-posloprimac`,
     method: "post",
     onSuccess: (data) => {
       if (data.token) {
@@ -72,7 +72,7 @@ const UserRegister = ({
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     await checkUser.handleFetch(
-      `https://mechio-api-test.onrender.com/posloprimci/odredeni-posloprimac/${
+      `http://localhost:9000/posloprimci/odredeni-posloprimac/${
         email.current!.value
       }`
     );
@@ -90,7 +90,7 @@ const UserRegister = ({
       if (image) formData.append("image", image);
 
       await registerUser.handleFetch(
-        "https://mechio-api-test.onrender.com/posloprimci/novi-posloprimac",
+        "http://localhost:9000/posloprimci/novi-posloprimac",
         formData
       );
     } catch (error) {}
