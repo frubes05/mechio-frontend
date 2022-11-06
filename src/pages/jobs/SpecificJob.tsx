@@ -136,7 +136,7 @@ const SpecificJob: React.FC<ICompanies> = ({
   useEffect(() => {
    const user = (state._id || token?._id) ?? 'null';
     
-    if (job) {
+    if (job && (state._id || token?._id) !== job.companyId ) {
       trackAdmitance.handleFetch('http://localhost:9000/analitika', {
         action: 'Posjet',
         category: 'Posao',

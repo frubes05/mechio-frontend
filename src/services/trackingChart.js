@@ -1,13 +1,15 @@
 const moment = require("moment");
 
 export const formatBarChart = (data) => {
-  let elements = data
+  let elements = data.sort((date1, date2) => date1.date - date2.date);
+  elements = elements
     .map((elem) => {
       return {
         ...elem,
         date: moment(elem.date).format("DD.MM.YYYY"),
       };
     })
+    .sort((date1, date2) => date1.date - date2.date)
     .filter((c) => c.companyId !== c.userId)
     .map((el) => {
       return {
@@ -26,14 +28,15 @@ export const formatBarChart = (data) => {
       name: el.date,
     };
   });
-  elements = removeDuplicates(elements, "date");
+  elements = removeDuplicates(elements, "name");
   return {
     elements,
     type: "line",
     xAxis: "name",
-    yAxis: 'Iznos po danima',
+    yAxis: "Iznos po danima",
     dataKey1: "prijava",
     dataKey2: "posjet",
+    singleBar: false,
   };
 };
 
@@ -46,27 +49,25 @@ export const formatPieChart = (data) => {
       };
     })
     .filter((c) => c.action === "Posjet");
+  const nonUserLength = elements.filter(el => el.userId === 'null').length;
   elements = elements.map((el) => {
     return {
       registriran: elements.filter((element) => element.isRegistered).length,
-      neregistriran: elements.filter((element) => !element.isRegistered).length,
-      name: "Registriran",
+      neregistriran: elements.filter((element) => !element.isRegistered && element.userId !== 'null').length + nonUserLength,
+      name: "registriran",
     };
   });
   elements = removeDuplicates(elements, "registriran");
-  elements = makeSpecificArr(elements, 'registriran', 'neregistriran');
-  return { elements, type: "pie" };
+  return {
+    elements,
+    type: "bar",
+    xAxis: "name",
+    yAxis: "Broj posjeta korisnika",
+    dataKey1: "registriran",
+    dataKey2: "neregistriran",
+    singleBar: false,
+  };
 };
-
-const makeSpecificArr = (arr, first, second) => {
-  return [{
-    name: first,
-    value: arr[0][`${first}`]
-  }, {
-    name: second,
-    value: arr[0][`${second}`]
-  }]
-}
 
 export const formatSpecificJobs = (data) => {
   let elements = data
@@ -94,10 +95,52 @@ export const formatSpecificJobs = (data) => {
     elements,
     type: "bar",
     xAxis: "position",
-    yAxis: 'Iznos po oglasima',
+    yAxis: "Iznos po oglasima",
     dataKey1: "prijava",
     dataKey2: "posjet",
+    singleBar: false,
   };
+};
+
+export const formatSpecificLocation = (data) => {
+  let elements = data
+    .map((elem) => {
+      return {
+        ...elem,
+        date: moment(elem.date).format("DD.MM.YYYY"),
+      };
+    })
+    .filter((c) => c.companyId !== c.userId && c.action === "Prijava");
+  elements = elements.map((el) => {
+    return {
+      name: el.jobId,
+      lokacija: el.userLocation,
+      iznos: elements.filter((elem) => elem.userLocation === el.userLocation)
+        .length,
+    };
+  });
+  elements = removeDuplicates(elements, "name");
+  return {
+    elements,
+    type: "bar",
+    xAxis: "lokacija",
+    yAxis: "Lokacije prijavljenih",
+    dataKey1: "iznos",
+    singleBar: true,
+  };
+};
+
+const makeSpecificArr = (arr, first, second) => {
+  return [
+    {
+      name: first,
+      value: arr[0][`${first}`],
+    },
+    {
+      name: second,
+      value: arr[0][`${second}`],
+    },
+  ];
 };
 
 const removeDuplicates = (data, filter) => {

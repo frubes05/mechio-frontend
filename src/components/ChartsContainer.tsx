@@ -4,6 +4,7 @@ import {
   formatBarChart,
   formatPieChart,
   formatSpecificJobs,
+  formatSpecificLocation
 } from "../services/trackingChart";
 import {
   Cell,
@@ -64,6 +65,7 @@ const ChartsContainer: React.FC<IChartsData> = ({ data }) => {
     setFormattedData((prev: any[]) => [...prev, formatBarChart(data)]);
     setFormattedData((prev: any[]) => [...prev, formatSpecificJobs(data)]);
     setFormattedData((prev: any[]) => [...prev, formatPieChart(data)]);
+    setFormattedData((prev: any[]) => [...prev, formatSpecificLocation(data)])
   }, []);
 
   return (
@@ -82,13 +84,19 @@ const ChartsContainer: React.FC<IChartsData> = ({ data }) => {
                 <XAxis dataKey={formattedData[i].xAxis}>
                   <Label offset={0} position="insideBottom" />
                 </XAxis>
-                <YAxis
-                  label={{ value: formattedData[i].yAxis, angle: -90, position: "outside" }}
-                />
+                {formattedData[i].yAxis && <YAxis
+                  label={{
+                    value: formattedData[i].yAxis,
+                    angle: -90,
+                    position: "outside",
+                  }}
+                />}
                 <Tooltip />
                 <Legend />
                 <Bar dataKey={formattedData[i].dataKey1} fill="#3c4043" />
-                <Bar dataKey={formattedData[i].dataKey2} fill="#00c6b4" />
+                {!formattedData[i].singleBar && (
+                  <Bar dataKey={formattedData[i].dataKey2} fill="#00c6b4" />
+                )}
               </BarChart>
             );
           } else if (formattedData[i].type === "pie") {
@@ -103,9 +111,14 @@ const ChartsContainer: React.FC<IChartsData> = ({ data }) => {
                   labelLine={false}
                   label={renderCustomizedLabel}
                 />
-                <Legend verticalAlign="bottom" height={20}/>
+                <Legend verticalAlign="bottom" height={20} />
                 {formatData.elements.map((entry: any, index: number) => {
-                  return <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />;
+                  return (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
+                  );
                 })}
                 <Tooltip />
               </PieChart>
@@ -120,7 +133,13 @@ const ChartsContainer: React.FC<IChartsData> = ({ data }) => {
               >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey={formattedData[i].xAxis} />
-                <YAxis label={{ value: formattedData[i].yAxis, angle: -90, position: "outside" }} />
+                <YAxis
+                  label={{
+                    value: formattedData[i].yAxis,
+                    angle: -90,
+                    position: "outside",
+                  }}
+                />
                 <Tooltip />
                 <Legend verticalAlign="top" height={36} />
                 <Line

@@ -531,11 +531,19 @@ const Profile = () => {
                     </div>
                   </article>
                   <div className="profile__article-edit">
-                    {!edit && (
+                    {!edit && (state._id === params.id || token?._id === params.id) && (
                       <Button variant="warning" onClick={() => setEdit(true)}>
                         Dodajte nešto o tvrtki
                       </Button>
                     )}
+                    {state._id !== params.id && token?._id !== params.id && (
+                        <Button
+                          className="profile__delete--back"
+                          onClick={() => navigate(-1)}
+                        >
+                          Natrag
+                        </Button>
+                      )}
                   </div>
                 </aside>
               </Col>
@@ -618,7 +626,7 @@ const Profile = () => {
                     }}
                   />
                 )}
-                {!edit && trackingData && trackingData?.length > 0 && (
+                {!edit && (state._id === params.id || token?._id === params.id) && trackingData?.length > 0 && (
                   <ChartsContainer data={trackingData}></ChartsContainer>
                 )}
               </Col>
