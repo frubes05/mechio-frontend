@@ -26,7 +26,7 @@ export const formatBarChart = (data) => {
       date: el.date,
     };
   });
-  elements = removeDuplicates(elements);
+  elements = removeDuplicates(elements, 'date');
   return elements;
 };
 
@@ -46,13 +46,35 @@ export const formatPieChart = (data) => {
         name: 'Registriran',
       };
     });
+    elements = removeDuplicates(elements, 'registriran');
     return elements;
 }
 
-const removeDuplicates = (data) => {
+export const formatSpecificJobs = (data) => {
+  let elements = data
+    .map((elem) => {
+      return {
+        ...elem,
+        date: moment(elem.date).format("DD.MM.YYYY"),
+      };
+    });
+    console.log(elements);
+    elements = elements.map(el => {
+      return {
+        name: el.jobId,
+        position: el.jobPosition,
+        posjet: elements.filter(elem =>  elem.jobId === el.jobId && elem.action === 'Posjet').length,
+        prijava: elements.filter(elem =>  elem.jobId === el.jobId && elem.action === 'Prijava').length
+      }
+    });
+    elements = removeDuplicates(elements, 'jobId');
+    return elements;
+}
+
+const removeDuplicates = (data, filter) => {
   const container = [];
   data.forEach((element) => {
-    const exists = container.find((el) => el.date === element.date);
+    const exists = container.find((el) => el[filter] === element[filter]);
     if (exists) {
       return;
     } else {
