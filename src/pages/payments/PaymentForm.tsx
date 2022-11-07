@@ -10,7 +10,7 @@ import { ICompanyToken } from "../companies/Company.types";
 
 
 const Payments = () => {
-  const [success, setSuccess] = useState(false);
+  const [success, setSuccess] = useState<boolean>(false);
   const [token, setToken] = useState<(ICompanyToken & IUserToken) | null>(null);
   const { state } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -63,7 +63,6 @@ const Payments = () => {
     }
   };
 
-  console.log(state, token);
 
   return <>
       {getPayment.status === 'Pending' && <LoadingSpinner></LoadingSpinner>}

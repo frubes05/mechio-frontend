@@ -15,6 +15,7 @@ export interface ICompanyToken {
     companyName: string | number | readonly string[] | undefined,
     companyEmail: String,
     company?: Boolean
+    companyPremium: Boolean
 }
 
 export interface IFormSwitch {

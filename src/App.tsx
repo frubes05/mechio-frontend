@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/home/Home";
 import Navigation from "./components/Navigation";
 import Jobs from "./pages/jobs/Jobs";
@@ -21,6 +21,9 @@ import useFetch from "./hooks/useFetch";
 import SpecificFeedback from "./pages/feedbacks/SpecificFeedback";
 import Profile from "./components/Profile";
 import ReactGA from "react-ga4";
+import { IUserToken } from "./pages/users/User.types";
+import { ICompanyToken } from "./pages/companies/Company.types";
+import { AuthContext } from "./context/AuthContext";
 
 declare global {
   interface Window {
@@ -34,6 +37,16 @@ function App() {
   const [companies, setCompanies] = useState<ICompany[] | []>([]);
   const [jobs, setJobs] = useState<[] | IJobs[]>([]);
   const [refetch, setRefetch] = useState<boolean>(false);
+  const { state } = useContext(AuthContext);
+  const [token, setToken] = useState<(ICompanyToken & IUserToken) | null>(null);
+
+  useEffect(() => {
+    if (localStorage.getItem("decodedToken")) {
+      const tokenObj = localStorage.getItem("decodedToken");
+      const tokenReal = JSON.parse(tokenObj!);
+      setToken(tokenReal);
+    }
+  }, []);
 
   useEffect(() => {
     ReactGA.send("pageview");
@@ -121,7 +134,7 @@ function App() {
           element={<SpecificFeedback></SpecificFeedback>}
         ></Route>
         <Route path="/profil/:id" element={<Profile></Profile>} />
-        <Route path='/placanje' element={<Payments></Payments>} />
+        {(state.company || token?.company) ? <Route path='/placanje' element={<Payments></Payments>} /> : <Route path="*" element={<Navigate to={'/'} />}/>}
       </Routes>
       <Footer></Footer>
     </>

@@ -3,14 +3,14 @@ import { Button, Modal } from "react-bootstrap";
 import ModalForm from "../../components/Modal";
 import StripeContainer from "./StripeContainer";
 
-const Payment: React.FC<{ option: string }> = ({ option }) => {
+const Payment: React.FC<{ option: string, isSelected: boolean }> = ({ option, isSelected }) => {
   const [show, setShow] = useState<boolean>(false);
 
   const handleClose = () => setShow(false);
 
   return (
     <>
-    <Button className="payments__payment" onClick={() => option === 'premium' ? setShow(true) : setShow(false)}>
+    <Button className={`payments__payment ${isSelected ? 'payments__payment--selected' : ''}`} onClick={() => option === 'premium' ? setShow(true) : setShow(false)}>
       {option === "standard" && (
         <>
           <span className="payments__pill">Standard</span>
