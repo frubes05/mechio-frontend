@@ -63,6 +63,8 @@ const Payments = () => {
     }
   };
 
+  console.log(state, token);
+
   return <>
       {getPayment.status === 'Pending' && <LoadingSpinner></LoadingSpinner>}
       <ToastContainer position="top-center" autoClose={3000} />

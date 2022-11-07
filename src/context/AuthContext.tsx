@@ -4,6 +4,7 @@ const initialState = {
   state: {
       companyEmail: '',
       companyName: '',
+      companyPremium: false,
       _id: '',
       email: '',
       fullname: '',
@@ -23,6 +24,7 @@ type Company = {
   companyEmail: String;
   companyName: String;
   company?: boolean;
+  companyPremium: boolean;
 }
 
 type User = {
@@ -84,6 +86,7 @@ const AuthContextProvider = ({ children }: Children) => {
     const [state, dispatch] = useReducer(AuthContextReducer, {
         companyEmail: '',
         companyName: '',
+        companyPremium: false,
         _id: '',
         email: '',
         fullname: '',

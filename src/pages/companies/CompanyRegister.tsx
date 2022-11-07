@@ -38,7 +38,7 @@ const CompanyRegister = ({
       if (data.token) {
         handleToastSuccess!(data.message);
         const decoded: any = jwt_decode(data.token);
-        dispatch!({ type: "REGISTER", payload: { ...decoded } });
+        dispatch!({ type: "REGISTER", payload: { ...decoded, companyPremium: JSON.parse(decoded.companyPremium) } });
         localStorage.setItem("decodedToken", JSON.stringify(decoded));
         setStatus("Pending");
         ReactGA.event("tvrtka_registracija", {
