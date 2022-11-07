@@ -29,9 +29,9 @@ const Payments = () => {
     url: 'http://localhost:9000/placanja',
     method: 'post',
     onSuccess: (data) => {
+      toast.success('Odabrali ste premium paket!', { autoClose: 1000 });
       if (data.success) setSuccess(true);
       navigate('/poslovi');
-      toast.success('Odabrali ste premium paket!', { autoClose: 1000 });
     },
     onError: (err) => {
       console.log(err);
@@ -52,6 +52,7 @@ const Payments = () => {
           await getPayment.handleFetch(`http://localhost:9000/placanja`, {
             amount: 1000,
             id,
+            companyId: (state._id || token?._id)
           });
         }
       } catch (error) {

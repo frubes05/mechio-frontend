@@ -67,6 +67,7 @@ const CompanyRegister = ({
       formData.append("companyEmail", companyEmail);
       formData.append("companyPassword", companyPassword);
       formData.append("companyDescription", companyDescription);
+      formData.append("companyPremium", 'false');
       if (companyImage) formData.append("image", companyImage);
       await registerCompany.handleFetch(
         "http://localhost:9000/poslodavci/novi-poslodavac",
