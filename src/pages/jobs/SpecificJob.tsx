@@ -42,6 +42,7 @@ const SpecificJob: React.FC<ICompanies> = ({
       setJob(data);
     },
     onError: (error) => {},
+    onInit: true
   });
 
   const deleteSpecificJob = useFetch({
@@ -58,6 +59,7 @@ const SpecificJob: React.FC<ICompanies> = ({
     onError: (error) => {
       toast.error("Došlo je do pogrješke", { autoClose: 3000 });
     },
+    onInit: true
   });
 
   const admitToSpecificJob = useFetch({
@@ -73,6 +75,7 @@ const SpecificJob: React.FC<ICompanies> = ({
     onError: (error) => {
       toast.error("Došlo je do pogrješke", { autoClose: 3000 });
     },
+    onInit: true
   });
 
   const trackAdmitance = useFetch({
@@ -83,7 +86,8 @@ const SpecificJob: React.FC<ICompanies> = ({
     },
     onError: (data) => {
       return;
-    }
+    },
+    onInit: true
   });
 
   useEffect(() => {

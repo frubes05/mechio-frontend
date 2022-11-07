@@ -7,10 +7,10 @@ interface IFetch {
     method: 'get' | 'post' | 'put' | 'delete'
     onSuccess: (response: any) => void;
     onError: (response: any) => void;
-    onLoad?: true
+    onInit: boolean
 }
 
-const useFetch = ({url, method, onSuccess, onError, onLoad = true}: IFetch) => {
+const useFetch = ({url, method, onSuccess, onError, onInit}: IFetch) => {
   const [data, setData] = useState<any>(null);
   const [status, setStatus] = useState<string>('Starting...');
   const [code, setCode] = useState<null | number>(null);
@@ -30,10 +30,10 @@ const useFetch = ({url, method, onSuccess, onError, onLoad = true}: IFetch) => {
   }, [error])
 
   useEffect(() => {
-    if (method === 'get' && !url?.includes('undefined') && onLoad) {
+    if (onInit && method === 'get') {
       handleFetch(url);
     }
-  }, [])
+  }, [onInit])
 
   const handleFetch = (url: any, payload?: any) => {
     setStatus('Pending');

@@ -73,6 +73,7 @@ const SpecificFeedback = () => {
       setCompany(data);
     },
     onError: (error: any) => {},
+    onInit: true
   });
 
   const getFeedbacks = useFetch({
@@ -82,6 +83,7 @@ const SpecificFeedback = () => {
       setAllFeedbacks(data);
     },
     onError: (error: any) => {},
+    onInit: true
   });
 
   const submitFeedback = useFetch({
@@ -92,6 +94,7 @@ const SpecificFeedback = () => {
       GTMTrackingHelper('Klik', 'Dodana recenzija', 'Recenzije', `${company?.companyName}`, null)
     },
     onError: (error: any) => {},
+    onInit: true
   });
 
   const deleteFeedback = useFetch({
@@ -102,6 +105,7 @@ const SpecificFeedback = () => {
       );
     },
     onError: (error: any) => {},
+    onInit: true
   });
 
   const handleShow = () => setShow(true);

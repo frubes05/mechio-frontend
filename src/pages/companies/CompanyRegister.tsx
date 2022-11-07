@@ -54,6 +54,7 @@ const CompanyRegister = ({
         setStatus("Fullfilled");
       }, 3000);
     },
+    onInit: true
   });
 
   const submitHandler = async (e: React.FormEvent) => {

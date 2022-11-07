@@ -21,7 +21,8 @@ const Job: FC<IJob> = ({ job }) => {
       setCompanies(data);
     },
     onError: (error) => {
-    }
+    },
+    onInit: true
   })
 
   return (

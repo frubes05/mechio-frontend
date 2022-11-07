@@ -50,6 +50,7 @@ function App() {
       setCompanies(data);
     },
     onError: (error) => {},
+    onInit: true
   });
 
   const getJobs = useFetch({
@@ -59,6 +60,7 @@ function App() {
       setJobs(data);
     },
     onError: (error) => {},
+    onInit: true
   });
 
   useEffect(() => {

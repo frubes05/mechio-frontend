@@ -41,6 +41,7 @@ const ChangeJob: React.FC<IChangeJob> = ({ setRefetch }) => {
       }
     },
     onError: (error) => {},
+    onInit: true
   });
 
   const changeJob = useFetch({
@@ -57,6 +58,7 @@ const ChangeJob: React.FC<IChangeJob> = ({ setRefetch }) => {
     onError: (error) => {
       toast.error("Došlo je do pogrješke", { autoClose: 3000 });
     },
+    onInit: true
   });
 
   const submitHandler = (e: React.FormEvent) => {

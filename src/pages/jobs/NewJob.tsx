@@ -45,6 +45,7 @@ const NewJob: React.FC<INewJob> = ({ setRefetch }) => {
     onError: (error) => {
       toast.error("Došlo je do pogrješke", { autoClose: 3000 });
     },
+    onInit: true
   });
 
   useEffect(() => {

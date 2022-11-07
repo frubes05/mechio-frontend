@@ -36,6 +36,7 @@ const Jobs: React.FC<IJob> = ({ status }) => {
       setSelectedJobs(data);
     },
     onError: (error) => {},
+    onInit: true
   });
 
   useEffect(() => {

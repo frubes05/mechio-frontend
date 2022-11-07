@@ -36,7 +36,8 @@ const Feedbacks: React.FC<IFeedbacks> = ({ status }) => {
       setSelectedCompanies(data);
     },
     onError: (error) => {
-    }
+    },
+    onInit: true
   })
 
   useEffect(() => {

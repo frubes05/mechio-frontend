@@ -59,6 +59,7 @@ const Profile = () => {
       }
     },
     onError: (error) => {},
+    onInit: true
   });
 
   const getUserFeedbacks = useFetch({
@@ -68,6 +69,7 @@ const Profile = () => {
       setFeedbackInformation(data);
     },
     onError: (error) => {},
+    onInit: true
   });
 
   const getSpecificUserFeedback = useFetch({
@@ -77,6 +79,7 @@ const Profile = () => {
       setUserFeedbacks(data);
     },
     onError: (error) => {},
+    onInit: false
   });
 
   const getCompanyJobs = useFetch({
@@ -86,6 +89,7 @@ const Profile = () => {
       setCompanyJobs(data);
     },
     onError: (error) => {},
+    onInit: false
   });
 
   const getCompanyJobApplications = useFetch({
@@ -95,6 +99,7 @@ const Profile = () => {
       setCompanyJobApplications(data);
     },
     onError: (error) => {},
+    onInit: true
   });
 
   const getUserJobApplications = useFetch({
@@ -104,6 +109,7 @@ const Profile = () => {
       setUserApplications(data);
     },
     onError: (error) => {},
+    onInit: true
   });
 
   const editProfileInformation = useFetch({
@@ -120,6 +126,7 @@ const Profile = () => {
       }
     },
     onError: (error) => {},
+    onInit: true
   });
 
   const deleteProfile = useFetch({
@@ -132,6 +139,7 @@ const Profile = () => {
       navigate("/");
     },
     onError: (error) => {},
+    onInit: true
   });
 
   const getTrackingData = useFetch({
@@ -141,6 +149,7 @@ const Profile = () => {
       setTrackingData(data);
     },
     onError: (err) => {},
+    onInit: false
   });
 
   useEffect(() => {
@@ -180,6 +189,8 @@ const Profile = () => {
       getProfileInformation.handleFetch(
         `http://localhost:9000/profil/${params.id}`
       );
+      getCompanyJobs.handleFetch(`http://localhost:9000/profil/jobs/${params.id}`)
+      getCompanyJobApplications.handleFetch(`http://localhost:9000/profil/applications/${params.id}`)
     }
   }, [params.id]);
 
@@ -190,9 +201,11 @@ const Profile = () => {
   }, [state]);
 
   useEffect(() => {
-    getTrackingData.handleFetch(
-      `http://localhost:9000/analitika/${company?._id}`
-    );
+    if (company) {
+      getTrackingData.handleFetch(
+        `http://localhost:9000/analitika/${company?._id}`
+      );
+    }
   }, [company]);
 
   return (

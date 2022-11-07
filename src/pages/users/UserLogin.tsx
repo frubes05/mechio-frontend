@@ -32,6 +32,7 @@ const UserLogin = ({
     },
     onError: (error) => {
     },
+    onInit: false
   });
 
   const loginUser = useFetch({
@@ -56,6 +57,7 @@ const UserLogin = ({
         setStatus("Fullfilled");
       }, 3000);
     },
+    onInit: true
   });
 
   const submitHandler = async (e: React.FormEvent) => {

@@ -29,6 +29,7 @@ const CompanyLogin = ({
     },
     onError: (error) => {
     },
+    onInit: false
   });
 
   const getCompanies = useFetch({
@@ -38,6 +39,7 @@ const CompanyLogin = ({
       setCompanies(data);
     },
     onError: (error) => {},
+    onInit: true
   });
 
   const checkLogin = useFetch({
@@ -62,6 +64,7 @@ const CompanyLogin = ({
         setStatus("Fullfilled");
       }, 3000);
     },
+    onInit: true
   });
 
   const submitHandler = async (e: React.FormEvent) => {

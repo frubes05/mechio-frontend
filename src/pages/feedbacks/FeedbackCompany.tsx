@@ -16,6 +16,7 @@ const FeedbackCompany: React.FC<{ company: ICompany }> = ({ company }) => {
       setCompanyFeedbacksLength(data.length);
     },
     onError: (error: any) => {},
+    onInit: true
   });
 
   return (

@@ -39,6 +39,7 @@ const UserRegister = ({
       setFullname(data[0]?.fullname);
     },
     onError: (error) => {},
+    onInit: false
   });
 
   const registerUser = useFetch({
@@ -67,6 +68,7 @@ const UserRegister = ({
         setStatus("Fullfilled");
       }, 3000);
     },
+    onInit: true
   });
 
   const submitHandler = async (e: React.FormEvent) => {
