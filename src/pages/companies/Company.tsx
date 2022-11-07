@@ -5,7 +5,6 @@ import CompanyRegister from "./CompanyRegister";
 import { toast, ToastContainer } from "react-toastify";
 import { Container, Row, Col } from "react-bootstrap";
 import "react-toastify/dist/ReactToastify.css";
-import LoadingSpinner from "../../components/LoadingSpinner";
 
 interface ICompany {
   status: string;
@@ -24,7 +23,7 @@ const Company: React.FC<ICompany> = ({ status }) => {
   const handleToastSuccess = (message: string) => {
     toast.success(message, { autoClose: 1000 });
     setTimeout(() => {
-      navigate("/poslovi");
+      navigate("/placanje");
     }, 2000);
   };
 

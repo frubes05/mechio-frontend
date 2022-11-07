@@ -8,6 +8,7 @@ import SpecificJob from "./pages/jobs/SpecificJob";
 import ChangeJob from "./pages/jobs/ChangeJob";
 import Company from "./pages/companies/Company";
 import Feedbacks from "./pages/feedbacks/Feedbacks";
+import Payments from "./pages/payments/Payments";
 import "./App.scss";
 import User from "./pages/users/User";
 import Footer from "./components/Footer";
@@ -120,6 +121,7 @@ function App() {
           element={<SpecificFeedback></SpecificFeedback>}
         ></Route>
         <Route path="/profil/:id" element={<Profile></Profile>} />
+        <Route path='/placanje' element={<Payments></Payments>} />
       </Routes>
       <Footer></Footer>
     </>
