@@ -24,7 +24,7 @@
     background-color: white;
     display: flex;
     flex-direction: column;
-    padding-bottom: 4rem;
+    padding: 4rem 0 4rem;
 
     @include breakpoint('lg') {
       padding: 4rem 0 6rem;
