@@ -25,7 +25,7 @@ const Profile = () => {
   moment().locale("hr");
   const params = useParams();
   const navigate = useNavigate();
-  const articleWidth = useRef<HTMLElement>() as LegacyRef<HTMLElement>;
+  const articleWidth = useRef() as any;
   const { state, dispatch, showAll, setShowAll } = useContext(AuthContext);
   const [showApplication, setShowApplication] = useState<boolean>(false);
   const [showFeedbacks, setShowFeedbacks] = useState<boolean>(false);
@@ -42,6 +42,7 @@ const Profile = () => {
   const [companyJobs, setCompanyJobs] = useState([]);
   const [companyJobApplications, setCompanyJobApplications] = useState([]);
   const [trackingData, setTrackingData] = useState([]);
+  const [columnWidth, setColumnWidth] = useState<any>();
 
   const getProfileInformation = useFetch({
     url: `http://localhost:9000/profil/${params.id}`,
@@ -207,6 +208,22 @@ const Profile = () => {
       );
     }
   }, [company]);
+
+  useEffect(() => {
+    window.addEventListener('resize', () => {
+      if (window.innerWidth < 768) {
+        setColumnWidth(window.innerWidth - 50)
+      } else {
+        setColumnWidth((window.innerWidth / 2) - 50);
+      }
+    })
+    if (window.innerWidth < 768) {
+      setColumnWidth(window.innerWidth - 50);
+    } else {
+      setColumnWidth((window.innerWidth / 2) - 50);
+    }
+  }, [])
+
 
   return (
     <section className="profile">
@@ -561,6 +578,7 @@ const Profile = () => {
                 </aside>
               </Col>
               <Col sm={4} md={7} lg={7} xlg={7}>
+                <div className="profil__charts" ref={articleWidth}>
                 {(state._id === params.id || token?._id === params.id) && (
                   <article className="profile__article" ref={articleWidth}>
                     <div className="profile__delete">
@@ -640,8 +658,9 @@ const Profile = () => {
                   />
                 )}
                 {!edit && (state.companyPremium || token?.companyPremium) && (state._id === params.id || token?._id === params.id) && trackingData?.length > 0 && (
-                  <ChartsContainer page='company' data={trackingData}></ChartsContainer>
+                  <ChartsContainer page='company' width={columnWidth} data={trackingData}></ChartsContainer>
                 )}
+                </div>
               </Col>
             </Row>
           </>
