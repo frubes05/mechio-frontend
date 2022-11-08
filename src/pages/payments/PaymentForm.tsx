@@ -98,8 +98,6 @@ const Payments = () => {
     showIcon: true,
   };
 
-  console.log(state, token);
-
   return (
     <>
       {getPayment.status === "Pending" && <LoadingSpinner></LoadingSpinner>}

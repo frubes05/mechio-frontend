@@ -79,7 +79,7 @@ const Navigation = () => {
     if (state.user || state.company) {
       setShowAll(true);
     }
-  }, [state]);
+  }, [state]);  
 
   return (
     <Navbar collapseOnSelect expand="md" variant="dark">
@@ -179,7 +179,7 @@ const Navigation = () => {
                     <BiUserCircle />
                     <span>Profil</span>
                   </NavLink>
-                  {(state.companyPremium || token?.companyPremium) && (
+                  {(state.company || token?.company) && (
                     <NavLink to={`/placanje`} className="navbar__list-link">
                       <FaMoneyCheckAlt />
                       <span>Paketi</span>
@@ -206,7 +206,7 @@ const Navigation = () => {
                     <BiUserCircle />
                     <span>Profil</span>
                   </NavLink>
-                  {(state.companyPremium || token?.companyPremium) && (
+                  {(state.company || token?.company) && (
                     <NavLink to={`/placanje`} className="navbar__list-link">
                       <FaMoneyCheckAlt />
                       <span>Paketi</span>

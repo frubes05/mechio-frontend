@@ -25,8 +25,8 @@ const HomeJobs = () => {
   return (
     <div className="home__jobs">
       <Container>
-        <h5>Relevantni poslovi u strojarstvu</h5>
-        <h2 className="home__jobs-title">Posljednje dodani poslovi</h2>
+        <h5>Kratak uvid u dio ponude poslova</h5>
+        <h2 className="home__jobs-title">Posljednje dodano</h2>
       </Container>
       <Carousel jobs={jobs}></Carousel>
     </div>

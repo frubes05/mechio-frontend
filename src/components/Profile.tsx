@@ -640,7 +640,7 @@ const Profile = () => {
                   />
                 )}
                 {!edit && (state.companyPremium || token?.companyPremium) && (state._id === params.id || token?._id === params.id) && trackingData?.length > 0 && (
-                  <ChartsContainer data={trackingData}></ChartsContainer>
+                  <ChartsContainer page='company' data={trackingData}></ChartsContainer>
                 )}
               </Col>
             </Row>

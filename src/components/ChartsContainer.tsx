@@ -4,7 +4,9 @@ import {
   formatBarChart,
   formatPieChart,
   formatSpecificJobs,
-  formatSpecificLocation
+  formatSpecificLocation,
+  formatJobNumber,
+  formatFeedbackNumber,
 } from "../services/trackingChart";
 import {
   Cell,
@@ -27,6 +29,8 @@ import {
 interface IChartsData {
   data: any;
   width?: number;
+  page: string;
+  labelName?: string;
 }
 
 const COLORS = ["#3c4043", "#00c6b4"];
@@ -58,14 +62,33 @@ const renderCustomizedLabel = ({
   );
 };
 
-const ChartsContainer: React.FC<IChartsData> = ({ data }) => {
+const ChartsContainer: React.FC<IChartsData> = ({
+  data,
+  page,
+  labelName,
+  width,
+}) => {
   const [formattedData, setFormattedData] = useState<any>([]);
 
   useEffect(() => {
-    setFormattedData((prev: any[]) => [...prev, formatBarChart(data)]);
-    setFormattedData((prev: any[]) => [...prev, formatSpecificJobs(data)]);
-    setFormattedData((prev: any[]) => [...prev, formatPieChart(data)]);
-    setFormattedData((prev: any[]) => [...prev, formatSpecificLocation(data)])
+    if (page === "company") {
+      setFormattedData((prev: any[]) => [...prev, formatBarChart(data)]);
+      setFormattedData((prev: any[]) => [...prev, formatSpecificJobs(data)]);
+      setFormattedData((prev: any[]) => [...prev, formatPieChart(data)]);
+      setFormattedData((prev: any[]) => [
+        ...prev,
+        formatSpecificLocation(data),
+      ]);
+    } else if (page === "general") {
+      if (labelName === "jobs") {
+        setFormattedData((prev: any[]) => [...prev, formatJobNumber(data)]);
+      } else {
+        setFormattedData((prev: any[]) => [
+          ...prev,
+          formatFeedbackNumber(data),
+        ]);
+      }
+    }
   }, []);
 
   return (
@@ -76,24 +99,55 @@ const ChartsContainer: React.FC<IChartsData> = ({ data }) => {
             return (
               <BarChart
                 key={i}
-                width={700}
+                width={width!}
                 height={300}
                 data={formatData.elements}
               >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey={formattedData[i].xAxis}>
+                <XAxis dataKey={formattedData[i].xAxis} stroke={`${
+                      page === "general"
+                        ? labelName === "jobs"
+                          ? "#00c6b4"
+                          : "#ffde4d"
+                        : "#3c4043"
+                    }`}>
                   <Label offset={0} position="insideBottom" />
                 </XAxis>
-                {formattedData[i].yAxis && <YAxis
-                  label={{
-                    value: formattedData[i].yAxis,
-                    angle: -90,
-                    position: "outside",
-                  }}
-                />}
+                {formattedData[i].yAxis && (
+                  <YAxis
+                    label={{
+                      value: formattedData[i].yAxis,
+                      angle: -90,
+                      position: "insideLeft",
+                      fill: `${page === "general"
+                      ? labelName === "jobs"
+                        ? "#00c6b4"
+                        : "#ffde4d"
+                      : "#3c4043"}`
+                    }}
+                    stroke={`${
+                      page === "general"
+                        ? labelName === "jobs"
+                          ? "#00c6b4"
+                          : "#ffde4d"
+                        : "#3c4043"
+                    }`}
+                  >
+                    <Label fill="white" position="left"></Label>
+                  </YAxis>
+                )}
                 <Tooltip />
                 <Legend />
-                <Bar dataKey={formattedData[i].dataKey1} fill="#3c4043" />
+                <Bar
+                  dataKey={formattedData[i].dataKey1}
+                  fill={`${
+                    page === "general"
+                      ? labelName === "jobs"
+                        ? "#00c6b4"
+                        : "#ffde4d"
+                      : "#3c4043"
+                  }`}
+                />
                 {!formattedData[i].singleBar && (
                   <Bar dataKey={formattedData[i].dataKey2} fill="#00c6b4" />
                 )}

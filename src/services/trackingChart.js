@@ -130,6 +130,44 @@ export const formatSpecificLocation = (data) => {
   };
 };
 
+export const formatJobNumber = (data) => {
+  let elements = data;
+  elements = elements.map(el => {
+    return {
+      tvrtka: elements.find(d => d.company === el.company).company,
+      poslovi: elements.filter(d => d.companyId === el.companyId).length
+    }
+  })
+  elements = removeDuplicates(elements, "tvrtka");
+  return {
+    elements,
+    type: "bar",
+    xAxis: "tvrtka",
+    yAxis: "Broj",
+    dataKey1: "poslovi",
+    singleBar: true,
+  };
+};
+
+export const formatFeedbackNumber = (data) => {
+  let elements = data;
+  elements = elements.map(el => {
+    return {
+      tvrtka: elements.find(d => d.company === el.company).company,
+      recenzije: elements.filter(d => d.companyId === el.companyId).length
+    }
+  })
+  elements = removeDuplicates(elements, "tvrtka");
+  return {
+    elements,
+    type: "bar",
+    xAxis: "tvrtka",
+    yAxis: "Broj",
+    dataKey1: "recenzije",
+    singleBar: true,
+  };
+};
+
 const makeSpecificArr = (arr, first, second) => {
   return [
     {

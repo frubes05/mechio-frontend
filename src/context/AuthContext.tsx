@@ -103,8 +103,6 @@ const AuthContextProvider = ({ children }: Children) => {
         iat: 0
     });
 
-    console.log(state);
-
   return <AuthContext.Provider value={{state, dispatch, showAll, setShowAll}}>{children}</AuthContext.Provider>;
 };
 
