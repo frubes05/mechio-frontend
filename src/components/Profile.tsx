@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
-import { Container, Col, Row, Button, Modal, Form } from "react-bootstrap";
+import { Container, Col, Row, Button, Form } from "react-bootstrap";
 import Editor from "./Editor";
 import { IUserProfile } from "./UserProfile.types";
 import { ICompanyToken, ICompany } from "../pages/companies/Company.types";

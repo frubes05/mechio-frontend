@@ -125,6 +125,7 @@ const SpecificFeedback = () => {
         userId: state?._id || token?._id,
         companyId: company?._id,
         companyImage: company?.companyImage,
+        companyName: company?.companyName,
         position,
         category: selectedCategory?.hr,
         positives,
