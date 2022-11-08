@@ -15,7 +15,6 @@ interface ICarousel {
 const Carousel: React.FC<ICarousel> = ({ jobs }) => {
   moment().locale("hr");
 
-
   return (
     <>
       {jobs && jobs.length > 0 && (
@@ -28,14 +27,16 @@ const Carousel: React.FC<ICarousel> = ({ jobs }) => {
                     <div className="jobs__card-picture">
                       <img
                         className="jobs__card-image"
-                        src={
-                          "http://localhost:9000/" +
-                          job.companyImage
-                        }
+                        src={"http://localhost:9000/" + job.companyImage}
                       />
                       <span className="jobs__card-pill">
                         {moment(job.date.toString()).startOf("day").fromNow()}
                       </span>
+                      {job.companyPremium && (
+                        <div className="jobs__card-premium">
+                          <span>PREMIUM</span>
+                        </div>
+                      )}
                     </div>
                     <div className="jobs__card-content">
                       <ul className="jobs__card-list">
