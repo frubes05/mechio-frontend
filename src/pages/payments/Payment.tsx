@@ -60,7 +60,7 @@ const Payment: React.FC<{ option: string, isSelected: boolean }> = ({ option, is
       )}
     </Button>
     {option === 'premium' && 
-    <ModalForm title="Plaćanje" show={show} setShow={setShow} handleClose={handleClose}>
+    <ModalForm title="Plaćanje" classname="payment" show={show} setShow={setShow} handleClose={handleClose}>
       <StripeContainer></StripeContainer>
     </ModalForm>
     }

@@ -2,7 +2,7 @@
     &-content {
       border-radius: 0;
       background-color: #f6f6f6;
-      max-width: 600px !important;
+      max-width: 500px !important;
       margin: 0 auto;
     }
   
@@ -109,5 +109,11 @@
       line-height: 28px !important;
       font-style: italic;
       font-weight: 300 !important;
+    }
+
+    &-title {
+      &--payment {
+        color: white !important;
+      }
     }
   }

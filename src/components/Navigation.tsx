@@ -12,9 +12,9 @@ import { useNavigate } from "react-router-dom";
 import { BsGearWideConnected } from "react-icons/bs";
 import { BiUserCircle } from "react-icons/bi";
 import { AiOutlineLogout } from "react-icons/ai";
+import { FaMoneyCheckAlt } from "react-icons/fa";
 
 import ReactGA from 'react-ga4';
-import { isBoolean } from "util";
 
 const Navigation = () => {
   const { state, dispatch, setShowAll, showAll } = useContext(AuthContext);
@@ -166,7 +166,14 @@ const Navigation = () => {
                   >
                     <BiUserCircle/>
                     <span>Profil</span>
-                  </NavLink>{" "}
+                  </NavLink>
+                 {(state.company || token?.company) && <NavLink
+                    to={`/placanje`}
+                    className="navbar__list-link"
+                  >
+                    <FaMoneyCheckAlt/>
+                    <span>Paketi</span>
+                  </NavLink>}
                   <Button variant="primary" className="navbar__list-item--logout" onClick={logout}>
                     <AiOutlineLogout/>
                     <span>Logout</span>

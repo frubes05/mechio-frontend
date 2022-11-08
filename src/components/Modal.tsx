@@ -11,14 +11,15 @@ interface IModal {
   handleSubmit?: (e: React.FormEvent) => void;
   children: React.ReactChildren | React.ReactChild;
   checkState?: boolean;
+  classname?: string;
 }
 
-const ModalForm: React.FC<IModal> = ({ show, setShow, handleClose, handleSubmit, children, checkState, title }) => {
+const ModalForm: React.FC<IModal> = ({ show, setShow, handleClose, handleSubmit, children, checkState, title, classname }) => {
   return (
-    <>
+    <div className={classname}>
       <Modal size="lg" show={show} onHide={handleClose} animation={true} centered>
         <Modal.Header closeButton>
-          <Modal.Title>{title}</Modal.Title>
+          <Modal.Title className={classname ? `modal-title--${classname}` : ''}>{title}</Modal.Title>
         </Modal.Header>
         <Container>
             <Row>
@@ -28,7 +29,7 @@ const ModalForm: React.FC<IModal> = ({ show, setShow, handleClose, handleSubmit,
             </Row>
         </Container>
       </Modal>
-    </>
+    </div>
   );
 };
 

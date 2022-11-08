@@ -29,8 +29,7 @@
     gap: 24px;
     border-color: transparent;
     padding-bottom: 24px;
-    box-shadow: 0px 2px 8px rgba(0, 0, 0, .4);
-
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.4);
 
     &:not(.payments__payment--selected) {
       &:focus,
@@ -40,7 +39,7 @@
         color: initial;
         outline: #00c6b4;
         border-color: #3c4043;
-        box-shadow: 0px 2px 8px rgba(0, 0, 0, .4);
+        box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.4);
       }
     }
 
@@ -68,7 +67,8 @@
       justify-content: flex-end;
     }
 
-    button, a {
+    button,
+    a {
       @include button;
     }
   }
@@ -83,7 +83,7 @@
       color: white;
       font-size: 80px;
       font-weight: 600;
-      font-family: 'Poppins', sans-serif;
+      font-family: "Poppins", sans-serif;
     }
 
     svg {
@@ -103,8 +103,8 @@
       padding: 5px 15px;
       background-color: #3c4043;
       color: white;
-      font-family: 'Poppins', sans-serif;
-      box-shadow: 0px 2px 8px rgba(0, 0, 0, .5);
+      font-family: "Poppins", sans-serif;
+      box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.5);
     }
 
     &--blur {
@@ -121,7 +121,7 @@
     box-shadow: 0px 2px 8px rgb(0 0 0 / 70%);
 
     &--premium {
-      background-color:#00c6b4;
+      background-color: #00c6b4;
     }
   }
 
@@ -133,4 +133,57 @@
   h2 {
     @include big-text;
   }
+}
+
+.payment-form {
+  &--more {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50px;
+
+    #card-element {
+      &:first-of-type {
+        flex-grow: 1;
+      }
+    }
+  }
+}
+
+
+#card-element {
+  border-radius: 6px;
+  padding: 12px;
+  border: 1px solid #424353;
+  max-height: 44px;
+  width: 100%;
+  background: #30313d;
+  box-sizing: border-box;
+  box-shadow: 0px 2px 4px rgb(0 0 0 / 50%), 0px 1px 6px rgb(0 0 0 / 25%);
+}
+
+.cardButton {
+  font-family: 'Poppins', sans-serif;
+  width: 100% !important;
+  border: none;
+  color: rgb(255, 255, 255);
+  background: #4e975c;
+  box-shadow: 0px 2px 4px rgb(0 0 0 / 50%), 0px 1px 6px rgb(0 0 0 / 25%);
+  width: 400px;
+  margin: 0px;
+  height: 40px;
+  border-radius: 6px;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background: #3f7b4b;
+  }
+}
+
+.modal-content {
+  background: #1a1f36;
 }

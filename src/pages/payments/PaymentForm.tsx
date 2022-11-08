@@ -1,13 +1,20 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useNavigate } from 'react-router-dom';
-import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import { useNavigate } from "react-router-dom";
+import {
+  CardElement,
+  CardNumberElement,
+  CardCvcElement,
+  CardExpiryElement,
+  useElements,
+  useStripe,
+} from "@stripe/react-stripe-js";
 import useFetch from "../../hooks/useFetch";
 import { AuthContext } from "../../context/AuthContext";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { toast, ToastContainer } from "react-toastify";
 import { IUserToken } from "../users/User.types";
 import { ICompanyToken } from "../companies/Company.types";
-
+import { Button, Form } from "react-bootstrap";
 
 const Payments = () => {
   const [success, setSuccess] = useState<boolean>(false);
@@ -26,24 +33,24 @@ const Payments = () => {
   }, []);
 
   const getPayment = useFetch({
-    url: 'http://localhost:9000/placanja',
-    method: 'post',
+    url: "http://localhost:9000/placanja",
+    method: "post",
     onSuccess: (data) => {
-      toast.success('Odabrali ste premium paket!', { autoClose: 1000 });
+      toast.success("Odabrali ste premium paket!", { autoClose: 1000 });
       if (data.success) setSuccess(true);
-      navigate('/poslovi');
+      navigate("/poslovi");
     },
     onError: (err) => {
       console.log(err);
     },
-    onInit: false
-  })
+    onInit: false,
+  });
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     const { error, paymentMethod } = await stripe!.createPaymentMethod({
       type: "card",
-      card: elements!.getElement(CardElement) as any,
+      card: elements!.getElement(CardNumberElement) as any,
     });
     if (!error) {
       try {
@@ -52,7 +59,7 @@ const Payments = () => {
           await getPayment.handleFetch(`http://localhost:9000/placanja`, {
             amount: 1000,
             id,
-            companyId: (state._id || token?._id)
+            companyId: state._id || token?._id,
           });
         }
       } catch (error) {
@@ -63,18 +70,57 @@ const Payments = () => {
     }
   };
 
+  const cardHandleChange = () => {};
 
-  return <>
-      {getPayment.status === 'Pending' && <LoadingSpinner></LoadingSpinner>}
+  const cardStyle = {
+    style: {
+      base: {
+        color: "white",
+        fontFamily: "Poppins, sans-serif",
+        fontSmoothing: "antialiased",
+        fontSize: "16px",
+        "::placeholder": {
+          fontFamily: "Poppins, sans-serif",
+          color: "#5b5c63",
+        },
+      },
+      invalid: {
+        fontFamily: "Poppins, sans-serif",
+        color: "#dc3545",
+        iconColor: "#dc3545",
+      },
+    },
+    showIcon: true,
+  };
+
+  return (
+    <>
+      {getPayment.status === "Pending" && <LoadingSpinner></LoadingSpinner>}
       <ToastContainer position="top-center" autoClose={3000} />
-      {!success && 
-      <form className="payment-form" onSubmit={handleSubmit} style={{background: 'lightblue'}}>
-        <fieldset>
-          <CardElement></CardElement>
-        </fieldset>
-        <button>Pay</button>
-      </form>}
-    </>;
+      {!success && (
+        <form className="payment-form" onSubmit={handleSubmit}>
+          <CardNumberElement
+            id="card-element"
+            onChange={cardHandleChange}
+            options={cardStyle}
+          ></CardNumberElement>
+          <div className="payment-form--more">
+          <CardExpiryElement
+            id="card-element"
+            onChange={cardHandleChange}
+            options={cardStyle}
+          />
+          <CardCvcElement
+            id="card-element"
+            onChange={cardHandleChange}
+            options={cardStyle}
+          />
+          </div>
+          <button className="cardButton">Plati 10$</button>
+        </form>
+      )}
+    </>
+  );
 };
 
 export default Payments;

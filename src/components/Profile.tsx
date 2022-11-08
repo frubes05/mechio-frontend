@@ -639,7 +639,7 @@ const Profile = () => {
                     }}
                   />
                 )}
-                {!edit && (state._id === params.id || token?._id === params.id) && trackingData?.length > 0 && (
+                {!edit && (state.companyPremium || token?.companyPremium) && (state._id === params.id || token?._id === params.id) && trackingData?.length > 0 && (
                   <ChartsContainer data={trackingData}></ChartsContainer>
                 )}
               </Col>

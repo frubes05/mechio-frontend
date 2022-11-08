@@ -8,6 +8,13 @@ const PUBLIC_KEY =
 
 const stripeTestPromise = loadStripe(PUBLIC_KEY);
 
+const OPTIONS = {
+  clientSecret: PUBLIC_KEY,
+  appearance: {
+    theme: 'night'
+  }
+}
+
 const StripeContainer = () => {
   return (
     <Elements stripe={stripeTestPromise}>
