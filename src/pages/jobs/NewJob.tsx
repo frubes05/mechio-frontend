@@ -61,6 +61,7 @@ const NewJob: React.FC<INewJob> = ({ setRefetch }) => {
     const newPost = {
       companyId: state._id || token?._id,
       company: state.companyName || token?.companyName,
+      companyPremium: state.companyPremium || token?.companyPremium,
       position,
       description,
       location,

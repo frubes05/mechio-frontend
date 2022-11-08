@@ -3,6 +3,7 @@ export interface IJobs {
     companyId?: string,
     company: string,
     companyImage: string,
+    companyPremium: Boolean,
     position: string,
     skillsList: string,
     requirementsList: string,

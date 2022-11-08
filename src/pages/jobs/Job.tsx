@@ -8,7 +8,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { ICompany, ICompanyToken } from "../companies/Company.types";
 import { IFeedback } from "../feedbacks/Feedbacks.types";
 
-import useFetch from '../../hooks/useFetch';
+import useFetch from "../../hooks/useFetch";
 
 const Job: FC<IJob> = ({ job }) => {
   moment().locale("hr");
@@ -16,32 +16,44 @@ const Job: FC<IJob> = ({ job }) => {
 
   const getCompanies = useFetch({
     url: "http://localhost:9000/poslodavci",
-    method: 'get',
+    method: "get",
     onSuccess: (data) => {
       setCompanies(data);
     },
-    onError: (error) => {
-    },
-    onInit: true
-  })
+    onError: (error) => {},
+    onInit: true,
+  });
 
   return (
     <>
-    {job && <Link to={`/poslovi/${job._id}`} id={job._id}>
-      <article className="jobs__card">
-        <div className="jobs__card-picture">
-          <img loading="lazy" className="jobs__card-image" src={'http://localhost:9000/'+ job.companyImage} />
-          <span className="jobs__card-pill">{moment(job.date.toString()).startOf('day').fromNow()}</span>
-        </div>
-        <div className="jobs__card-content">
-          <ul className="jobs__card-list">
-            <li className="jobs__card-item">{job.company}, </li>
-            <li className="jobs__card-item">{job.location}</li>
-          </ul>
-          <h2 className="jobs__card-title">{job.position}</h2>
-        </div>
-      </article>
-    </Link>}
+      {job && (
+        <Link to={`/poslovi/${job._id}`} id={job._id}>
+          <article className="jobs__card">
+            <div className="jobs__card-picture">
+              <img
+                loading="lazy"
+                className="jobs__card-image"
+                src={"http://localhost:9000/" + job.companyImage}
+              />
+              <span className="jobs__card-pill">
+                {moment(job.date.toString()).startOf("day").fromNow()}
+              </span>
+              {job.companyPremium && (
+                <div className="jobs__card-premium">
+                  <span>PREMIUM</span>
+                </div>
+              )}
+            </div>
+            <div className="jobs__card-content">
+              <ul className="jobs__card-list">
+                <li className="jobs__card-item">{job.company}, </li>
+                <li className="jobs__card-item">{job.location}</li>
+              </ul>
+              <h2 className="jobs__card-title">{job.position}</h2>
+            </div>
+          </article>
+        </Link>
+      )}
     </>
   );
 };

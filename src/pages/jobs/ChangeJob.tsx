@@ -70,6 +70,7 @@ const ChangeJob: React.FC<IChangeJob> = ({ setRefetch }) => {
       {
         companyId: editCompany?.companyId,
         company: editCompany?.companyName,
+        companyPremium: editCompany?.companyPremium,
         position,
         description,
         location,

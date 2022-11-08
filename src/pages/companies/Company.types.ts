@@ -8,6 +8,7 @@ export interface ICompany {
     companyFeedbacks?: null | [],
     companyImage: string;
     companyDescription: string;
+    companyPremium: Boolean;
 }
 
 export interface ICompanyToken {
