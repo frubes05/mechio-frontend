@@ -155,7 +155,7 @@ const ChartsContainer: React.FC<IChartsData> = ({
             );
           } else if (formattedData[i].type === "pie") {
             return (
-              <PieChart width={700} height={300} key={i}>
+              <PieChart width={width!} height={300} key={i}>
                 <Pie
                   data={formattedData[i].elements}
                   dataKey="value"
@@ -181,7 +181,7 @@ const ChartsContainer: React.FC<IChartsData> = ({
             return (
               <LineChart
                 key={i}
-                width={700}
+                width={width!}
                 height={300}
                 data={formatData.elements}
               >
