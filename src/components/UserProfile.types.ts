@@ -3,6 +3,7 @@ export interface IUserProfile {
     email: string;
     number: string;
     address: string;
+    location: string;
     password: string;
     about: string;
     cv: string;

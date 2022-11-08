@@ -1,7 +1,8 @@
 export interface IUserToken {
     _id: String,
     email: String,
-    user?: Boolean
+    user?: Boolean,
+    userLocation?: String
 }
 
 export interface IFormSwitch {

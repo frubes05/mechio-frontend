@@ -113,7 +113,7 @@ const SpecificJob: React.FC<ICompanies> = ({
       isEmployed: false,
       isRegistered: true,
       userId: state._id || token?._id,
-      userLocation: 'Zagreb',
+      userLocation: state.userLocation || token?.userLocation,
       jobId: params.id,
       jobPosition: job?.position,
       date: new Date()
@@ -148,7 +148,7 @@ const SpecificJob: React.FC<ICompanies> = ({
         isEmployed: false,
         isRegistered: !!(state._id || token?._id),
         userId: user,
-        userLocation: 'Zagreb',
+        userLocation: state.userLocation || token?.userLocation,
         jobId: params.id,
         jobPosition: job?.position,
         date: new Date()

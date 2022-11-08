@@ -11,6 +11,7 @@ const Step1 = ({
   setPassword,
   setNumber,
   setAddress,
+  setLocation,
   emailRef
 }: ISteps & IStep1) => {
   const location = window.location.href.split("/");
@@ -79,6 +80,13 @@ const Step1 = ({
               type="text"
               placeholder="Adresa"
               onChange = {(e) => setAddress!(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Control
+              type="text"
+              placeholder="Grad"
+              onChange = {(e) => setLocation!(e.target.value)}
             />
           </Form.Group>
         </>

@@ -119,7 +119,7 @@ export const formatSpecificLocation = (data) => {
         .length,
     };
   });
-  elements = removeDuplicates(elements, "name");
+  elements = removeDuplicates(elements, "lokacija");
   return {
     elements,
     type: "bar",
@@ -150,10 +150,10 @@ export const formatJobNumber = (data) => {
 };
 
 export const formatFeedbackNumber = (data) => {
-  let elements = data;
+  let elements = [...data.flat(1)];
   elements = elements.map(el => {
     return {
-      tvrtka: elements.find(d => d.company === el.company).company,
+      tvrtka: elements.find(d => d.companyName === el.companyName).companyName,
       recenzije: elements.filter(d => d.companyId === el.companyId).length
     }
   })

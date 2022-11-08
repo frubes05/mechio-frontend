@@ -23,6 +23,7 @@ const UserRegister = ({
   const [password, setPassword] = useState<string>("");
   const [number, setNumber] = useState<string>("");
   const [address, setAddress] = useState<string>("");
+  const [location, setLocation] = useState<string>("");
   const [about, setAbout] = useState<string>("");
   const [cv, setCv] = useState<File | null>(null);
   const [image, setImage] = useState<File | null>(null);
@@ -85,6 +86,7 @@ const UserRegister = ({
       formData.append("password", password);
       formData.append("number", number);
       formData.append("address", address);
+      formData.append("location", location);
       formData.append("about", about);
       if (cv) {
         formData.append("cv", cv);
@@ -113,6 +115,7 @@ const UserRegister = ({
           setFullname={setFullname}
           setNumber={setNumber}
           setAddress={setAddress}
+          setLocation={setLocation}
           emailRef={email}
           setPassword={setPassword}
         ></Step1>

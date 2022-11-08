@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import ChartsContainer from "../../components/ChartsContainer";
 import { IJobs } from "../jobs/Jobs.types";
 import { Container, Row, Col } from "react-bootstrap";
+import useFetch from "../../hooks/useFetch";
 
 interface IHomeAnalytics {
   data?: IJobs[];
@@ -9,7 +10,18 @@ interface IHomeAnalytics {
 
 const HomeAnalytics: React.FC<IHomeAnalytics> = ({ data }) => {
   const wrapper = useRef() as any;
+  const [feedbacks, setFeedbacks] = useState([]);
   const [wrapperWidth, setWrapperWidth] = useState<any>();
+
+  const getFeedbacks = useFetch({
+    url: `http://localhost:9000/recenzije`,
+    method: "get",
+    onSuccess: (data: any) => {
+      setFeedbacks(data);
+    },
+    onError: (error: any) => {},
+    onInit: true,
+  });
 
   useEffect(() => {
     setWrapperWidth(wrapper.current.clientWidth);
@@ -31,22 +43,24 @@ const HomeAnalytics: React.FC<IHomeAnalytics> = ({ data }) => {
               </h2>
             </Col>
             <Col md={12} lg={12}>
-              {data && data.length && (
-                <div className="home__analytics-section">
+              <div className="home__analytics-section">
+                {data && data.length && (
                   <ChartsContainer
                     width={wrapperWidth}
                     labelName="jobs"
                     page={"general"}
                     data={data}
                   ></ChartsContainer>
+                )}
+                {feedbacks && feedbacks?.length && (
                   <ChartsContainer
                     width={wrapperWidth}
                     labelName="feedbacks"
                     page={"general"}
-                    data={data}
+                    data={feedbacks}
                   ></ChartsContainer>
-                </div>
-              )}
+                )}
+              </div>
             </Col>
           </div>
         </Row>

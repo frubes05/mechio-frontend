@@ -7,6 +7,7 @@ const initialState = {
       companyPremium: false,
       _id: '',
       email: '',
+      userLocation: '',
       fullname: '',
       number: '',
       address: '',
@@ -34,6 +35,7 @@ type User = {
   fullname: String;
   address: String;
   number: String;
+  userLocation: String;
 }
 
 type Both = {
@@ -94,6 +96,7 @@ const AuthContextProvider = ({ children }: Children) => {
         companyName: '',
         companyPremium: false,
         _id: '',
+        userLocation: '',
         email: '',
         fullname: '',
         number: '',

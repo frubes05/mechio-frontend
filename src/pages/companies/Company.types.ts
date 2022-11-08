@@ -5,6 +5,7 @@ export interface ICompany {
     companyPassword: String,
     companyNumber: any,
     companyAddress: any,
+    companyLocation: any,
     companyFeedbacks?: null | [],
     companyImage: string;
     companyDescription: string;

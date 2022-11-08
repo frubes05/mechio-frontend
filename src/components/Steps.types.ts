@@ -16,12 +16,14 @@ export interface IStep1 {
     setEmail?: Function,
     setNumber?: Function,
     setAddress?: Function,
+    setLocation?: Function,
     setPassword?: Function
     emailRef?: RefObject<HTMLInputElement>;
 };
 
 export interface IStep2 {
     setCompanyAddress?: Function,
+    setCompanyLocation?: Function,
     setCompanyNumber?: Function,
     setAbout?: Function
 };

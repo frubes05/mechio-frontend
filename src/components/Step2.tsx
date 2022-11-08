@@ -7,6 +7,7 @@ const Step2 = ({
   previousStep,
   setCompanyAddress,
   setCompanyNumber,
+  setCompanyLocation,
   setAbout,
 }: IStep2 & ISteps) => {
   const location = window.location.href.split("/");
@@ -21,6 +22,13 @@ const Step2 = ({
               type="text"
               placeholder="Adresa tvrtke"
               onChange={(e) => setCompanyAddress!(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Control
+              type="text"
+              placeholder="Sjedište tvrtke"
+              onChange={(e) => setCompanyLocation!(e.target.value)}
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">

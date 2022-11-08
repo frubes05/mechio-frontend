@@ -251,6 +251,9 @@ const Profile = () => {
                     <Form.Group className="mb-3" controlId="formBasicPassword">
                       <Form.Control type="text" disabled value={user.address} />
                     </Form.Group>
+                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                      <Form.Control type="text" disabled value={user.location} />
+                    </Form.Group>
                   </div>
                   {(state._id === params.id || token?._id === params.id) && (
                     <article className="profile__article">
@@ -556,6 +559,12 @@ const Profile = () => {
                         <span>Adresa:</span>
                         <span className="specificjob__pay">
                           {company.companyAddress}
+                        </span>
+                      </p>
+                      <p className="specificjob__basic-info">
+                        <span>Grad:</span>
+                        <span className="specificjob__pay">
+                          {company.companyLocation}
                         </span>
                       </p>
                     </div>

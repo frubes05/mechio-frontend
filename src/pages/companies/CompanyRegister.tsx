@@ -24,6 +24,7 @@ const CompanyRegister = ({
   const { dispatch } = useContext(AuthContext);
   const [companyName, setCompanyName] = useState<string>("");
   const [companyAddress, setCompanyAddress] = useState<string>("");
+  const [companyLocation, setCompanyLocation] = useState<string>("");
   const [companyNumber, setCompanyNumber] = useState<string>("");
   const [companyEmail, setCompanyEmail] = useState<string>("");
   const [companyPassword, setCompanyPassword] = useState<string>("");
@@ -63,6 +64,7 @@ const CompanyRegister = ({
       const formData = new FormData();
       formData.append("companyName", companyName);
       formData.append("companyAddress", companyAddress);
+      formData.append("companyLocation", companyLocation);
       formData.append("companyNumber", companyNumber);
       formData.append("companyEmail", companyEmail);
       formData.append("companyPassword", companyPassword);
@@ -88,6 +90,7 @@ const CompanyRegister = ({
         />
         <Step2
           setCompanyAddress={setCompanyAddress}
+          setCompanyLocation={setCompanyLocation}
           setCompanyNumber={setCompanyNumber}
         />
         <Step4 setCompanyImage={setCompanyImage} />
