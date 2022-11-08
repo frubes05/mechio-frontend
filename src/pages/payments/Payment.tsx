@@ -1,10 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Button, Modal } from "react-bootstrap";
 import ModalForm from "../../components/Modal";
 import StripeContainer from "./StripeContainer";
+import { IUserToken } from "../users/User.types";
+import { ICompanyToken } from "../companies/Company.types";
+import { AuthContext } from "../../context/AuthContext";
 
 const Payment: React.FC<{ option: string, isSelected: boolean }> = ({ option, isSelected }) => {
   const [show, setShow] = useState<boolean>(false);
+  const { state } = useContext(AuthContext);
+  const [token, setToken] = useState<(ICompanyToken & IUserToken) | null>(null);
+
+  useEffect(() => {
+    if (localStorage.getItem("decodedToken")) {
+      const tokenObj = localStorage.getItem("decodedToken");
+      const tokenReal = JSON.parse(tokenObj!);
+      setToken(tokenReal);
+    }
+  }, []);
 
   const handleClose = () => setShow(false);
 
@@ -59,7 +72,7 @@ const Payment: React.FC<{ option: string, isSelected: boolean }> = ({ option, is
         </>
       )}
     </Button>
-    {option === 'premium' && 
+    {option === 'premium' && (!state.companyPremium || !token?.companyPremium) && 
     <ModalForm title="Plaćanje" classname="payment" show={show} setShow={setShow} handleClose={handleClose}>
       <StripeContainer></StripeContainer>
     </ModalForm>

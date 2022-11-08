@@ -62,7 +62,11 @@ type Actions =
     }
   | {
       type: "LOGOUT";
-    };
+    }
+  | {
+    type: "PAYMENT"
+    payload: Initial;
+};
 
 type Children = {
   children: React.ReactNode;
@@ -78,6 +82,8 @@ const AuthContextReducer = (state: Initial, action: Actions): Initial => {
       return {...action.payload, loggedIn: true};
     case "LOGOUT":
       return {...initialState.state, loggedIn: false};
+    case "PAYMENT":
+      return {...action.payload, companyPremium: true}
   }
 };
 
@@ -96,6 +102,8 @@ const AuthContextProvider = ({ children }: Children) => {
         exp: 0,
         iat: 0
     });
+
+    console.log(state);
 
   return <AuthContext.Provider value={{state, dispatch, showAll, setShowAll}}>{children}</AuthContext.Provider>;
 };

@@ -14,7 +14,7 @@ import { BiUserCircle } from "react-icons/bi";
 import { AiOutlineLogout } from "react-icons/ai";
 import { FaMoneyCheckAlt } from "react-icons/fa";
 
-import ReactGA from 'react-ga4';
+import ReactGA from "react-ga4";
 
 const Navigation = () => {
   const { state, dispatch, setShowAll, showAll } = useContext(AuthContext);
@@ -31,7 +31,12 @@ const Navigation = () => {
   }, []);
 
   const logout = async () => {
-    ReactGA.event('logout', {category: 'logout', action: 'Odjava', label: state.user || token?.user || state.companyName || token?.companyName});
+    ReactGA.event("logout", {
+      category: "logout",
+      action: "Odjava",
+      label:
+        state.user || token?.user || state.companyName || token?.companyName,
+    });
     setShowAll(false);
     const href = window.location.href.split("/");
     const location = href[href.length - 1];
@@ -47,10 +52,7 @@ const Navigation = () => {
 
   const checkWindowSize = () => {
     const header = document.querySelector("header") as HTMLElement;
-    if (
-      document.body.scrollTop > 0 ||
-      document.documentElement.scrollTop > 0
-    ) {
+    if (document.body.scrollTop > 0 || document.documentElement.scrollTop > 0) {
       header.classList.add("header--show");
     } else {
       header.classList.remove("header--show");
@@ -139,7 +141,12 @@ const Navigation = () => {
                     ? "navbar__list-link--active navbar__list-link"
                     : "navbar__list-link"
                 }
-                onClick={() => ReactGA.event('/recenzije', {category: 'preusmjeravanje_na_recenzije', action: 'Preusmjeravanje na recenzije'})}
+                onClick={() =>
+                  ReactGA.event("/recenzije", {
+                    category: "preusmjeravanje_na_recenzije",
+                    action: "Preusmjeravanje na recenzije",
+                  })
+                }
               >
                 Recenzije
               </NavLink>
@@ -152,7 +159,12 @@ const Navigation = () => {
                     ? "navbar__list-link--active navbar__list-link"
                     : "navbar__list-link"
                 }
-                onClick={() => ReactGA.event('/poslovi', {category: 'preusmjeravanje_na_poslove', action: 'Preusmjeravanje na poslove'})}
+                onClick={() =>
+                  ReactGA.event("/poslovi", {
+                    category: "preusmjeravanje_na_poslove",
+                    action: "Preusmjeravanje na poslove",
+                  })
+                }
               >
                 Poslovi
               </NavLink>
@@ -164,18 +176,21 @@ const Navigation = () => {
                     to={`/profil/${state._id ? state._id : token?._id}`}
                     className="navbar__list-link"
                   >
-                    <BiUserCircle/>
+                    <BiUserCircle />
                     <span>Profil</span>
                   </NavLink>
-                 {(state.company || token?.company) && <NavLink
-                    to={`/placanje`}
-                    className="navbar__list-link"
+                  {(state.companyPremium || token?.companyPremium) && (
+                    <NavLink to={`/placanje`} className="navbar__list-link">
+                      <FaMoneyCheckAlt />
+                      <span>Paketi</span>
+                    </NavLink>
+                  )}
+                  <Button
+                    variant="primary"
+                    className="navbar__list-item--logout"
+                    onClick={logout}
                   >
-                    <FaMoneyCheckAlt/>
-                    <span>Paketi</span>
-                  </NavLink>}
-                  <Button variant="primary" className="navbar__list-item--logout" onClick={logout}>
-                    <AiOutlineLogout/>
+                    <AiOutlineLogout />
                     <span>Logout</span>
                   </Button>
                 </NavDropdown>
@@ -183,20 +198,30 @@ const Navigation = () => {
             )}
             {!showAll && token && (
               <li className="navbar__list-item">
-              <NavDropdown title="Postavke" id="collasible-nav-dropdown">
-                <NavLink
-                  to={`/profil/${state._id ? state._id : token?._id}`}
-                  className="navbar__list-link"
-                >
-                  <BiUserCircle/>
-                  <span>Profil</span>
-                </NavLink>{" "}
-                <Button variant="primary" className="navbar__list-item--logout" onClick={logout}>
-                  <AiOutlineLogout/>
-                  <span>Logout</span>
-                </Button>
-              </NavDropdown>
-            </li>
+                <NavDropdown title="Postavke" id="collasible-nav-dropdown">
+                  <NavLink
+                    to={`/profil/${state._id ? state._id : token?._id}`}
+                    className="navbar__list-link"
+                  >
+                    <BiUserCircle />
+                    <span>Profil</span>
+                  </NavLink>
+                  {(state.companyPremium || token?.companyPremium) && (
+                    <NavLink to={`/placanje`} className="navbar__list-link">
+                      <FaMoneyCheckAlt />
+                      <span>Paketi</span>
+                    </NavLink>
+                  )}
+                  <Button
+                    variant="primary"
+                    className="navbar__list-item--logout"
+                    onClick={logout}
+                  >
+                    <AiOutlineLogout />
+                    <span>Logout</span>
+                  </Button>
+                </NavDropdown>
+              </li>
             )}
           </Nav>
         </Navbar.Collapse>

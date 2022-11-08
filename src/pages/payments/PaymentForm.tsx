@@ -14,12 +14,12 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 import { toast, ToastContainer } from "react-toastify";
 import { IUserToken } from "../users/User.types";
 import { ICompanyToken } from "../companies/Company.types";
-import { Button, Form } from "react-bootstrap";
+import jwt_decode from "jwt-decode";
 
 const Payments = () => {
   const [success, setSuccess] = useState<boolean>(false);
   const [token, setToken] = useState<(ICompanyToken & IUserToken) | null>(null);
-  const { state } = useContext(AuthContext);
+  const { state, dispatch } = useContext(AuthContext);
   const navigate = useNavigate();
   const stripe = useStripe();
   const elements = useElements();
@@ -38,6 +38,11 @@ const Payments = () => {
     onSuccess: (data) => {
       toast.success("Odabrali ste premium paket!", { autoClose: 1000 });
       if (data.success) setSuccess(true);
+      if (data.token) {
+        const decoded: any = jwt_decode(data.token);
+        dispatch!({ type: "PAYMENT", payload: { ...decoded } });
+        localStorage.setItem("decodedToken", JSON.stringify({ ...decoded }));
+      }
       navigate("/poslovi");
     },
     onError: (err) => {
@@ -93,6 +98,8 @@ const Payments = () => {
     showIcon: true,
   };
 
+  console.log(state, token);
+
   return (
     <>
       {getPayment.status === "Pending" && <LoadingSpinner></LoadingSpinner>}
@@ -105,16 +112,16 @@ const Payments = () => {
             options={cardStyle}
           ></CardNumberElement>
           <div className="payment-form--more">
-          <CardExpiryElement
-            id="card-element"
-            onChange={cardHandleChange}
-            options={cardStyle}
-          />
-          <CardCvcElement
-            id="card-element"
-            onChange={cardHandleChange}
-            options={cardStyle}
-          />
+            <CardExpiryElement
+              id="card-element"
+              onChange={cardHandleChange}
+              options={cardStyle}
+            />
+            <CardCvcElement
+              id="card-element"
+              onChange={cardHandleChange}
+              options={cardStyle}
+            />
           </div>
           <button className="cardButton">Plati 10$</button>
         </form>
