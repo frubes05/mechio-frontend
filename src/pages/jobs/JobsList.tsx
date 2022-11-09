@@ -2,8 +2,6 @@ import React, { FC, useEffect, useState } from "react";
 import { IJobs, IJobsList } from "./Jobs.types";
 import Job from "./Job";
 import { Container, Col, Row } from "react-bootstrap";
-import Filter from "../../components/Filter";
-import { filteringService } from "../../services/filtering";
 
 const JobsList: FC<IJobsList> = ({ jobs }) => {
   
