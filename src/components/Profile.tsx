@@ -60,7 +60,7 @@ const Profile = () => {
       }
     },
     onError: (error) => {},
-    onInit: true
+    onInit: true,
   });
 
   const getUserFeedbacks = useFetch({
@@ -70,7 +70,7 @@ const Profile = () => {
       setFeedbackInformation(data);
     },
     onError: (error) => {},
-    onInit: true
+    onInit: true,
   });
 
   const getSpecificUserFeedback = useFetch({
@@ -80,7 +80,7 @@ const Profile = () => {
       setUserFeedbacks(data);
     },
     onError: (error) => {},
-    onInit: false
+    onInit: false,
   });
 
   const getCompanyJobs = useFetch({
@@ -90,7 +90,7 @@ const Profile = () => {
       setCompanyJobs(data);
     },
     onError: (error) => {},
-    onInit: false
+    onInit: false,
   });
 
   const getCompanyJobApplications = useFetch({
@@ -100,7 +100,7 @@ const Profile = () => {
       setCompanyJobApplications(data);
     },
     onError: (error) => {},
-    onInit: true
+    onInit: true,
   });
 
   const getUserJobApplications = useFetch({
@@ -110,7 +110,7 @@ const Profile = () => {
       setUserApplications(data);
     },
     onError: (error) => {},
-    onInit: true
+    onInit: true,
   });
 
   const editProfileInformation = useFetch({
@@ -127,7 +127,7 @@ const Profile = () => {
       }
     },
     onError: (error) => {},
-    onInit: true
+    onInit: true,
   });
 
   const deleteProfile = useFetch({
@@ -140,7 +140,7 @@ const Profile = () => {
       navigate("/");
     },
     onError: (error) => {},
-    onInit: true
+    onInit: true,
   });
 
   const getTrackingData = useFetch({
@@ -150,7 +150,7 @@ const Profile = () => {
       setTrackingData(data);
     },
     onError: (err) => {},
-    onInit: false
+    onInit: false,
   });
 
   useEffect(() => {
@@ -190,8 +190,12 @@ const Profile = () => {
       getProfileInformation.handleFetch(
         `http://localhost:9000/profil/${params.id}`
       );
-      getCompanyJobs.handleFetch(`http://localhost:9000/profil/jobs/${params.id}`)
-      getCompanyJobApplications.handleFetch(`http://localhost:9000/profil/applications/${params.id}`)
+      getCompanyJobs.handleFetch(
+        `http://localhost:9000/profil/jobs/${params.id}`
+      );
+      getCompanyJobApplications.handleFetch(
+        `http://localhost:9000/profil/applications/${params.id}`
+      );
     }
   }, [params.id]);
 
@@ -210,31 +214,125 @@ const Profile = () => {
   }, [company]);
 
   useEffect(() => {
-    window.addEventListener('resize', () => {
+    window.addEventListener("resize", () => {
       if (window.innerWidth < 768) {
-        setColumnWidth(window.innerWidth - 50)
+        setColumnWidth(window.innerWidth - 50);
       } else {
-        setColumnWidth((window.innerWidth / 2) - 50);
+        setColumnWidth(window.innerWidth / 2 - 50);
       }
-    })
+    });
     if (window.innerWidth < 768) {
       setColumnWidth(window.innerWidth - 50);
     } else {
-      setColumnWidth((window.innerWidth / 2) - 50);
+      setColumnWidth(window.innerWidth / 2 - 50);
     }
-  }, [])
-
+  }, []);
 
   return (
     <section className="profile">
-      <Container className="profile__container">
+      <Container>
         {user && (
           <>
             <Row className="profile__row">
-              <Col sm={4} md={6} lg={6} xlg={6}>
+              <Col sm={4} md={4} lg={4} xlg={4}>
                 <aside className="profile__aside">
-                  <h2 className="profile__main-title">Vaš profil</h2>
+                  <div className="profile__info">
+                    {(state._id === params.id || token?._id === params.id) && (
+                      <>
+                        <h2 className="profile__main-title">Vaš profil</h2>
+                        <div className="profile__info-options">
+                          <Button
+                            disabled={user.applications.length === 0}
+                            onClick={() => setShowApplication(true)}
+                          >
+                            Prijave ({userApplications.length})
+                          </Button>
+                          {showApplication && (
+                            <ModalForm
+                              title="Vaše prijave na oglase"
+                              show={showApplication}
+                              setShow={setShowApplication}
+                              handleClose={() => setShowApplication(false)}
+                            >
+                              <ul className="profile__applications">
+                                {userApplications.length > 0 &&
+                                  userApplications.map((app: any, i) => (
+                                    <li
+                                      key={i}
+                                      className="profile__applications-application"
+                                    >
+                                      <Link to={`/poslovi/${app._id}`}>
+                                        <img
+                                          src={`http://localhost:9000/${app.companyImage}`}
+                                        ></img>
+                                        <h3>{app.position}</h3>
+                                        <p className="modal-date">
+                                          {moment(app.date.toString()).format(
+                                            "LL"
+                                          )}
+                                          .
+                                        </p>
+                                      </Link>
+                                    </li>
+                                  ))}
+                              </ul>
+                            </ModalForm>
+                          )}
+                          <Button
+                            disabled={userFeedbacks.length === 0}
+                            onClick={() => setShowFeedbacks(true)}
+                          >
+                            Recenzije ({userFeedbacks.length})
+                          </Button>
+                          {showFeedbacks && (
+                            <ModalForm
+                              title="Vaše recenzije"
+                              show={showFeedbacks}
+                              setShow={setShowFeedbacks}
+                              handleClose={() => setShowFeedbacks(false)}
+                            >
+                              <ul className="profile__applications">
+                                {userFeedbacks &&
+                                  userFeedbacks.length > 0 &&
+                                  userFeedbacks.map((info: any, i) => (
+                                    <li
+                                      key={i}
+                                      className="profile__applications-application"
+                                    >
+                                      <Link to={`/recenzije/${info.companyId}`}>
+                                        <img
+                                          src={`http://localhost:9000/${info.companyImage}`}
+                                        />
+                                        <h3>{info.category}</h3>
+                                        <p className="modal-date">
+                                          {moment(info.date.toString()).format(
+                                            "LL"
+                                          )}
+                                          .
+                                        </p>
+                                      </Link>
+                                    </li>
+                                  ))}
+                              </ul>
+                            </ModalForm>
+                          )}
+                          <a
+                            href={`http://localhost:9000/${user.cv}`}
+                            target="_blank"
+                          >
+                            CV
+                          </a>
+                        </div>
+                      </>
+                    )}
+                  </div>
                   <div className="profile__about">
+                    <div className="profile__img">
+                      <img
+                        src={`http://localhost:9000/${user.image}`}
+                        alt={user.fullname}
+                      />
+                    </div>
                     <Form.Group className="mb-3" controlId="formBasicPassword">
                       <Form.Control
                         type="text"
@@ -252,7 +350,11 @@ const Profile = () => {
                       <Form.Control type="text" disabled value={user.address} />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formBasicPassword">
-                      <Form.Control type="text" disabled value={user.location} />
+                      <Form.Control
+                        type="text"
+                        disabled
+                        value={user.location}
+                      />
                     </Form.Group>
                   </div>
                   {(state._id === params.id || token?._id === params.id) && (
@@ -267,157 +369,21 @@ const Profile = () => {
                           </Button>
                         )}
                       </div>
-                      {edit && (
-                        <>
-                          <div className="profile__article-revert">
-                            <Button
-                              variant="secondary"
-                              size="sm"
-                              onClick={() => setEdit(!edit)}
-                            >
-                              Natrag
-                            </Button>
-                          </div>
-                          <Editor
-                            value={moreInformation}
-                            setValue={setMoreInformation}
-                          ></Editor>
-                          <div className="profile__article-buttons">
-                            <Button
-                              size="lg"
-                              onClick={() => {
-                                editProfileInformation.handleFetch(
-                                  `http://localhost:9000/profil/izmijeni/${params.id}`,
-                                  { about: moreInformation }
-                                );
-                                setEdit(false);
-                              }}
-                            >
-                              Potvrdi
-                            </Button>
-                          </div>
-                        </>
-                      )}
                     </article>
                   )}
                 </aside>
               </Col>
-              <Col sm={4} md={5} lg={5} xlg={5}>
-                {!moreInformation && !user?.about && (
-                  <div
-                    className="profile__article-edit--rte"
-                    dangerouslySetInnerHTML={{
-                      __html: "Trenutno nema podataka o korisniku",
-                    }}
-                  />
-                )}
-                {moreInformation && (
-                  <div
-                    className="profile__article-edit--rte"
-                    dangerouslySetInnerHTML={{
-                      __html: moreInformation,
-                    }}
-                  />
-                )}
-                {user.about && !moreInformation && (
-                  <div
-                    className="profile__article-edit--rte"
-                    dangerouslySetInnerHTML={{ __html: user.about }}
-                  />
-                )}
-                <div className="profile__img">
-                  <img
-                    src={`http://localhost:9000/${user.image}`}
-                    alt={user.fullname}
-                  />
-                </div>
-                <div className="profile__cv">
-                  <a href={`http://localhost:9000/${user.cv}`} target="_blank">
-                    <BsFillFilePdfFill></BsFillFilePdfFill>
-                  </a>
-                </div>
-                {(state._id === params.id || token?._id === params.id) && (
-                  <div className="profile__info">
-                    <Button
-                      disabled={user.applications.length === 0}
-                      onClick={() => setShowApplication(true)}
-                    >
-                      Prijave ({userApplications.length})
-                    </Button>
-                    {showApplication && (
-                      <ModalForm
-                        title="Vaše prijave na oglase"
-                        show={showApplication}
-                        setShow={setShowApplication}
-                        handleClose={() => setShowApplication(false)}
-                      >
-                        <ul className="profile__applications">
-                          {userApplications.length > 0 &&
-                            userApplications.map((app: any, i) => (
-                              <li
-                                key={i}
-                                className="profile__applications-application"
-                              >
-                                <Link to={`/poslovi/${app._id}`}>
-                                  <img
-                                    src={`http://localhost:9000/${app.companyImage}`}
-                                  ></img>
-                                  <h3>{app.position}</h3>
-                                  <p className="modal-date">
-                                    {moment(app.date.toString()).format("LL")}.
-                                  </p>
-                                </Link>
-                              </li>
-                            ))}
-                        </ul>
-                      </ModalForm>
-                    )}
-                    <Button
-                      disabled={userFeedbacks.length === 0}
-                      onClick={() => setShowFeedbacks(true)}
-                    >
-                      Recenzije ({userFeedbacks.length})
-                    </Button>
-                    {showFeedbacks && (
-                      <ModalForm
-                        title="Vaše recenzije"
-                        show={showFeedbacks}
-                        setShow={setShowFeedbacks}
-                        handleClose={() => setShowFeedbacks(false)}
-                      >
-                        <ul className="profile__applications">
-                          {userFeedbacks &&
-                            userFeedbacks.length > 0 &&
-                            userFeedbacks.map((info: any, i) => (
-                              <li
-                                key={i}
-                                className="profile__applications-application"
-                              >
-                                <Link to={`/recenzije/${info.companyId}`}>
-                                  <img
-                                    src={`http://localhost:9000/${info.companyImage}`}
-                                  />
-                                  <h3>{info.category}</h3>
-                                  <p className="modal-date">
-                                    {moment(info.date.toString()).format("LL")}.
-                                  </p>
-                                </Link>
-                              </li>
-                            ))}
-                        </ul>
-                      </ModalForm>
-                    )}
-                  </div>
-                )}
+              <Col sm={4} md={7} lg={7} xlg={7}>
                 <div className="profile__delete">
                   {(state._id === params.id || token?._id === params.id) && (
-                    <Button
-                      className="profile__delete--main"
-                      variant="danger"
-                      onClick={() => logout()}
-                    >
-                      Izbrišite profil
-                    </Button>
+                    <div className="profile__delete">
+                      <button
+                        className="specificjob-cta__delete"
+                        onClick={() => logout()}
+                      >
+                        <RiDeleteBin6Line />
+                      </button>
+                    </div>
                   )}
                   {state._id !== params.id && token?._id !== params.id && (
                     <Button
@@ -428,6 +394,59 @@ const Profile = () => {
                     </Button>
                   )}
                 </div>
+                {!edit && !moreInformation && !user?.about && (
+                  <div
+                    className="profile__article-edit--rte"
+                    dangerouslySetInnerHTML={{
+                      __html: "Trenutno nema podataka o korisniku",
+                    }}
+                  />
+                )}
+                {!edit && moreInformation && (
+                  <div
+                    className="profile__article-edit--rte"
+                    dangerouslySetInnerHTML={{
+                      __html: moreInformation,
+                    }}
+                  />
+                )}
+                {!edit && user.about && !moreInformation && (
+                  <div
+                    className="profile__article-edit--rte"
+                    dangerouslySetInnerHTML={{ __html: user.about }}
+                  />
+                )}
+                {edit && (
+                  <>
+                    <div className="profile__article-revert">
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        onClick={() => setEdit(!edit)}
+                      >
+                        Natrag
+                      </Button>
+                    </div>
+                    <Editor
+                      value={moreInformation}
+                      setValue={setMoreInformation}
+                    ></Editor>
+                    <div className="profile__article-buttons">
+                      <Button
+                        size="lg"
+                        onClick={() => {
+                          editProfileInformation.handleFetch(
+                            `http://localhost:9000/profil/izmijeni/${params.id}`,
+                            { about: moreInformation }
+                          );
+                          setEdit(false);
+                        }}
+                      >
+                        Potvrdi
+                      </Button>
+                    </div>
+                  </>
+                )}
               </Col>
             </Row>
           </>
@@ -570,105 +589,113 @@ const Profile = () => {
                     </div>
                   </article>
                   <div className="profile__article-edit">
-                    {!edit && (state._id === params.id || token?._id === params.id) && (
-                      <Button variant="warning" onClick={() => setEdit(true)}>
-                        Dodajte nešto o tvrtki
-                      </Button>
-                    )}
-                    {state._id !== params.id && token?._id !== params.id && (
-                        <Button
-                          className="profile__delete--back"
-                          onClick={() => navigate(-1)}
-                        >
-                          Natrag
+                    {!edit &&
+                      (state._id === params.id || token?._id === params.id) && (
+                        <Button variant="warning" onClick={() => setEdit(true)}>
+                          Dodajte nešto o tvrtki
                         </Button>
                       )}
+                    {state._id !== params.id && token?._id !== params.id && (
+                      <Button
+                        className="profile__delete--back"
+                        onClick={() => navigate(-1)}
+                      >
+                        Natrag
+                      </Button>
+                    )}
                   </div>
                 </aside>
               </Col>
               <Col sm={4} md={7} lg={7} xlg={7}>
-                <div className="profil__charts" ref={articleWidth}>
-                {(state._id === params.id || token?._id === params.id) && (
-                  <article className="profile__article" ref={articleWidth}>
-                    <div className="profile__delete">
-                      {(state._id === params.id ||
-                        token?._id === params.id) && (
+                <div className="profile__charts" ref={articleWidth}>
+                  {(state._id === params.id || token?._id === params.id) && (
+                    <article className="profile__article" ref={articleWidth}>
+                      <div className="profile__delete">
+                        {(state._id === params.id ||
+                          token?._id === params.id) && (
                           <button
                             className="specificjob-cta__delete"
                             onClick={() => logout()}
                           >
                             <RiDeleteBin6Line />
                           </button>
-                      )}
-                      {state._id !== params.id && token?._id !== params.id && (
-                        <Button
-                          className="profile__delete--back"
-                          onClick={() => navigate(-1)}
-                        >
-                          Natrag
-                        </Button>
-                      )}
-                    </div>
-                    {edit && (
-                      <>
-                        <div className="profile__article-revert">
+                        )}
+                        {state._id !== params.id && token?._id !== params.id && (
                           <Button
-                            variant="secondary"
-                            size="sm"
-                            onClick={() => setEdit(!edit)}
+                            className="profile__delete--back"
+                            onClick={() => navigate(-1)}
                           >
                             Natrag
                           </Button>
-                        </div>
-                        <Editor
-                          value={moreInformation}
-                          setValue={setMoreInformation}
-                        ></Editor>
-                        <div className="profile__article-buttons">
-                          <Button
-                            size="lg"
-                            onClick={() => {
-                              editProfileInformation.handleFetch(
-                                `http://localhost:9000/profil/izmijeni/${params.id}`,
-                                { companyDescription: moreInformation }
-                              );
-                              setEdit(false);
-                            }}
-                          >
-                            Potvrdite
-                          </Button>
-                        </div>
-                      </>
+                        )}
+                      </div>
+                      {edit && (
+                        <>
+                          <div className="profile__article-revert">
+                            <Button
+                              variant="secondary"
+                              size="sm"
+                              onClick={() => setEdit(!edit)}
+                            >
+                              Natrag
+                            </Button>
+                          </div>
+                          <Editor
+                            value={moreInformation}
+                            setValue={setMoreInformation}
+                          ></Editor>
+                          <div className="profile__article-buttons">
+                            <Button
+                              size="lg"
+                              onClick={() => {
+                                editProfileInformation.handleFetch(
+                                  `http://localhost:9000/profil/izmijeni/${params.id}`,
+                                  { companyDescription: moreInformation }
+                                );
+                                setEdit(false);
+                              }}
+                            >
+                              Potvrdite
+                            </Button>
+                          </div>
+                        </>
+                      )}
+                    </article>
+                  )}
+                  {!edit && !moreInformation && !company.companyDescription && (
+                    <div
+                      className="profile__article-edit--rte"
+                      dangerouslySetInnerHTML={{
+                        __html: "Trenutno nema podataka o tvrtki",
+                      }}
+                    />
+                  )}
+                  {!edit && moreInformation && (
+                    <div
+                      className="profile__article-edit--rte"
+                      dangerouslySetInnerHTML={{
+                        __html: moreInformation,
+                      }}
+                    />
+                  )}
+                  {!edit && company.companyDescription && !moreInformation && (
+                    <div
+                      className="profile__article-edit--rte"
+                      dangerouslySetInnerHTML={{
+                        __html: company.companyDescription,
+                      }}
+                    />
+                  )}
+                  {!edit &&
+                    (state.companyPremium || token?.companyPremium) &&
+                    (state._id === params.id || token?._id === params.id) &&
+                    trackingData?.length > 0 && (
+                      <ChartsContainer
+                        page="company"
+                        width={columnWidth}
+                        data={trackingData}
+                      ></ChartsContainer>
                     )}
-                  </article>
-                )}
-                {!edit && !moreInformation && !company.companyDescription && (
-                  <div
-                    className="profile__article-edit--rte"
-                    dangerouslySetInnerHTML={{
-                      __html: "Trenutno nema podataka o tvrtki",
-                    }}
-                  />
-                )}
-                {!edit && moreInformation && (
-                  <div
-                    className="profile__article-edit--rte"
-                    dangerouslySetInnerHTML={{
-                      __html: moreInformation,
-                    }}
-                  />
-                )}
-                {!edit && company.companyDescription && !moreInformation && (
-                  <div
-                    className="profile__article-edit--rte"
-                    dangerouslySetInnerHTML={{
-                      __html: company.companyDescription,
-                    }}
-                  />
-                )}
-                {!edit && (state.companyPremium || token?.companyPremium) && (state._id === params.id || token?._id === params.id) && trackingData?.length > 0 && (
-                  <ChartsContainer page='company' width={columnWidth} data={trackingData}></ChartsContainer>
-                )}
                 </div>
               </Col>
             </Row>

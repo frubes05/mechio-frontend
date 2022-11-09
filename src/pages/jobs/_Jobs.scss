@@ -259,7 +259,13 @@
       color: white;
     }
 
-    button {
+    &-buttons {
+      display: flex;
+      justify-content: flex-start;
+      gap: 24px;
+    }
+
+    button, a {
       @include button;
     }
   }
@@ -281,5 +287,27 @@
   &__none {
     @include normal-text;
     padding: 20px 0 80px;
+  }
+
+  &__videos {
+    position: relative;
+
+    &-video {
+      max-height: 500px;
+      object-fit: cover;
+      width: 100%;
+      position: relative;
+      z-index: 2;
+    }
+
+    &-overlay {
+      position: absolute;
+      z-index: 3;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background-color: rgba(0, 0, 0, .3);
+    }
   }
 }

@@ -58,7 +58,7 @@ const Feedbacks: React.FC<IFeedbacks> = ({ status }) => {
   return (
     <main className="feedbacks">
       <FeedbackMain />
-      {(!state.company || !token?.company) && <FeedbackRegister />}
+      <FeedbackRegister />
       <Filter filterOptions={[
           { en: "companyName", hr: "Tvrtka" },
           { en: "companyLocation", hr: "Lokacija" },
