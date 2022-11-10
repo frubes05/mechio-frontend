@@ -396,15 +396,15 @@ const Profile = () => {
                 </div>
                 {!edit && !moreInformation && !user?.about && (
                   <div
-                    className="profile__article-edit--rte"
+                    className="profile__article-edit--rte feedbacks__specific-wrapper"
                     dangerouslySetInnerHTML={{
-                      __html: "Trenutno nema podataka o korisniku",
+                      __html: "<h2>Trenutno nema podataka o korisniku</h2>",
                     }}
                   />
                 )}
                 {!edit && moreInformation && (
                   <div
-                    className="profile__article-edit--rte"
+                    className="profile__article-edit--rte feedbacks__specific-wrapper"
                     dangerouslySetInnerHTML={{
                       __html: moreInformation,
                     }}
@@ -412,7 +412,7 @@ const Profile = () => {
                 )}
                 {!edit && user.about && !moreInformation && (
                   <div
-                    className="profile__article-edit--rte"
+                    className="profile__article-edit--rte feedbacks__specific-wrapper"
                     dangerouslySetInnerHTML={{ __html: user.about }}
                   />
                 )}
@@ -456,138 +456,133 @@ const Profile = () => {
             <Row className="profile__row">
               <Col sm={4} md={4} lg={4}>
                 <aside className="profile__aside">
-                  <div className="profile__aside--top">
+                  <div className="profile__info">
                     <h2 className="profile__main-title">Vaš profil</h2>
-                    <div className="profile__info">
-                      <Button
-                        disabled={companyJobs.length === 0}
-                        onClick={() => setShowJobs(true)}
+                    <Button
+                      disabled={companyJobs.length === 0}
+                      onClick={() => setShowJobs(true)}
+                    >
+                      Oglasi ({companyJobs.length})
+                    </Button>
+                    {showJobs && (
+                      <ModalForm
+                        title="Vaši oglasi"
+                        show={showJobs}
+                        setShow={setShowJobs}
+                        handleClose={() => setShowJobs(false)}
                       >
-                        Oglasi ({companyJobs.length})
-                      </Button>
-                      {showJobs && (
-                        <ModalForm
-                          title="Vaši oglasi"
-                          show={showJobs}
-                          setShow={setShowJobs}
-                          handleClose={() => setShowJobs(false)}
+                        <ul className="profile__applications">
+                          {companyJobs.length > 0 &&
+                            companyJobs.map((job: any, i) => (
+                              <li
+                                key={i}
+                                className="profile__applications-application"
+                              >
+                                <Link to={`/poslovi/${job._id}`}>
+                                  <h3>{job.position}</h3>
+                                  <p className="modal-date">
+                                    {job.location},{" "}
+                                    {moment(job.date.toString()).format("LL")}.
+                                  </p>
+                                </Link>
+                              </li>
+                            ))}
+                        </ul>
+                      </ModalForm>
+                    )}
+                    {(state._id === params.id || token?._id === params.id) && (
+                      <>
+                        <Button
+                          disabled={companyJobApplications.length === 0}
+                          onClick={() => setShowJobApplicants(true)}
                         >
-                          <ul className="profile__applications">
-                            {companyJobs.length > 0 &&
-                              companyJobs.map((job: any, i) => (
-                                <li
-                                  key={i}
-                                  className="profile__applications-application"
-                                >
-                                  <Link to={`/poslovi/${job._id}`}>
-                                    <h3>{job.position}</h3>
-                                    <p className="modal-date">
-                                      {job.location},{" "}
-                                      {moment(job.date.toString()).format("LL")}
-                                      .
-                                    </p>
-                                  </Link>
-                                </li>
-                              ))}
-                          </ul>
-                        </ModalForm>
-                      )}
-                      {(state._id === params.id ||
-                        token?._id === params.id) && (
-                        <>
-                          <Button
-                            disabled={companyJobApplications.length === 0}
-                            onClick={() => setShowJobApplicants(true)}
+                          Prijavljeni ({companyJobApplications.length})
+                        </Button>
+                        {showJobApplicants && (
+                          <ModalForm
+                            title="Prijavljeni na oglase"
+                            show={showJobApplicants}
+                            setShow={setShowJobApplicants}
+                            handleClose={() => setShowJobApplicants(false)}
                           >
-                            Prijavljeni ({companyJobApplications.length})
-                          </Button>
-                          {showJobApplicants && (
-                            <ModalForm
-                              title="Prijavljeni na oglase"
-                              show={showJobApplicants}
-                              setShow={setShowJobApplicants}
-                              handleClose={() => setShowJobApplicants(false)}
-                            >
-                              <ul className="profile__applications">
-                                {companyJobApplications.length > 0 &&
-                                  companyJobApplications.map(
-                                    (applicant: any, i) => {
-                                      const allFromCompany =
-                                        applicant.applications.filter(
-                                          (application: any) =>
-                                            application.companyId === params.id
-                                        );
-                                      if (allFromCompany.length > 0) {
-                                        return allFromCompany.map(
-                                          (app: any) => (
-                                            <li
-                                              key={i}
-                                              className="profile__applications-application"
-                                            >
-                                              <Link
-                                                to={`/profil/${applicant._id}`}
-                                              >
-                                                <img
-                                                  src={`http://localhost:9000/${applicant.image}`}
-                                                />
-                                                <h3>{applicant.fullname}</h3>
-                                                <p className="modal-date">
-                                                  {app.position}
-                                                </p>
-                                              </Link>
-                                            </li>
-                                          )
-                                        );
-                                      }
+                            <ul className="profile__applications">
+                              {companyJobApplications.length > 0 &&
+                                companyJobApplications.map(
+                                  (applicant: any, i) => {
+                                    const allFromCompany =
+                                      applicant.applications.filter(
+                                        (application: any) =>
+                                          application.companyId === params.id
+                                      );
+                                    if (allFromCompany.length > 0) {
+                                      return allFromCompany.map((app: any) => (
+                                        <li
+                                          key={i}
+                                          className="profile__applications-application"
+                                        >
+                                          <Link to={`/profil/${applicant._id}`}>
+                                            <img
+                                              src={`http://localhost:9000/${applicant.image}`}
+                                            />
+                                            <h3>{applicant.fullname}</h3>
+                                            <p className="modal-date">
+                                              {app.position}
+                                            </p>
+                                          </Link>
+                                        </li>
+                                      ));
                                     }
-                                  )}
-                              </ul>
-                            </ModalForm>
-                          )}
-                        </>
-                      )}
-                    </div>
+                                  }
+                                )}
+                            </ul>
+                          </ModalForm>
+                        )}
+                      </>
+                    )}
                   </div>
-                  <div className="profile__img">
-                    <img
-                      src={`http://localhost:9000/${company.companyImage}`}
-                      alt={"Image"}
-                    />
-                  </div>
-                  <article className="specificjob__article">
-                    <div className="specificjob__basic">
-                      <h2 className="specificjob__basic-info">
-                        <span>Tvrtka:</span>
-                        <span className="specificjob__company">
-                          {company.companyName}
-                        </span>
-                      </h2>
-                      <p className="specificjob__basic-info">
-                        <span>Email:</span>
-                        <span className="specificjob__seniority">
-                          {company.companyEmail}
-                        </span>
-                      </p>
-                      <p className="specificjob__basic-info">
-                        <span>Kontakt:</span>
-                        <span className="specificjob__pay">
-                          {company.companyNumber}
-                        </span>
-                      </p>
-                      <p className="specificjob__basic-info">
-                        <span>Adresa:</span>
-                        <span className="specificjob__pay">
-                          {company.companyAddress}
-                        </span>
-                      </p>
-                      <p className="specificjob__basic-info">
-                        <span>Grad:</span>
-                        <span className="specificjob__pay">
-                          {company.companyLocation}
-                        </span>
-                      </p>
+                  <div className="profile__about">
+                    <div className="profile__img">
+                      <img
+                        src={`http://localhost:9000/${company.companyImage}`}
+                        alt={"Image"}
+                      />
                     </div>
-                  </article>
+                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                      <Form.Control
+                        type="text"
+                        disabled
+                        value={company.companyName}
+                      />
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                      <Form.Control
+                        type="text"
+                        disabled
+                        value={company.companyEmail}
+                      />
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                      <Form.Control
+                        type="text"
+                        disabled
+                        value={company.companyNumber}
+                      />
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                      <Form.Control
+                        type="text"
+                        disabled
+                        value={company.companyAddress}
+                      />
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                      <Form.Control
+                        type="text"
+                        disabled
+                        value={company.companyLocation}
+                      />
+                    </Form.Group>
+                  </div>
                   <div className="profile__article-edit">
                     {!edit &&
                       (state._id === params.id || token?._id === params.id) && (
@@ -664,15 +659,15 @@ const Profile = () => {
                   )}
                   {!edit && !moreInformation && !company.companyDescription && (
                     <div
-                      className="profile__article-edit--rte"
+                      className="profile__article-edit--rte feedbacks__specific-wrapper"
                       dangerouslySetInnerHTML={{
-                        __html: "Trenutno nema podataka o tvrtki",
+                        __html: "<h2>Trenutno nema podataka o tvrtki</h2>",
                       }}
                     />
                   )}
                   {!edit && moreInformation && (
                     <div
-                      className="profile__article-edit--rte"
+                      className="profile__article-edit--rte feedbacks__specific-wrapper"
                       dangerouslySetInnerHTML={{
                         __html: moreInformation,
                       }}
@@ -680,7 +675,7 @@ const Profile = () => {
                   )}
                   {!edit && company.companyDescription && !moreInformation && (
                     <div
-                      className="profile__article-edit--rte"
+                      className="profile__article-edit--rte feedbacks__specific-wrapper"
                       dangerouslySetInnerHTML={{
                         __html: company.companyDescription,
                       }}
