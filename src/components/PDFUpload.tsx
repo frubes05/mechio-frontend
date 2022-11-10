@@ -35,11 +35,7 @@ const PDFUpload = ({onInput}: {onInput: Function}) => {
 
   return (
     <Form.Group className='image-upload'>
-        <FormControl type='file' accept='.pdf' onChange={pickedHandler} name='pdf'></FormControl>
-        <div className="pdf-upload__preview">
-            {typeof(previewUrl) === 'string' && <p className='image-upload--text'>Odabrali ste PDF</p>}
-            {!previewUrl && <p className='image-upload--text'>Odaberite PDF</p>}
-        </div>
+        <FormControl type='file' accept='.pdf' onChange={pickedHandler} placeholder='Dodajte PDF CV-a' name='pdf'></FormControl>
     </Form.Group>
   )
 }

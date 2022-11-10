@@ -6,6 +6,8 @@ import PDFUpload from "./PDFUpload";
 
 const Step3 = ({
   setCompanyDescription,
+  setAddress,
+  setLocation,
   onPDFInput,
   onInput,
   nextStep,
@@ -37,13 +39,22 @@ const Step3 = ({
       )}
       {lastItem === "posloprimci" && (
         <>
-          <PDFUpload onInput={onPDFInput!}/>
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Control
+              type="text"
+              placeholder="Adresa"
+              onChange={(e) => setAddress!(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Control
+              type="text"
+              placeholder="Grad"
+              onChange={(e) => setLocation!(e.target.value)}
+            />
+          </Form.Group>
+          <PDFUpload onInput={onPDFInput!} />
           <ImageUpload onInput={onInput!} />
-          <div className="user__form-buttons">
-            <Button variant="primary" type="submit" className="user__login-btn">
-              Registracija
-            </Button>
-          </div>
         </>
       )}
     </>

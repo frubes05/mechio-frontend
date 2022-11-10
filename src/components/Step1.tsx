@@ -83,20 +83,6 @@ const Step1 = ({
               onChange = {(e) => setNumber!(e.target.value)}
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Control
-              type="text"
-              placeholder="Adresa"
-              onChange = {(e) => setAddress!(e.target.value)}
-            />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Control
-              type="text"
-              placeholder="Grad"
-              onChange = {(e) => setLocation!(e.target.value)}
-            />
-          </Form.Group>
         </>
       )}
     </div>

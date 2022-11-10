@@ -40,7 +40,7 @@ const UserRegister = ({
       setFullname(data[0]?.fullname);
     },
     onError: (error) => {},
-    onInit: false
+    onInit: false,
   });
 
   const registerUser = useFetch({
@@ -69,7 +69,7 @@ const UserRegister = ({
         setStatus("Fullfilled");
       }, 3000);
     },
-    onInit: true
+    onInit: true,
   });
 
   const submitHandler = async (e: React.FormEvent) => {
@@ -106,24 +106,34 @@ const UserRegister = ({
 
   const onPDFInput = (file: File, valid: any) => {
     setCv(file);
-  }
+  };
 
   return (
     <>
-      <Form onSubmit={submitHandler}>
+      <Form onSubmit={submitHandler} className="company__form-register">
+      <div className="company__form-register--left">
         <Step1
           setFullname={setFullname}
           setNumber={setNumber}
-          setAddress={setAddress}
-          setLocation={setLocation}
           emailRef={email}
           setPassword={setPassword}
         ></Step1>
-        <Step3 onPDFInput={onPDFInput} onInput={onInput}></Step3>
-        <Button className="user__switch-btn" onClick={changeShowingForm}>
-          Posjeduješ već račun? Slobodno se prijavi
-        </Button>
+      </div>
+      <div className="company__form-register--right">
+        <Step3
+          setAddress={setAddress}
+          setLocation={setLocation}
+          onPDFInput={onPDFInput}
+          onInput={onInput}
+        ></Step3>
+      </div>
       </Form>
+      <Button variant="primary" type="submit" className="user__login-btn" onClick={submitHandler}>
+        Registracija
+      </Button>
+      <Button className="user__switch-btn" onClick={changeShowingForm}>
+        Posjeduješ već račun? Slobodno se prijavi
+      </Button>
       {status === "Pending" && <LoadingSpinner />}
     </>
   );
