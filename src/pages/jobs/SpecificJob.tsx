@@ -6,7 +6,7 @@ import { IUserToken } from "../users/User.types";
 import moment from "moment";
 import "moment/locale/hr";
 import { AuthContext } from "../../context/AuthContext";
-import { Button, Container, Row, Col } from "react-bootstrap";
+import { Button, Container, Row, Col, Form } from "react-bootstrap";
 import { toast, ToastContainer } from "react-toastify";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import "react-toastify/dist/ReactToastify.css";
@@ -15,23 +15,20 @@ import { FaRegEdit } from "react-icons/fa";
 
 import useFetch from "../../hooks/useFetch";
 
-import {GTMTrackingHelper} from '../../services/GTMService';
+import { GTMTrackingHelper } from "../../services/GTMService";
 
 interface ICompanies {
   companies: ICompany[];
   setRefetch: (bool: boolean) => void;
 }
 
-const SpecificJob: React.FC<ICompanies> = ({
-  companies,
-  setRefetch,
-}) => {
+const SpecificJob: React.FC<ICompanies> = ({ companies, setRefetch }) => {
   moment().locale("hr");
   const { state } = useContext(AuthContext);
   const [token, setToken] = useState<ICompanyToken & IUserToken>();
   const [job, setJob] = useState<null | IJobs>(null);
   const [showing, setShowing] = useState<boolean>(false);
-  const [status, setStatus] = useState<string>('');
+  const [status, setStatus] = useState<string>("");
   const params = useParams();
   const navigate = useNavigate();
 
@@ -42,7 +39,7 @@ const SpecificJob: React.FC<ICompanies> = ({
       setJob(data);
     },
     onError: (error) => {},
-    onInit: true
+    onInit: true,
   });
 
   const deleteSpecificJob = useFetch({
@@ -54,12 +51,18 @@ const SpecificJob: React.FC<ICompanies> = ({
         navigate(-1);
       }, 4000);
       setRefetch(true);
-      GTMTrackingHelper('Klik', 'Obrisan posao', `${job?.position}`, `${job?.company}`, `${job?.location}`)
+      GTMTrackingHelper(
+        "Klik",
+        "Obrisan posao",
+        `${job?.position}`,
+        `${job?.company}`,
+        `${job?.location}`
+      );
     },
     onError: (error) => {
       toast.error("Došlo je do pogrješke", { autoClose: 3000 });
     },
-    onInit: true
+    onInit: true,
   });
 
   const admitToSpecificJob = useFetch({
@@ -70,24 +73,30 @@ const SpecificJob: React.FC<ICompanies> = ({
         ? toast.error(data.message, { autoClose: 3000 })
         : toast.success(data.message, { autoClose: 3000 });
       setRefetch(true);
-      GTMTrackingHelper('Klik', 'Prijava', `${job?.position}`, `${job?.company}`, null)
+      GTMTrackingHelper(
+        "Klik",
+        "Prijava",
+        `${job?.position}`,
+        `${job?.company}`,
+        null
+      );
     },
     onError: (error) => {
       toast.error("Došlo je do pogrješke", { autoClose: 3000 });
     },
-    onInit: true
+    onInit: true,
   });
 
   const trackAdmitance = useFetch({
     url: `http://localhost:9000/analitika`,
-    method: 'post',
+    method: "post",
     onSuccess: (data) => {
       return;
     },
     onError: (data) => {
       return;
     },
-    onInit: true
+    onInit: true,
   });
 
   useEffect(() => {
@@ -106,9 +115,9 @@ const SpecificJob: React.FC<ICompanies> = ({
         userId: state._id || token?._id,
       }
     );
-    trackAdmitance.handleFetch('http://localhost:9000/analitika', {
-      action: 'Prijava',
-      category: 'Posao',
+    trackAdmitance.handleFetch("http://localhost:9000/analitika", {
+      action: "Prijava",
+      category: "Posao",
       companyId: job?.companyId,
       isEmployed: false,
       isRegistered: true,
@@ -116,34 +125,32 @@ const SpecificJob: React.FC<ICompanies> = ({
       userLocation: state.userLocation || token?.userLocation,
       jobId: params.id,
       jobPosition: job?.position,
-      date: new Date()
-    })
+      date: new Date(),
+    });
   };
 
   const handleDelete = () => {
     deleteSpecificJob.handleFetch(
       `http://localhost:9000/poslovi/izbrisi-oglas/${params.id}`
     );
-    setStatus('Pending');
-    }
+    setStatus("Pending");
+  };
 
   const selected = companies
     ? companies.filter(
         (company) =>
-          (company._id === state._id ||
-            company._id === token?._id) &&
+          (company._id === state._id || company._id === token?._id) &&
           job?.companyId === company._id
       )
     : null;
 
-  
   useEffect(() => {
-   const user = (state._id || token?._id) ?? 'null';
-    
-    if (job && (state._id || token?._id) !== job.companyId ) {
-      trackAdmitance.handleFetch('http://localhost:9000/analitika', {
-        action: 'Posjet',
-        category: 'Posao',
+    const user = (state._id || token?._id) ?? "null";
+
+    if (job && (state._id || token?._id) !== job.companyId) {
+      trackAdmitance.handleFetch("http://localhost:9000/analitika", {
+        action: "Posjet",
+        category: "Posao",
         companyId: job.companyId,
         isEmployed: false,
         isRegistered: !!(state._id || token?._id),
@@ -151,8 +158,8 @@ const SpecificJob: React.FC<ICompanies> = ({
         userLocation: state.userLocation || token?.userLocation,
         jobId: params.id,
         jobPosition: job?.position,
-        date: new Date()
-      })
+        date: new Date(),
+      });
     }
   }, [job]);
 
@@ -164,6 +171,7 @@ const SpecificJob: React.FC<ICompanies> = ({
           <Row className="specificjob__row">
             <Col md={4} lg={4} xlg={4} className="specificjob__first">
               <div className="specificjob__sticky">
+                <h2 className="profile__main-title">Posao</h2>
                 <Link
                   to={`/profil/${job?.companyId}`}
                   className="specificjob__img"
@@ -176,26 +184,42 @@ const SpecificJob: React.FC<ICompanies> = ({
                 {job && (
                   <>
                     <article className="specificjob__article">
-                      <div className="specificjob__basic">
-                        <h2 className="specificjob__basic-info">
-                          <span>Tvrtka:</span>
-                          <span className="specificjob__company">
-                            {job.company}
-                          </span>
-                        </h2>
-                        <p className="specificjob__basic-info">
-                          <span>Senioritet:</span>
-                          <span className="specificjob__seniority">
-                            {job.seniority}
-                          </span>
-                        </p>
-                        <p className="specificjob__basic-info">
-                          <span>Plaća:</span>
-                          <span className="specificjob__pay">
-                            {job.pay} HRK (Neto)
-                          </span>
-                        </p>
-                      </div>
+                      <Form.Group
+                        className="mb-3"
+                        controlId="formBasicPassword"
+                      >
+                        <Form.Control
+                          type="text"
+                          disabled
+                          value={job.company}
+                        />
+                      </Form.Group>
+                      <Form.Group
+                        className="mb-3"
+                        controlId="formBasicPassword"
+                      >
+                        <Form.Control
+                          type="text"
+                          disabled
+                          value={job.seniority}
+                        />
+                      </Form.Group>
+                      <Form.Group
+                        className="mb-3"
+                        controlId="formBasicPassword"
+                      >
+                        <Form.Control type="text" disabled value={job.pay} />
+                      </Form.Group>
+                      <Form.Group
+                        className="mb-3"
+                        controlId="formBasicPassword"
+                      >
+                        <Form.Control
+                          type="text"
+                          disabled
+                          value={job.location}
+                        />
+                      </Form.Group>
                     </article>
                   </>
                 )}
@@ -232,7 +256,6 @@ const SpecificJob: React.FC<ICompanies> = ({
                         </div>
                       )}
                       <span className="specificjob__location">
-                        {job?.location},{" "}
                         {moment(job?.date.toString()).format("LL")}.
                       </span>
                     </div>
@@ -294,9 +317,7 @@ const SpecificJob: React.FC<ICompanies> = ({
         {fetchSpecificJob.status === "Pending" && (
           <LoadingSpinner></LoadingSpinner>
         )}
-        {status === "Pending" && (
-          <LoadingSpinner></LoadingSpinner>
-        )}
+        {status === "Pending" && <LoadingSpinner></LoadingSpinner>}
       </div>
       <svg
         xmlns="http://www.w3.org/2000/svg"

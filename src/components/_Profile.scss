@@ -151,7 +151,7 @@
       @include button-alt-none;
       font: 700 16px "Roboto", sans-serif !important;
 
-      &:disabled {
+      &:disabled, &:focus {
         color: inherit;
         background-color: transparent;
         border-color: none;

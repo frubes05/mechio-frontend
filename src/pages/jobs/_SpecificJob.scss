@@ -14,7 +14,6 @@
     display: flex;
     justify-content: center;
     overflow: hidden;
-    border-radius: 10px;
 
     @include breakpoint('md') {
       display: block;
@@ -23,10 +22,8 @@
     img {
       height: 300px;
       width: 100%;
-      max-width: 300px;
-      object-fit: contain;
+      object-fit: cover;
       transition: all 0.2s ease-in-out;
-      border-radius: 10px;
 
       @include breakpoint('md') {
         &:hover {
@@ -229,8 +226,7 @@
   &__article {
     display: flex;
     flex-direction: column;
-    gap: 25px;
-    padding: 20px 0;
+    gap: 8px;
   }
 
   &__btn {
@@ -310,5 +306,8 @@
   &__sticky {
     position: sticky;
     top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
   }
 }
