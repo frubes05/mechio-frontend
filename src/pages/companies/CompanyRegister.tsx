@@ -33,7 +33,7 @@ const CompanyRegister = ({
   const [status, setStatus] = useState<string>("");
 
   const registerCompany = useFetch({
-    url: `http://localhost:9000/poslodavci/novi-poslodavac`,
+    url: `https://mechio-api-test.onrender.com/poslodavci/novi-poslodavac`,
     method: "post",
     onSuccess: (data: any) => {
       if (data.token) {
@@ -72,7 +72,7 @@ const CompanyRegister = ({
       formData.append("companyPremium", 'false');
       if (companyImage) formData.append("image", companyImage);
       await registerCompany.handleFetch(
-        "http://localhost:9000/poslodavci/novi-poslodavac",
+        "https://mechio-api-test.onrender.com/poslodavci/novi-poslodavac",
         formData
       );
     } catch (error) {

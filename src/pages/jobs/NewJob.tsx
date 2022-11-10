@@ -30,7 +30,7 @@ const NewJob: React.FC<INewJob> = ({ setRefetch }) => {
   const navigate = useNavigate();
 
   const addNewJob = useFetch({
-    url: `http://localhost:9000/poslovi/novi-oglas`,
+    url: `https://mechio-api-test.onrender.com/poslovi/novi-oglas`,
     method: "post",
     onSuccess: (data) => {
       data.message !== 200
@@ -69,7 +69,7 @@ const NewJob: React.FC<INewJob> = ({ setRefetch }) => {
       seniority: selectValue,
       date: new Date(),
     };
-    addNewJob.handleFetch("http://localhost:9000/poslovi/novi-oglas", newPost);
+    addNewJob.handleFetch("https://mechio-api-test.onrender.com/poslovi/novi-oglas", newPost);
     GTMTrackingHelper('Klik', 'Novi oglas', 'Poslovi',  `${state.companyName || token?.companyName}`, `${moment((new Date())).format("LL")}`);
   };
 
