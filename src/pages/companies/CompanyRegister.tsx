@@ -1,20 +1,32 @@
 import React, { useState, useContext } from "react";
 import jwt_decode from "jwt-decode";
-import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { IFormSwitch } from "./Company.types";
 import { Button, Form } from "react-bootstrap";
 import ImageUpload from "../../components/ImageUpload";
-import { ISteps } from "../../components/Steps.types";
-import StepWizard from "react-step-wizard";
-import Step1 from "../../components/Step1";
-import Step2 from "../../components/Step2";
-import Step3 from "../../components/Step3";
-import Step4 from "../../components/Step4";
 import LoadingSpinner from "../../components/LoadingSpinner";
 
 import useFetch from "../../hooks/useFetch";
 import ReactGA from "react-ga4";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+
+const schema = yup
+  .object({
+    companyName: yup.string().required('Ime je obavezno polje'),
+    companyEmail: yup
+      .string()
+      .email("Unesite valjani email")
+      .required("Email je obavezno polje"),
+    companyPassword: yup.string().min(8, 'Unesite minimalno 8 znamenaka').required("Password je obavezno polje"),
+    companyNumber: yup.string().matches(phoneRegExp, 'Unesite valjani telefonski broj'),
+    companyAddress: yup.string().required('Unesite valjanu adresu'),
+    companyLocation: yup.string().required('Unesite valjani grad'),
+  })
+  .required();
 
 const CompanyRegister = ({
   changeShowingForm,
@@ -31,6 +43,32 @@ const CompanyRegister = ({
   const [companyDescription, setCompanyDescription] = useState<string>("");
   const [companyImage, setCompanyImage] = useState<File | null>(null);
   const [status, setStatus] = useState<string>("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm({
+    mode: "onChange",
+    reValidateMode: "onChange",
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = async (data: any) => {
+    const formData = new FormData();
+    formData.append("companyName", data.companyName);
+    formData.append("companyAddress", data.companyAddress);
+    formData.append("companyLocation", data.companyLocation);
+    formData.append("companyNumber", data.companyNumber);
+    formData.append("companyEmail", data.companyEmail);
+    formData.append("companyPassword", data.companyPassword);
+    formData.append("companyDescription", data.companyDescription);
+    formData.append("companyPremium", "false");
+    if (companyImage) formData.append("image", companyImage);
+    await registerCompany.handleFetch(
+      "http://localhost:9000/poslodavci/novi-poslodavac",
+      formData
+    );
+  };
 
   const registerCompany = useFetch({
     url: `http://localhost:9000/poslodavci/novi-poslodavac`,
@@ -64,48 +102,92 @@ const CompanyRegister = ({
     onInit: true,
   });
 
-  const submitHandler = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const formData = new FormData();
-      formData.append("companyName", companyName);
-      formData.append("companyAddress", companyAddress);
-      formData.append("companyLocation", companyLocation);
-      formData.append("companyNumber", companyNumber);
-      formData.append("companyEmail", companyEmail);
-      formData.append("companyPassword", companyPassword);
-      formData.append("companyDescription", companyDescription);
-      formData.append("companyPremium", "false");
-      if (companyImage) formData.append("image", companyImage);
-      await registerCompany.handleFetch(
-        "http://localhost:9000/poslodavci/novi-poslodavac",
-        formData
-      );
-    } catch (error) {
-      console.log(error);
-    }
+  const onInput = (file: File, valid: any) => {
+    setCompanyImage!(file);
   };
 
   return (
     <>
-      <Form onSubmit={submitHandler} className="company__form-register">
+      <Form className="company__form-register">
         <div className="company__form-register--left">
-          <Step1
-            setCompanyName={setCompanyName}
-            setCompanyEmail={setCompanyEmail}
-            setCompanyPassword={setCompanyPassword}
-            setCompanyNumber={setCompanyNumber}
-          />
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Control
+              type="string"
+              placeholder="Naziv tvrtke"
+              className={`${errors.companyName?.message ? 'error' : ''}`}
+              {...register("companyName", { required: true })}
+            />
+            <Form.Text>
+              {errors.companyName?.message}
+            </Form.Text>
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Control
+              type="email"
+              placeholder="Email tvrtke"
+              className={`${errors.companyEmail?.message ? 'error' : ''}`}
+              {...register("companyEmail", { required: true })}
+            />
+            <Form.Text>
+              {errors.companyEmail?.message}
+            </Form.Text>
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              className={`${errors.companyPassword?.message ? 'error' : ''}`}
+              {...register("companyPassword", { required: true })}
+            />
+            <Form.Text>
+              {errors.companyPassword?.message}
+            </Form.Text>
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Control
+              type="text"
+              placeholder="Kontakt telefon tvrtke"
+              className={`${errors.companyNumber?.message ? 'error' : ''}`}
+              {...register("companyNumber", { required: true })}
+            />
+            <Form.Text>
+              {errors.companyNumber?.message}
+            </Form.Text>
+          </Form.Group>
         </div>
         <div className="company__form-register--right">
-          <Step2
-            setCompanyAddress={setCompanyAddress}
-            setCompanyLocation={setCompanyLocation}
-            setCompanyImage={setCompanyImage}
-          />
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Control
+              type="text"
+              placeholder="Adresa tvrtke"
+              className={`${errors.companyAddress?.message ? 'error' : ''}`}
+              {...register("companyAddress", { required: true })}
+            />
+            <Form.Text>
+              {errors.companyAddress?.message}
+            </Form.Text>
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Control
+              type="text"
+              placeholder="Sjedište tvrtke"
+              className={`${errors.companyLocation?.message ? 'error' : ''}`}
+              {...register("companyLocation", { required: true })}
+            />
+            <Form.Text>
+              {errors.companyLocation?.message}
+            </Form.Text>
+          </Form.Group>
+          <ImageUpload onInput={onInput} />
         </div>
       </Form>
-      <Button variant="primary" type="submit" className="company__login-btn" onClick={submitHandler}>
+      <Button
+        variant="primary"
+        type="submit"
+        className="company__login-btn"
+        onClick={handleSubmit(onSubmit)}
+        disabled={!isValid}
+      >
         Registracija
       </Button>
       <Button className="company__switch-btn" onClick={changeShowingForm}>

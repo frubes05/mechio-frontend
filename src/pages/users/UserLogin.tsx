@@ -1,13 +1,22 @@
 import React, { useState, useContext, useRef, RefObject } from "react";
 import { Form, Button } from "react-bootstrap";
-import axios from "axios";
+import { useForm } from "react-hook-form";
 import jwt_decode from "jwt-decode";
 import { AuthContext } from "../../context/AuthContext";
 import { IFormSwitch } from "./User.types";
 
 import useFetch from "../../hooks/useFetch";
 import LoadingSpinner from "../../components/LoadingSpinner";
-import ReactGA from 'react-ga4';
+import ReactGA from "react-ga4";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+const schema = yup
+  .object({
+    email: yup.string().email("Unesite valjani email").required('Email je obavezno polje'),
+    password: yup.string().required('Password je obavezno polje'),
+  })
+  .required();
 
 const UserLogin = ({
   changeShowingForm,
@@ -15,24 +24,45 @@ const UserLogin = ({
   handleToastSuccess,
 }: IFormSwitch) => {
   const { dispatch } = useContext(AuthContext);
-  const email = useRef() as RefObject<HTMLInputElement>;
+  const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [fullname, setFullname] = useState<string>("");
   const [status, setStatus] = useState<string>("");
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors, isValid },
+  } = useForm({
+    mode: "onChange",
+    reValidateMode: "onChange",
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = async (data: any) => {
+    const { email, password } = data;
+    await getUser.handleFetch(
+      `http://localhost:9000/posloprimci/odredeni-posloprimac/${email}`
+    );
+    await loginUser.handleFetch(
+      "http://localhost:9000/posloprimci/login-posloprimac",
+      {
+        email,
+        password
+      }
+    );
+  };
 
   const getUser = useFetch({
-    url: email.current
-      ? `http://localhost:9000/posloprimci/odredeni-posloprimac/${
-          email.current!.value
-        }`
+    url: email
+      ? `http://localhost:9000/posloprimci/odredeni-posloprimac/${email}`
       : "",
     method: "get",
     onSuccess: (data) => {
       setFullname(data.fullname);
     },
-    onError: (error) => {
-    },
-    onInit: false
+    onError: (error) => {},
+    onInit: false,
   });
 
   const loginUser = useFetch({
@@ -57,47 +87,43 @@ const UserLogin = ({
         setStatus("Fullfilled");
       }, 3000);
     },
-    onInit: true
+    onInit: true,
   });
-
-  const submitHandler = async (e: React.FormEvent) => {
-    e.preventDefault();
-    await getUser.handleFetch(
-      `http://localhost:9000/posloprimci/odredeni-posloprimac/${
-        email.current!.value
-      }`
-    );
-    await loginUser.handleFetch(
-      "http://localhost:9000/posloprimci/login-posloprimac",
-      {
-        email: email.current!.value,
-        password,
-      }
-    );
-  };
 
   return (
     <>
-    <Form onSubmit={submitHandler}>
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Control type="email" placeholder="Email" ref={email} />
-      </Form.Group>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Control
+            type="email"
+            placeholder="Email"
+            className={`${errors.email?.message ? 'error' : ''}`}
+            {...register("email", { required: true })}
+          />
+          <Form.Text>
+            {errors.email?.message}
+          </Form.Text>
+        </Form.Group>
 
-      <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Control
-          type="password"
-          placeholder="Password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </Form.Group>
-      <Button className="user__login-btn" type="submit">
-        Login
-      </Button>
-      <Button className="user__switch-btn" onClick={changeShowingForm}>
-        Još nisi registriran? Učini to u par koraka
-      </Button>
-    </Form>
-    {status === 'Pending' && <LoadingSpinner/>}
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Control
+            type="password"
+            placeholder="Password"
+            className={`${errors.password?.message ? 'error' : ''}`}
+            {...register("password", { required: true })}
+          />
+          <Form.Text>
+            {errors.password?.message}
+          </Form.Text>
+        </Form.Group>
+        <Button className="user__login-btn" type="submit" disabled={!isValid}>
+          Login
+        </Button>
+        <Button className="user__switch-btn" onClick={changeShowingForm}>
+          Još nisi registriran? Učini to u par koraka
+        </Button>
+      </Form>
+      {status === "Pending" && <LoadingSpinner />}
     </>
   );
 };

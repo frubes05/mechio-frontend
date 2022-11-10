@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@hookform/resolvers": "^2.9.10",
     "@splidejs/react-splide": "^0.7.12",
     "@stripe/react-stripe-js": "^1.14.2",
     "@stripe/stripe-js": "^1.42.1",
@@ -25,6 +26,7 @@
     "react-ga": "^3.3.1",
     "react-ga4": "^1.4.1",
     "react-gtm-module": "^2.0.11",
+    "react-hook-form": "^7.39.2",
     "react-icons": "^4.3.1",
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.2.2",
@@ -38,7 +40,8 @@
     "stripe": "^10.16.0",
     "typescript": "^4.6.3",
     "typewriter-effect": "^2.18.2",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yup": "^0.32.11"
   },
   "scripts": {
     "start": "react-scripts start",
