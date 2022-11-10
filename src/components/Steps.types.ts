@@ -12,6 +12,7 @@ export interface IStep1 {
     setCompanyName?: Function,
     setCompanyEmail?: Function,
     setCompanyPassword?: Function,
+    setCompanyNumber?: Function,
     setFullname?: Function,
     setEmail?: Function,
     setNumber?: Function,
@@ -22,6 +23,7 @@ export interface IStep1 {
 };
 
 export interface IStep2 {
+    setCompanyImage?: Function,
     setCompanyAddress?: Function,
     setCompanyLocation?: Function,
     setCompanyNumber?: Function,

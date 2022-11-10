@@ -12,6 +12,38 @@
     @include breakpoint('md') {
       padding: 100px 0;
     }
+
+    &__form {
+      &-register {
+        display: flex;
+        justify-content: flex-start !important;
+        gap: 24px !important;
+
+        @include breakpoint('md') {
+          flex-direction: row !important;
+        }
+
+        @include breakpoint('lg') {
+          gap: 100px;
+        }
+
+        &--wrapper {
+          width: 100%;
+
+          @include breakpoint('md') {
+            min-width: 800px;
+          }
+
+          @include breakpoint('lg') {
+            min-width: 1200px;
+          }
+        }
+      }
+
+      &-inner {
+        width: 100%;
+      }
+    }
   
     h1 {
       text-align: center;

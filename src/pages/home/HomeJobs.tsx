@@ -9,12 +9,14 @@ const HomeJobs = () => {
   const [jobs, setJobs] = useState<IJobs[] | []>([]);
 
   const getJobs = useFetch({
-    url: "https://mechio-api-test.onrender.com/poslovi",
+    url: "http://localhost:9000/poslovi",
     method: "get",
     onSuccess: (data) => {
-      setJobs(data.slice(-8));
+      if (data) {
+        setJobs(data.slice(-8));
+      }
       if (localStorage.getItem('initial') === 'true') {
-        getJobs.handleFetch("https://mechio-api-test.onrender.com/poslovi");
+        getJobs.handleFetch("http://localhost:9000/poslovi");
         localStorage.removeItem('initial');
       }
     },

@@ -7,6 +7,7 @@ const Step1 = ({
   setCompanyName,
   setCompanyEmail,
   setCompanyPassword,
+  setCompanyNumber,
   setFullname,
   setPassword,
   setNumber,
@@ -40,6 +41,13 @@ const Step1 = ({
               type="password"
               placeholder="Password"
               onChange={(e) => setCompanyPassword!(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Control
+              type="text"
+              placeholder="Kontakt telefon tvrtke"
+              onChange={(e) => setCompanyNumber!(e.target.value)}
             />
           </Form.Group>
         </>

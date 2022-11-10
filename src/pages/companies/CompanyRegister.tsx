@@ -33,13 +33,19 @@ const CompanyRegister = ({
   const [status, setStatus] = useState<string>("");
 
   const registerCompany = useFetch({
-    url: `https://mechio-api-test.onrender.com/poslodavci/novi-poslodavac`,
+    url: `http://localhost:9000/poslodavci/novi-poslodavac`,
     method: "post",
     onSuccess: (data: any) => {
       if (data.token) {
         handleToastSuccess!(data.message);
         const decoded: any = jwt_decode(data.token);
-        dispatch!({ type: "REGISTER", payload: { ...decoded, companyPremium: JSON.parse(decoded.companyPremium) } });
+        dispatch!({
+          type: "REGISTER",
+          payload: {
+            ...decoded,
+            companyPremium: JSON.parse(decoded.companyPremium),
+          },
+        });
         localStorage.setItem("decodedToken", JSON.stringify(decoded));
         setStatus("Pending");
         ReactGA.event("tvrtka_registracija", {
@@ -55,7 +61,7 @@ const CompanyRegister = ({
         setStatus("Fullfilled");
       }, 3000);
     },
-    onInit: true
+    onInit: true,
   });
 
   const submitHandler = async (e: React.FormEvent) => {
@@ -69,10 +75,10 @@ const CompanyRegister = ({
       formData.append("companyEmail", companyEmail);
       formData.append("companyPassword", companyPassword);
       formData.append("companyDescription", companyDescription);
-      formData.append("companyPremium", 'false');
+      formData.append("companyPremium", "false");
       if (companyImage) formData.append("image", companyImage);
       await registerCompany.handleFetch(
-        "https://mechio-api-test.onrender.com/poslodavci/novi-poslodavac",
+        "http://localhost:9000/poslodavci/novi-poslodavac",
         formData
       );
     } catch (error) {
@@ -82,22 +88,29 @@ const CompanyRegister = ({
 
   return (
     <>
-      <Form onSubmit={submitHandler}>
-        <Step1
-          setCompanyName={setCompanyName}
-          setCompanyEmail={setCompanyEmail}
-          setCompanyPassword={setCompanyPassword}
-        />
-        <Step2
-          setCompanyAddress={setCompanyAddress}
-          setCompanyLocation={setCompanyLocation}
-          setCompanyNumber={setCompanyNumber}
-        />
-        <Step4 setCompanyImage={setCompanyImage} />
-        <Button className="company__switch-btn" onClick={changeShowingForm}>
-          Vaša tvrtka već posjeduje račun? Slobodno se prijavite
-        </Button>
+      <Form onSubmit={submitHandler} className="company__form-register">
+        <div className="company__form-register--left">
+          <Step1
+            setCompanyName={setCompanyName}
+            setCompanyEmail={setCompanyEmail}
+            setCompanyPassword={setCompanyPassword}
+            setCompanyNumber={setCompanyNumber}
+          />
+        </div>
+        <div className="company__form-register--right">
+          <Step2
+            setCompanyAddress={setCompanyAddress}
+            setCompanyLocation={setCompanyLocation}
+            setCompanyImage={setCompanyImage}
+          />
+        </div>
       </Form>
+      <Button variant="primary" type="submit" className="company__login-btn" onClick={submitHandler}>
+        Registracija
+      </Button>
+      <Button className="company__switch-btn" onClick={changeShowingForm}>
+        Vaša tvrtka već posjeduje račun? Slobodno se prijavite
+      </Button>
       {status === "Pending" && <LoadingSpinner />}
     </>
   );
