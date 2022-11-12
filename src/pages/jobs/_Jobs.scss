@@ -261,8 +261,13 @@
 
     &-buttons {
       display: flex;
+      flex-direction: column;
       justify-content: flex-start;
       gap: 24px;
+
+      @include breakpoint('md') {
+        flex-direction: row;
+      }
     }
 
     button, a {

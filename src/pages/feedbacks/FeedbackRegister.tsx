@@ -29,8 +29,7 @@ const JobsRegister = () => {
                     Još niste registrirani ?
                   </h5>
                   <h2 className="jobs__register-title">
-                    Obavite registraciju kako biste se mogli prijaviti na
-                    poslove
+                    Obavite registraciju kako biste mogli ostaviti recenziju o tvrtki
                   </h2>
                   <div className="jobs__register-buttons">
                     <NavLink to={"/poslodavci"}>Poslodavci</NavLink>
