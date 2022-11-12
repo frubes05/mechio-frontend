@@ -29,21 +29,21 @@
   
     &-category {
       background-color: transparent !important;
-      border: 1px solid #212529;
+      border: 1px solid #424353;
       padding: 10px 20px;
       border-radius: 30px;
-      color: #212529;
+      color: #424353;
       font-family: 'Roboto', sans-serif;
   
       &:focus, &:hover {
-        border-color: #212529 !important;
+        border-color: #424353 !important;
         box-shadow: none !important;
-        color: #212529;
+        color: #424353;
       }
   
       &--selected {
-        background-color: #212529 !important;
-        border-color: #212529 !important;
+        background-color: #30313d !important;
+        border-color: #30313d !important;
         color: white !important;
       }
     }
@@ -121,5 +121,26 @@
       &--payment {
         color: white !important;
       }
+    }
+
+    input, textarea {
+      border: 1px solid #424353;
+      background: #30313d;
+      color: white;
+
+      &:active, &:focus {
+        background: #30313d;
+        box-shadow: none;
+        border: 1px solid #424353;
+        color: white;
+      }
+
+      &::placeholder {
+        color: #5b5c63
+      }
+    }
+
+    label {
+      color: #5b5c63;
     }
   }
