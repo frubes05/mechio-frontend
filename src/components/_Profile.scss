@@ -185,6 +185,11 @@
         fill: red;
       }
     }
+
+    &--back {
+      margin-top: 24px;
+      @include button;
+    }
   }
 
   &__applications {

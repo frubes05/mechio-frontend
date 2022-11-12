@@ -84,7 +84,7 @@ const Profile = () => {
       setUserFeedbacks(data);
     },
     onError: (error) => {},
-    onInit: false,
+    onInit: true,
   });
 
   const getCompanyJobs = useFetch({
