@@ -290,7 +290,7 @@ const Profile = () => {
               <Col sm={4} md={4} lg={4} xlg={4}>
                 <aside className="profile__aside">
                   <div className="profile__info">
-                    {(state._id === params.id || token?._id === params.id) && (
+                    {(state._id === params.id|| token?._id === params.id) && (
                       <>
                         <h2 className="profile__main-title">Vaš profil</h2>
                         <div className="profile__info-options">
@@ -392,7 +392,7 @@ const Profile = () => {
                         </div>
                       </>
                     )}
-                    {(state._id !== params.id || token?._id !== params.id) && (
+                    {(state._id !== params.id && token?._id !== params.id) && (
                       <>
                         <h2 className="profile__main-title">Profil</h2>
                         <a
