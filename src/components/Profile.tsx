@@ -537,7 +537,12 @@ const Profile = () => {
               <Col sm={4} md={4} lg={4}>
                 <aside className="profile__aside">
                   <div className="profile__info">
-                    <h2 className="profile__main-title">Vaš profil</h2>
+                    {(state._id !== params.id || token?._id !== params.id) && (
+                      <h2 className="profile__main-title">Profil</h2>
+                    )}
+                    {(state._id === params.id || token?._id === params.id) && (
+                      <h2 className="profile__main-title">Vaš Profil</h2>
+                    )}
                     <Button
                       disabled={companyJobs.length === 0}
                       onClick={() => setShowJobs(true)}
@@ -748,7 +753,7 @@ const Profile = () => {
                       )}
                     </article>
                   )}
-                  {!edit && moreInformation === 'undefined' && (
+                  {!edit && moreInformation === "undefined" && (
                     <div
                       className="profile__article-edit--rte feedbacks__specific-wrapper"
                       dangerouslySetInnerHTML={{
@@ -756,7 +761,7 @@ const Profile = () => {
                       }}
                     />
                   )}
-                  {!edit && moreInformation !== 'undefined' && (
+                  {!edit && moreInformation !== "undefined" && (
                     <div
                       className="profile__article-edit--rte feedbacks__specific-wrapper"
                       dangerouslySetInnerHTML={{
