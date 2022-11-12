@@ -17,9 +17,9 @@ import ModalForm from "./Modal";
 import LoadingSpinner from "../components/LoadingSpinner";
 import moment from "moment";
 import "moment/locale/hr";
-import { BsFillFilePdfFill } from "react-icons/bs";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import ChartsContainer from "./ChartsContainer";
+import Paginate from "./Paginate";
 
 const Profile = () => {
   moment().locale("hr");
@@ -43,6 +43,10 @@ const Profile = () => {
   const [companyJobApplications, setCompanyJobApplications] = useState([]);
   const [trackingData, setTrackingData] = useState([]);
   const [columnWidth, setColumnWidth] = useState<any>();
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [postsPerPage, setPostsPerPage] = useState<number>(4);
+  const [getPageNumbers, setPageNumbers] = useState<[] | number[]>([]);
+  const [showingData, setShowingData] = useState<any[]>([]);
 
   const getProfileInformation = useFetch({
     url: `https://mechio-api-test.onrender.com/profil/${params.id}`,
@@ -228,6 +232,55 @@ const Profile = () => {
     }
   }, []);
 
+  useEffect(() => {
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    setShowingData([]);
+    setPageNumbers([]);
+    if (user && showApplication) {
+      handleDataManipulation(
+        userApplications,
+        indexOfFirstPost,
+        indexOfLastPost
+      );
+    } else if (user && showFeedbacks) {
+      handleDataManipulation(userFeedbacks, indexOfFirstPost, indexOfLastPost);
+    } else if (company && showJobs) {
+      handleDataManipulation(companyJobs, indexOfFirstPost, indexOfLastPost);
+    } else if (company && showJobApplicants) {
+      handleDataManipulation(
+        companyJobApplications,
+        indexOfFirstPost,
+        indexOfLastPost
+      );
+    }
+  }, [
+    showApplication,
+    showFeedbacks,
+    showJobs,
+    showJobApplicants,
+    currentPage,
+  ]);
+
+  const handleDataManipulation = (
+    data: any,
+    indexOfFirstPost: number,
+    indexOfLastPost: number
+  ) => {
+    setShowingData(data?.slice(indexOfFirstPost, indexOfLastPost));
+    const getMaxNumbers = Math.ceil(data?.length / postsPerPage);
+
+    for (let i = 1; i <= getMaxNumbers; i++) {
+      setPageNumbers((prev: any) =>
+        !prev!.includes(i) ? [...prev, i] : [...prev]
+      );
+    }
+  };
+
+  const paginate = (num: number) => {
+    setCurrentPage(num);
+  };
+
   return (
     <section className="profile">
       <Container>
@@ -254,28 +307,34 @@ const Profile = () => {
                               setShow={setShowApplication}
                               handleClose={() => setShowApplication(false)}
                             >
-                              <ul className="profile__applications">
-                                {userApplications.length > 0 &&
-                                  userApplications.map((app: any, i) => (
-                                    <li
-                                      key={i}
-                                      className="profile__applications-application"
-                                    >
-                                      <Link to={`/poslovi/${app._id}`}>
-                                        <img
-                                          src={`https://mechio-api-test.onrender.com/${app.companyImage}`}
-                                        ></img>
-                                        <h3>{app.position}</h3>
-                                        <p className="modal-date">
-                                          {moment(app.date.toString()).format(
-                                            "LL"
-                                          )}
-                                          .
-                                        </p>
-                                      </Link>
-                                    </li>
-                                  ))}
-                              </ul>
+                              <>
+                                <ul className="profile__applications">
+                                  {showingData.length > 0 &&
+                                    showingData.map((app: any, i) => (
+                                      <li
+                                        key={i}
+                                        className="profile__applications-application"
+                                      >
+                                        <Link to={`/poslovi/${app._id}`}>
+                                          <img
+                                            src={`https://mechio-api-test.onrender.com/${app.companyImage}`}
+                                          ></img>
+                                          <h3>{app.position}</h3>
+                                          <p className="modal-date">
+                                            {moment(app.date.toString()).format(
+                                              "LL"
+                                            )}
+                                            .
+                                          </p>
+                                        </Link>
+                                      </li>
+                                    ))}
+                                </ul>
+                                <Paginate
+                                  getPageNumbers={getPageNumbers}
+                                  paginate={paginate}
+                                ></Paginate>
+                              </>
                             </ModalForm>
                           )}
                           <Button
@@ -291,29 +350,37 @@ const Profile = () => {
                               setShow={setShowFeedbacks}
                               handleClose={() => setShowFeedbacks(false)}
                             >
-                              <ul className="profile__applications">
-                                {userFeedbacks &&
-                                  userFeedbacks.length > 0 &&
-                                  userFeedbacks.map((info: any, i) => (
-                                    <li
-                                      key={i}
-                                      className="profile__applications-application"
-                                    >
-                                      <Link to={`/recenzije/${info.companyId}`}>
-                                        <img
-                                          src={`https://mechio-api-test.onrender.com/${info.companyImage}`}
-                                        />
-                                        <h3>{info.category}</h3>
-                                        <p className="modal-date">
-                                          {moment(info.date.toString()).format(
-                                            "LL"
-                                          )}
-                                          .
-                                        </p>
-                                      </Link>
-                                    </li>
-                                  ))}
-                              </ul>
+                              <>
+                                <ul className="profile__applications">
+                                  {showingData &&
+                                    showingData.length > 0 &&
+                                    showingData.map((info: any, i) => (
+                                      <li
+                                        key={i}
+                                        className="profile__applications-application"
+                                      >
+                                        <Link
+                                          to={`/recenzije/${info.companyId}`}
+                                        >
+                                          <img
+                                            src={`https://mechio-api-test.onrender.com/${info.companyImage}`}
+                                          />
+                                          <h3>{info.category}</h3>
+                                          <p className="modal-date">
+                                            {moment(
+                                              info.date.toString()
+                                            ).format("LL")}
+                                            .
+                                          </p>
+                                        </Link>
+                                      </li>
+                                    ))}
+                                </ul>
+                                <Paginate
+                                  getPageNumbers={getPageNumbers}
+                                  paginate={paginate}
+                                ></Paginate>
+                              </>
                             </ModalForm>
                           )}
                           <a
@@ -471,23 +538,30 @@ const Profile = () => {
                         setShow={setShowJobs}
                         handleClose={() => setShowJobs(false)}
                       >
-                        <ul className="profile__applications">
-                          {companyJobs.length > 0 &&
-                            companyJobs.map((job: any, i) => (
-                              <li
-                                key={i}
-                                className="profile__applications-application"
-                              >
-                                <Link to={`/poslovi/${job._id}`}>
-                                  <h3>{job.position}</h3>
-                                  <p className="modal-date">
-                                    {job.location},{" "}
-                                    {moment(job.date.toString()).format("LL")}.
-                                  </p>
-                                </Link>
-                              </li>
-                            ))}
-                        </ul>
+                        <>
+                          <ul className="profile__applications">
+                            {showingData.length > 0 &&
+                              showingData.map((job: any, i) => (
+                                <li
+                                  key={i}
+                                  className="profile__applications-application"
+                                >
+                                  <Link to={`/poslovi/${job._id}`}>
+                                    <h3>{job.position}</h3>
+                                    <p className="modal-date">
+                                      {job.location},{" "}
+                                      {moment(job.date.toString()).format("LL")}
+                                      .
+                                    </p>
+                                  </Link>
+                                </li>
+                              ))}
+                          </ul>
+                          <Paginate
+                            getPageNumbers={getPageNumbers}
+                            paginate={paginate}
+                          ></Paginate>
+                        </>
                       </ModalForm>
                     )}
                     {(state._id === params.id || token?._id === params.id) && (
@@ -505,10 +579,10 @@ const Profile = () => {
                             setShow={setShowJobApplicants}
                             handleClose={() => setShowJobApplicants(false)}
                           >
-                            <ul className="profile__applications">
-                              {companyJobApplications.length > 0 &&
-                                companyJobApplications.map(
-                                  (applicant: any, i) => {
+                            <>
+                              <ul className="profile__applications">
+                                {showingData.length > 0 &&
+                                  showingData.map((applicant: any, i) => {
                                     const allFromCompany =
                                       applicant.applications.filter(
                                         (application: any) =>
@@ -532,9 +606,13 @@ const Profile = () => {
                                         </li>
                                       ));
                                     }
-                                  }
-                                )}
-                            </ul>
+                                  })}
+                              </ul>
+                              <Paginate
+                                getPageNumbers={getPageNumbers}
+                                paginate={paginate}
+                              ></Paginate>
+                            </>
                           </ModalForm>
                         )}
                       </>

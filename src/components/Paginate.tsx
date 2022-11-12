@@ -6,8 +6,8 @@ const Paginate = ({getPageNumbers, paginate}: IPaginate) => {
 
   return (
         <Pagination>
-            {getPageNumbers.map((number) => 
-            <Pagination.Item onClick={() => paginate(number)} key={number}>{number}</Pagination.Item>)}
+            {getPageNumbers.map((number, i) => 
+            <Pagination.Item onClick={() => paginate(number)} key={`${number}-${i}`}>{number}</Pagination.Item>)}
         </Pagination>
   )
 }
