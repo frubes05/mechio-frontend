@@ -1,4 +1,4 @@
-export const carouselConfig = (teaserLength: number) => {
+export const carouselConfig = (teaserLength: number, nonClassic = false) => {
   return {
     pagination: false,
     gap: 32,
@@ -21,27 +21,27 @@ export const carouselConfig = (teaserLength: number) => {
         arrows: false,
         padding: {
           left: 10,
-          right: 120,
+          right: nonClassic ? 80 : 120,
         },
         drag: true,
       },
       1056: {
-        type: "slide",
+        type: nonClassic ? "loop" : "slide",
         perPage: 2,
-        arrows: teaserLength > 2 ? true : false,
-        drag: teaserLength > 2 ? true : false,
+        arrows: nonClassic ? false : (teaserLength > 2 ? true : false),
+        drag: nonClassic ? true : (teaserLength > 2 ? true : false),
       },
       1312: {
         type: "slide",
-        perPage: 3,
-        arrows: teaserLength > 3 ? true : false,
-        drag: teaserLength > 3 ? true : false,
+        perPage: nonClassic ? 3 : 4,
+        arrows: nonClassic ? false : (teaserLength > 3 ? true : false),
+        drag: nonClassic ? true : (teaserLength > 3 ? true : false),
       },
       10000: {
         type: "slide",
         perPage: 4,
-        arrows: teaserLength > 4 ? true : false,
-        drag: teaserLength > 4 ? true : false,
+        arrows: nonClassic ? false : (teaserLength > 3 ? true : false),
+        drag: nonClassic ? false : (teaserLength > 3 ? true : false),
       },
     },
   };

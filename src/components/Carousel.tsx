@@ -1,9 +1,7 @@
-import { useState } from "react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import { Link } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import { IJobs } from "../pages/jobs/Jobs.types";
-import useFetch from "../hooks/useFetch";
 import { carouselConfig } from "./carousel.config";
 import moment from "moment";
 import "moment/locale/hr";
@@ -27,7 +25,7 @@ const Carousel: React.FC<ICarousel> = ({ jobs }) => {
                     <div className="jobs__card-picture">
                       <img
                         className="jobs__card-image"
-                        src={"https://mechio-api-test.onrender.com/" + job.companyImage}
+                        src={"http://localhost:9000/" + job.companyImage}
                       />
                       <span className="jobs__card-pill">
                         {moment(job.date.toString()).startOf("day").fromNow()}

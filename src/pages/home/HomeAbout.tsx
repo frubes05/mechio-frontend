@@ -1,20 +1,61 @@
-import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import React, { useState } from "react";
+import { Container, Row, Col, Button } from "react-bootstrap";
+import useFetch from "../../hooks/useFetch";
+
+import { Splide, SplideSlide } from "@splidejs/react-splide";
+
+import { IFeedback } from "../feedbacks/Feedbacks.types";
+import Rating from "../../components/Rating";
+import { carouselConfig } from "../../components/carousel.config";
+import { Link } from "react-router-dom";
 
 const HomeAbout = () => {
+  const [lastThree, setLastThree] = useState<IFeedback[] | []>([]);
+
+  const getLastThreeFeedbacks = useFetch({
+    url: 'http://localhost:9000/recenzije/zadnje',
+    method: 'get',
+    onSuccess: (data) => {
+      setLastThree(data);
+    },
+    onError: (err) => {},
+    onInit: true
+  })
+
   return (
     <section className="home__about">
       <Container>
         <Row>
-          <Col md={12} lg={8} xlg={8}>
-            <h5 className="home__about-subtitle">O nama</h5>
-            <h2 className="home__about-title">Više od obične stranice</h2>
-            <p className="home__about-text">
-              mech.io nastao je kao odgovor na stvarnu potrebu tržišta za
-              jedinstvenom aplikacijom pogodnom za korištenje svim zaposlenima u
-              području strojarstva. Bilo da tražite posao ili ste poslodavac,
-              mech.io pokriva vaše potrebe.
-            </p>
+          <Col md={12} lg={12} xlg={12}>
+            <h5 className="home__about-subtitle">Što o tvrtkama kažu zaposlenici ?</h5>
+            <h2 className="home__about-title">Posljednje dodane recenzije</h2>
+            <Splide className="home__about-carousel" options={carouselConfig(lastThree.length, true)}>
+              {lastThree && lastThree.length && lastThree.map((elem, i) => 
+                <SplideSlide key={i}>
+                  <article className="home__about-article">
+                    <div className="home__about-main">
+                      <img src={`http://localhost:9000/${elem.companyImage}`} alt={elem.companyName} />
+                      <Link to={`/profil/${elem.companyId}`} className="home__about-mainlink">
+                        <h3 className="home__about-maintitle">{elem.companyName}</h3>            
+                      </Link>
+                    </div>
+                    <div className="home__about-info">
+                      <Rating rating={+elem.rating} />
+                      <p className="home__about-info--category">{elem.category}</p>
+                    </div>
+                    <div className="home__about-section">
+                      <h4 className="home__about-sectiontitle">Prednosti</h4>
+                      <p>{elem.positives}</p>
+                      <h4 className="home__about-sectiontitle">Nedostatci</h4>
+                      <p>{elem.negatives}</p>
+                    </div>
+                    <div className="home__about-button">
+                      <Link to={`/recenzije/${elem.companyId}`}>Pogledaj</Link>
+                    </div>
+                  </article>
+                </SplideSlide>
+              )}
+            </Splide>
           </Col>
         </Row>
       </Container>
