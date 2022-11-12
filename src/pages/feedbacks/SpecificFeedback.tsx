@@ -73,7 +73,7 @@ const SpecificFeedback = () => {
       setCompany(data);
     },
     onError: (error: any) => {},
-    onInit: true
+    onInit: true,
   });
 
   const getFeedbacks = useFetch({
@@ -83,7 +83,7 @@ const SpecificFeedback = () => {
       setAllFeedbacks(data);
     },
     onError: (error: any) => {},
-    onInit: true
+    onInit: true,
   });
 
   const submitFeedback = useFetch({
@@ -91,10 +91,16 @@ const SpecificFeedback = () => {
     method: "post",
     onSuccess: (data: any) => {
       getFeedbacks.handleFetch(`http://localhost:9000/recenzije/${params.id}`);
-      GTMTrackingHelper('Klik', 'Dodana recenzija', 'Recenzije', `${company?.companyName}`, null)
+      GTMTrackingHelper(
+        "Klik",
+        "Dodana recenzija",
+        "Recenzije",
+        `${company?.companyName}`,
+        null
+      );
     },
     onError: (error: any) => {},
-    onInit: true
+    onInit: true,
   });
 
   const deleteFeedback = useFetch({
@@ -105,7 +111,7 @@ const SpecificFeedback = () => {
       );
     },
     onError: (error: any) => {},
-    onInit: true
+    onInit: true,
   });
 
   const handleShow = () => setShow(true);
@@ -290,6 +296,7 @@ const SpecificFeedback = () => {
                   <Col xlg={4} lg={4} md={4}>
                     <aside className="feedbacks__aside">
                       <div className="feedbacks__aside-company">
+                        <h2 className="profile__main-title">Tvrtka</h2>
                         <Link to={`/profil/${company._id}`}>
                           <img
                             src={
@@ -297,32 +304,56 @@ const SpecificFeedback = () => {
                             }
                           ></img>
                         </Link>
-                        <div className="feedbacks__aside-info">
-                          <h2 className="feedbacks__aside-info--text">
-                            <span>Tvrtka:</span>
-                            <span className="feedbacks__aside-info--title">
-                              {company?.companyName}
-                            </span>
-                          </h2>
-                          <p className="feedbacks__aside-info--text">
-                            <span>Adresa:</span>
-                            <span className="feedbacks__aside-info--more">
-                              {company?.companyAddress}
-                            </span>
-                          </p>
-                          <p className="feedbacks__aside-info--text">
-                            <span>Email:</span>
-                            <span className="feedbacks__aside-info--more">
-                              {company?.companyEmail}
-                            </span>
-                          </p>
-                          <p className="feedbacks__aside-info--text">
-                            <span>Kontakt:</span>
-                            <span className="feedbacks__aside-info--more">
-                              {company?.companyNumber}
-                            </span>
-                          </p>
-                        </div>
+                        <Form.Group
+                          className="mb-3"
+                          controlId="formBasicPassword"
+                        >
+                          <Form.Control
+                            type="text"
+                            disabled
+                            value={company.companyName}
+                          />
+                        </Form.Group>
+                        <Form.Group
+                          className="mb-3"
+                          controlId="formBasicPassword"
+                        >
+                          <Form.Control
+                            type="text"
+                            disabled
+                            value={company.companyEmail}
+                          />
+                        </Form.Group>
+                        <Form.Group
+                          className="mb-3"
+                          controlId="formBasicPassword"
+                        >
+                          <Form.Control
+                            type="text"
+                            disabled
+                            value={company.companyNumber}
+                          />
+                        </Form.Group>
+                        <Form.Group
+                          className="mb-3"
+                          controlId="formBasicPassword"
+                        >
+                          <Form.Control
+                            type="text"
+                            disabled
+                            value={company.companyAddress}
+                          />
+                        </Form.Group>
+                        <Form.Group
+                          className="mb-3"
+                          controlId="formBasicPassword"
+                        >
+                          <Form.Control
+                            type="text"
+                            disabled
+                            value={company.companyLocation}
+                          />
+                        </Form.Group>
                       </div>
                       {(state?.user || token?.user) && (
                         <Button
