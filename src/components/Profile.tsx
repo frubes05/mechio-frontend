@@ -281,6 +281,8 @@ const Profile = () => {
     setCurrentPage(num);
   };
 
+  console.log(edit, moreInformation);
+
   return (
     <section className="profile">
       <Container>
@@ -392,6 +394,17 @@ const Profile = () => {
                         </div>
                       </>
                     )}
+                    {(state._id !== params.id || token?._id !== params.id) && (
+                      <>
+                        <h2 className="profile__main-title">Profil</h2>
+                        <a
+                          href={`https://mechio-api-test.onrender.com/${user.cv}`}
+                          target="_blank"
+                        >
+                          CV
+                        </a>
+                      </>
+                    )}
                   </div>
                   <div className="profile__about">
                     <div className="profile__img">
@@ -461,7 +474,7 @@ const Profile = () => {
                     </Button>
                   )}
                 </div>
-                {!edit && !moreInformation && !user?.about && (
+                {!edit && !moreInformation && (
                   <div
                     className="profile__article-edit--rte feedbacks__specific-wrapper"
                     dangerouslySetInnerHTML={{
@@ -735,7 +748,7 @@ const Profile = () => {
                       )}
                     </article>
                   )}
-                  {!edit && !moreInformation && !company.companyDescription && (
+                  {!edit && moreInformation === 'undefined' && (
                     <div
                       className="profile__article-edit--rte feedbacks__specific-wrapper"
                       dangerouslySetInnerHTML={{
@@ -743,7 +756,7 @@ const Profile = () => {
                       }}
                     />
                   )}
-                  {!edit && moreInformation && (
+                  {!edit && moreInformation !== 'undefined' && (
                     <div
                       className="profile__article-edit--rte feedbacks__specific-wrapper"
                       dangerouslySetInnerHTML={{
