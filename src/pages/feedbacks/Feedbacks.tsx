@@ -16,6 +16,7 @@ import Filter from "../../components/Filter";
 import { filteringService } from "../../services/filtering";
 
 import ReactGA from 'react-ga4';
+import Advices from "../../components/Advices";
 
 interface IFeedbacks {
   status: string;
@@ -80,6 +81,7 @@ const Feedbacks: React.FC<IFeedbacks> = ({ status }) => {
         </Container>
       )}
       {companies.length > 0 && <FeedbackCompanies companies={selectedCompanies}/>}
+      <Advices></Advices>
       {getCompanies.status === 'Pending' && <LoadingSpinner></LoadingSpinner>}
     </main>
   );
