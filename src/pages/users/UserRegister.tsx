@@ -78,13 +78,13 @@ const UserRegister = ({
     }
     if (image) formData.append("image", image);
     await registerUser.handleFetch(
-      "https://mechio-api-test.onrender.composloprimci/novi-posloprimac",
+      "https://mechio-api-test.onrender.com/posloprimci/novi-posloprimac",
       formData
     );
   };
 
   const registerUser = useFetch({
-    url: `https://mechio-api-test.onrender.composloprimci/novi-posloprimac`,
+    url: `https://mechio-api-test.onrender.com/posloprimci/novi-posloprimac`,
     method: "post",
     onSuccess: (data) => {
       if (data.token) {

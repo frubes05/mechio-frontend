@@ -25,7 +25,7 @@ const Carousel: React.FC<ICarousel> = ({ jobs }) => {
                     <div className="jobs__card-picture">
                       <img
                         className="jobs__card-image"
-                        src={"https://mechio-api-test.onrender.com" + job.companyImage}
+                        src={"https://mechio-api-test.onrender.com/" + job.companyImage}
                       />
                       <span className="jobs__card-pill">
                         {moment(job.date.toString()).startOf("day").fromNow()}

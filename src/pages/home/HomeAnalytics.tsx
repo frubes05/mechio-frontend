@@ -14,7 +14,7 @@ const HomeAnalytics: React.FC<IHomeAnalytics> = ({ data }) => {
   const [wrapperWidth, setWrapperWidth] = useState<any>();
 
   const getFeedbacks = useFetch({
-    url: `https://mechio-api-test.onrender.comrecenzije`,
+    url: `https://mechio-api-test.onrender.com/recenzije`,
     method: "get",
     onSuccess: (data: any) => {
       setFeedbacks(data);

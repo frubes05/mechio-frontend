@@ -58,7 +58,7 @@ function App() {
   }, []);
 
   const getCompanies = useFetch({
-    url: "https://mechio-api-test.onrender.composlodavci",
+    url: "https://mechio-api-test.onrender.com/poslodavci",
     method: "get",
     onSuccess: (data) => {
       setCompanies(data);
@@ -68,7 +68,7 @@ function App() {
   });
 
   const getJobs = useFetch({
-    url: "https://mechio-api-test.onrender.composlovi",
+    url: "https://mechio-api-test.onrender.com/poslovi",
     method: "get",
     onSuccess: (data) => {
       setJobs(data);
@@ -79,9 +79,9 @@ function App() {
 
   useEffect(() => {
     if (refetch) {
-      getJobs.handleFetch("https://mechio-api-test.onrender.composlovi");
+      getJobs.handleFetch("https://mechio-api-test.onrender.com/poslovi");
       getCompanies.handleFetch(
-        "https://mechio-api-test.onrender.composlodavci"
+        "https://mechio-api-test.onrender.com/poslodavci"
       );
     }
     setRefetch(false);

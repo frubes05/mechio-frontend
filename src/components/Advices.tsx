@@ -22,7 +22,7 @@ const Advices = () => {
   }, []);
 
   const getAdvices = useFetch({
-    url: "https://mechio-api-test.onrender.comsavjeti",
+    url: "https://mechio-api-test.onrender.com/savjeti",
     method: "get",
     onSuccess: (data) => {
       setAdvices(data);
@@ -33,9 +33,9 @@ const Advices = () => {
 
   useEffect(() => {
     if ((state.user || token?.user) || (!state.user && !token?.user && !state.company && !token?.company)) {
-      getAdvices.handleFetch('https://mechio-api-test.onrender.comsavjeti/posloprimac')
+      getAdvices.handleFetch('https://mechio-api-test.onrender.com/savjeti/posloprimac')
     } else if (state.company || token?.company) {
-      getAdvices.handleFetch('https://mechio-api-test.onrender.comsavjeti/poslodavac')
+      getAdvices.handleFetch('https://mechio-api-test.onrender.com/savjeti/poslodavac')
     }
   }, [state, token])
 

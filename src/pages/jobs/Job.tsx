@@ -15,7 +15,7 @@ const Job: FC<IJob> = ({ job }) => {
   const [companies, setCompanies] = useState<null | ICompany[]>(null);
 
   const getCompanies = useFetch({
-    url: "https://mechio-api-test.onrender.composlodavci",
+    url: "https://mechio-api-test.onrender.com/poslodavci",
     method: "get",
     onSuccess: (data) => {
       setCompanies(data);
@@ -33,7 +33,7 @@ const Job: FC<IJob> = ({ job }) => {
               <img
                 loading="lazy"
                 className="jobs__card-image"
-                src={"https://mechio-api-test.onrender.com" + job.companyImage}
+                src={"https://mechio-api-test.onrender.com/" + job.companyImage}
               />
               <span className="jobs__card-pill">
                 {moment(job.date.toString()).startOf("day").fromNow()}

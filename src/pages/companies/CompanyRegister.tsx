@@ -65,13 +65,13 @@ const CompanyRegister = ({
     formData.append("companyPremium", "false");
     if (companyImage) formData.append("image", companyImage);
     await registerCompany.handleFetch(
-      "https://mechio-api-test.onrender.composlodavci/novi-poslodavac",
+      "https://mechio-api-test.onrender.com/poslodavci/novi-poslodavac",
       formData
     );
   };
 
   const registerCompany = useFetch({
-    url: `https://mechio-api-test.onrender.composlodavci/novi-poslodavac`,
+    url: `https://mechio-api-test.onrender.com/poslodavci/novi-poslodavac`,
     method: "post",
     onSuccess: (data: any) => {
       if (data.token) {
