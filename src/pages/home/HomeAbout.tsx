@@ -13,7 +13,7 @@ const HomeAbout = () => {
   const [lastThree, setLastThree] = useState<IFeedback[] | []>([]);
 
   const getLastThreeFeedbacks = useFetch({
-    url: "http://localhost:9000/recenzije/zadnje",
+    url: "https://mechio-api-test.onrender.comrecenzije/zadnje",
     method: "get",
     onSuccess: (data) => {
       setLastThree(data);
@@ -43,7 +43,7 @@ const HomeAbout = () => {
                       <article className="home__about-article">
                         <div className="home__about-main">
                           <img
-                            src={`http://localhost:9000/${elem.companyImage}`}
+                            src={`https://mechio-api-test.onrender.com${elem.companyImage}`}
                             alt={elem.companyName}
                           />
                           <Link

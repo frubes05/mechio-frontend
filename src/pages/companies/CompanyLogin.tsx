@@ -43,10 +43,10 @@ const CompanyLogin = ({
   const onSubmit = async (data: any) => {
     const {companyEmail, companyPassword} = data;
     await checkUser.handleFetch(
-      `http://localhost:9000/poslodavci/email/${companyEmail}`
+      `https://mechio-api-test.onrender.composlodavci/email/${companyEmail}`
     );
     await checkLogin.handleFetch(
-      "http://localhost:9000/poslodavci/login-poslodavac",
+      "https://mechio-api-test.onrender.composlodavci/login-poslodavac",
       {
         companyEmail,
         companyPassword,
@@ -55,7 +55,7 @@ const CompanyLogin = ({
   };
 
   const checkUser = useFetch({
-    url: companyEmail ? `http://localhost:9000/poslodavci/email/${companyEmail}` : "",
+    url: companyEmail ? `https://mechio-api-test.onrender.composlodavci/email/${companyEmail}` : "",
     method: "get",
     onSuccess: (data) => {
       if (data) {
@@ -68,7 +68,7 @@ const CompanyLogin = ({
   });
 
   const getCompanies = useFetch({
-    url: "http://localhost:9000/poslodavci",
+    url: "https://mechio-api-test.onrender.composlodavci",
     method: "get",
     onSuccess: (data) => {
       setCompanies(data);
@@ -78,7 +78,7 @@ const CompanyLogin = ({
   });
 
   const checkLogin = useFetch({
-    url: "http://localhost:9000/poslodavci/login-poslodavac",
+    url: "https://mechio-api-test.onrender.composlodavci/login-poslodavac",
     method: "post",
     onSuccess: (data) => {
       if (data.token && companyName) {

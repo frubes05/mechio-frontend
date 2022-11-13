@@ -14,7 +14,7 @@ const Search = ({ show, setShowBigSearch, showBigSearch }: ISearch) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:9000/poslodavci")
+      .get("https://mechio-api-test.onrender.composlodavci")
       .then((res) => setCompanies(res.data));
   }, []);
 
@@ -71,7 +71,7 @@ const Search = ({ show, setShowBigSearch, showBigSearch }: ISearch) => {
                       <Link to={"#"} className="search__backdrop-link">
                         <img
                           className="search__backdrop-input--image"
-                          src={"http://localhost:9000/" + company.companyImage}
+                          src={"https://mechio-api-test.onrender.com" + company.companyImage}
                         />
                         <div className="search__backdrop-input--content">
                           <h3>{company.companyName}</h3>

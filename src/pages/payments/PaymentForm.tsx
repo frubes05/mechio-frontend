@@ -33,7 +33,7 @@ const Payments = () => {
   }, []);
 
   const getPayment = useFetch({
-    url: "http://localhost:9000/placanja",
+    url: "https://mechio-api-test.onrender.complacanja",
     method: "post",
     onSuccess: (data) => {
       toast.success("Odabrali ste premium paket!", { autoClose: 1000 });
@@ -61,7 +61,7 @@ const Payments = () => {
       try {
         const { id } = paymentMethod;
         if (state.company || token?.company) {
-          await getPayment.handleFetch(`http://localhost:9000/placanja`, {
+          await getPayment.handleFetch(`https://mechio-api-test.onrender.complacanja`, {
             amount: 1000,
             id,
             companyId: state._id || token?._id,
