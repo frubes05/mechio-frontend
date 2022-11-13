@@ -1,11 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import useFetch from "../hooks/useFetch";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import { advicesConfig } from "../components/carousel.config";
+import { AuthContext } from "../context/AuthContext";
+import { ICompanyToken } from "../pages/companies/Company.types";
+import { IUserToken } from "../pages/users/User.types";
+import LoadingSpinner from "./LoadingSpinner";
 
 const Advices = () => {
   const [advices, setAdvices] = useState<any[]>([]);
+  const { state, dispatch, setShowAll, showAll } = useContext(AuthContext);
+  const [token, setToken] = useState<(ICompanyToken & IUserToken) | null>(null);
+
+  useEffect(() => {
+    if (localStorage.getItem("decodedToken")) {
+      const tokenObj = localStorage.getItem("decodedToken");
+      const tokenReal = JSON.parse(tokenObj!);
+      setToken(tokenReal);
+    }
+  }, []);
 
   const getAdvices = useFetch({
     url: "http://localhost:9000/savjeti",
@@ -14,16 +28,35 @@ const Advices = () => {
       setAdvices(data);
     },
     onError: (err) => {},
-    onInit: true,
+    onInit: false,
   });
 
+  useEffect(() => {
+    if ((state.user || token?.user) || (!state.user && !token?.user && !state.company && !token?.company)) {
+      getAdvices.handleFetch('http://localhost:9000/savjeti/posloprimac')
+    } else if (state.company || token?.company) {
+      getAdvices.handleFetch('http://localhost:9000/savjeti/poslodavac')
+    }
+  }, [state, token])
+
   return (
+    <>
     <section className="advices">
       <Container>
         <Row>
           <Col>
-            <h5>Kako napisati dobar životopis ?</h5>
-            <h2>Savjeti</h2>
+            {(state.user || token?.user) || (!state.user && !token?.user && !state.company && !token?.company) && 
+            <>
+              <h5>Kako napisati dobar životopis ?</h5>
+              <h2>Savjeti</h2>
+            </>
+            }
+            {(state.company || token?.company) && 
+            <>
+              <h5>Kako pronaći kvalitetnog zaposlenika ?</h5>
+              <h2>Savjeti</h2>
+            </>
+            }
             <Splide options={advicesConfig()}>
               {advices.length > 0 &&
                 advices.map((advice, i) => (
@@ -44,6 +77,8 @@ const Advices = () => {
         </Row>
       </Container>
     </section>
+    {getAdvices.status === 'Pending' && <LoadingSpinner></LoadingSpinner>}
+    </>
   );
 };
 
