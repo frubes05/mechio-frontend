@@ -14,6 +14,7 @@ import { Container, Row, Col } from "react-bootstrap";
 
 import ReactGA from 'react-ga4';
 import { IUserToken } from "../users/User.types";
+import Advices from "../../components/Advices";
 
 interface IJob {
   status: string;
@@ -29,7 +30,7 @@ const Jobs: React.FC<IJob> = ({ status }) => {
   const [postsPerPage, setPostsPerPage] = useState<number>(6);
 
   const getJobs = useFetch({
-    url: "https://mechio-api-test.onrender.com/poslovi",
+    url: "http://localhost:9000/poslovi",
     method: "get",
     onSuccess: (data) => {
       setJobs(data);
@@ -82,6 +83,7 @@ const Jobs: React.FC<IJob> = ({ status }) => {
         </Container>
       )}
       {selectedJobs.length > 0 && <JobsList jobs={selectedJobs}></JobsList>}
+      <Advices></Advices>
       {getJobs.status === "Pending" && <LoadingSpinner></LoadingSpinner>}
     </main>
   );

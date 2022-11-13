@@ -42,10 +42,10 @@ const UserLogin = ({
   const onSubmit = async (data: any) => {
     const { email, password } = data;
     await getUser.handleFetch(
-      `https://mechio-api-test.onrender.com/posloprimci/odredeni-posloprimac/${email}`
+      `http://localhost:9000/posloprimci/odredeni-posloprimac/${email}`
     );
     await loginUser.handleFetch(
-      "https://mechio-api-test.onrender.com/posloprimci/login-posloprimac",
+      "http://localhost:9000/posloprimci/login-posloprimac",
       {
         email,
         password
@@ -55,7 +55,7 @@ const UserLogin = ({
 
   const getUser = useFetch({
     url: email
-      ? `https://mechio-api-test.onrender.com/posloprimci/odredeni-posloprimac/${email}`
+      ? `http://localhost:9000/posloprimci/odredeni-posloprimac/${email}`
       : "",
     method: "get",
     onSuccess: (data) => {
@@ -66,7 +66,7 @@ const UserLogin = ({
   });
 
   const loginUser = useFetch({
-    url: `https://mechio-api-test.onrender.com/posloprimci/login-posloprimac`,
+    url: `http://localhost:9000/posloprimci/login-posloprimac`,
     method: "post",
     onSuccess: (data) => {
       if (data.token && fullname) {

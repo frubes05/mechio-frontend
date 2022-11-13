@@ -46,3 +46,52 @@ export const carouselConfig = (teaserLength: number, nonClassic = false) => {
     },
   };
 };
+
+export const advicesConfig = () => {
+  return {
+    pagination: false,
+    gap: 32,
+    rewind: false,
+    padding: {
+        left: 10,
+        right: 10
+    },
+    breakpoints: {
+      500: {
+        type: "loop",
+        padding: {
+          left: 10,
+          right: 60
+        }
+      },
+      672: {
+        type: "loop",
+        perPage: 1,
+        arrows: false,
+        padding: {
+          left: 10,
+          right: 120,
+        },
+        drag: true,
+      },
+      1056: {
+        type: "slide",
+        perPage: 2,
+        arrows: true,
+        drag: true,
+      },
+      1312: {
+        type: "slide",
+        perPage: 3,
+        arrows: true,
+        drag: true,
+      },
+      10000: {
+        type: "slide",
+        perPage: 4,
+        arrows: true,
+        drag: true,
+      },
+    },
+  };
+}

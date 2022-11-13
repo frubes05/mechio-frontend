@@ -1,0 +1,89 @@
+.advices {
+  background: radial-gradient(
+    198.57% 1678.87% at 20.74% 37.38%,
+    #3c4043 6.02%,
+    #00c6b4 100%
+  );
+  padding: 4rem 0 6rem;
+
+  .splide {
+    img {
+      align-self: start;
+      height: 100px;
+      width: 100%;
+      object-fit: cover;
+      transition: transform 0.2s ease-in-out;
+    }
+  }
+
+  h5 {
+    @include small-title;
+  }
+
+  h2 {
+    @include big-title;
+    color: white;
+  }
+
+  &__link {
+    text-decoration: none;
+    color: initial;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    height: 100%;
+    box-shadow: 0px 2px 8px rgb(0 0 0 / 20%);
+    border-radius: 10px 0 10px 0;
+    overflow: hidden;
+
+    &:hover {
+        .advices__intro {
+            opacity: 1;
+            color: black;
+        }
+        
+        .advices__title {
+            opacity: 1;
+        }
+
+        img {
+            transform: scale(1.1);
+        }
+    }
+  }
+
+  &__title {
+    color: #00c6b4;
+    font: 700 20px "Poppins", sans-serif;
+    line-height: 30px;
+    opacity: 0.6;
+    transition: opacity 0.2s ease-in-out;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  &__intro {
+    font-family: "Roboto", sans-serif;
+    font-size: 18px;
+    line-height: 24px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    opacity: 0.6;
+    transition: all 0.2s ease-in-out;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 20px 30px;
+  }
+
+  &__img {
+    overflow: hidden;
+  }
+}
