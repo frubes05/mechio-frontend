@@ -281,254 +281,244 @@ const Profile = () => {
     setCurrentPage(num);
   };
 
+  console.log(state._id !== params.id, token?._id !== params.id);
+
   return (
     <section className="profile">
       <Container>
-        {user && (
-          <>
-            <Row className="profile__row">
-              <Col sm={4} md={4} lg={4} xlg={4}>
-                <aside className="profile__aside">
-                  <div className="profile__info">
-                    {(state._id === params.id|| token?._id === params.id) && (
-                      <>
-                        <h2 className="profile__main-title">Vaš profil</h2>
-                        <div className="profile__info-options">
-                          <Button
-                            disabled={user.applications.length === 0}
-                            onClick={() => setShowApplication(true)}
-                          >
-                            Prijave ({userApplications.length})
-                          </Button>
-                          {showApplication && (
-                            <ModalForm
-                              title="Vaše prijave na oglase"
-                              show={showApplication}
-                              setShow={setShowApplication}
-                              handleClose={() => setShowApplication(false)}
-                            >
-                              <>
-                                <ul className="profile__applications">
-                                  {showingData.length > 0 &&
-                                    showingData.map((app: any, i) => (
-                                      <li
-                                        key={i}
-                                        className="profile__applications-application"
-                                      >
-                                        <Link to={`/poslovi/${app._id}`}>
-                                          <img
-                                            src={`https://mechio-api-test.onrender.com/${app.companyImage}`}
-                                          ></img>
-                                          <h3>{app.position}</h3>
-                                          <p className="modal-date">
-                                            {moment(app.date.toString()).format(
-                                              "LL"
-                                            )}
-                                            .
-                                          </p>
-                                        </Link>
-                                      </li>
-                                    ))}
-                                </ul>
-                                <Paginate
-                                  getPageNumbers={getPageNumbers}
-                                  paginate={paginate}
-                                ></Paginate>
-                              </>
-                            </ModalForm>
-                          )}
-                          <Button
-                            disabled={userFeedbacks.length === 0}
-                            onClick={() => setShowFeedbacks(true)}
-                          >
-                            Recenzije ({userFeedbacks.length})
-                          </Button>
-                          {showFeedbacks && (
-                            <ModalForm
-                              title="Vaše recenzije"
-                              show={showFeedbacks}
-                              setShow={setShowFeedbacks}
-                              handleClose={() => setShowFeedbacks(false)}
-                            >
-                              <>
-                                <ul className="profile__applications">
-                                  {showingData &&
-                                    showingData.length > 0 &&
-                                    showingData.map((info: any, i) => (
-                                      <li
-                                        key={i}
-                                        className="profile__applications-application"
-                                      >
-                                        <Link
-                                          to={`/recenzije/${info.companyId}`}
-                                        >
-                                          <img
-                                            src={`https://mechio-api-test.onrender.com/${info.companyImage}`}
-                                          />
-                                          <h3>{info.category}</h3>
-                                          <p className="modal-date">
-                                            {moment(
-                                              info.date.toString()
-                                            ).format("LL")}
-                                            .
-                                          </p>
-                                        </Link>
-                                      </li>
-                                    ))}
-                                </ul>
-                                <Paginate
-                                  getPageNumbers={getPageNumbers}
-                                  paginate={paginate}
-                                ></Paginate>
-                              </>
-                            </ModalForm>
-                          )}
-                          <a
-                            href={`https://mechio-api-test.onrender.com/${user.cv}`}
-                            target="_blank"
-                          >
-                            CV
-                          </a>
-                        </div>
-                      </>
-                    )}
-                    {(state._id !== params.id) || (token?._id !== params.id) && (
-                      <>
-                        <h2 className="profile__main-title">Profil</h2>
-                        <a
-                          href={`https://mechio-api-test.onrender.com/${user.cv}`}
-                          target="_blank"
-                        >
-                          CV
-                        </a>
-                      </>
-                    )}
-                  </div>
-                  <div className="profile__about">
-                    <div className="profile__img">
-                      <img
-                        src={`https://mechio-api-test.onrender.com/${user.image}`}
-                        alt={user.fullname}
-                      />
-                    </div>
-                    <Form.Group className="mb-3" controlId="formBasicPassword">
-                      <Form.Control
-                        type="text"
-                        disabled
-                        value={user.fullname}
-                      />
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="formBasicPassword">
-                      <Form.Control type="text" disabled value={user.email} />
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="formBasicPassword">
-                      <Form.Control type="text" disabled value={user.number} />
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="formBasicPassword">
-                      <Form.Control type="text" disabled value={user.address} />
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="formBasicPassword">
-                      <Form.Control
-                        type="text"
-                        disabled
-                        value={user.location}
-                      />
-                    </Form.Group>
-                  </div>
-                  {(state._id === params.id || token?._id === params.id) && (
-                    <article className="profile__article">
-                      <div className="profile__article-edit">
-                        {!edit && (
-                          <Button
-                            variant="warning"
-                            onClick={() => setEdit(true)}
-                          >
-                            Dodajte nešto o sebi
-                          </Button>
-                        )}
-                      </div>
-                    </article>
-                  )}
-                </aside>
-              </Col>
-              <Col sm={4} md={7} lg={7} xlg={7}>
-                <div className="profile__delete">
-                  {(state._id === params.id || token?._id === params.id) && (
-                    <div className="profile__delete">
-                      <button
-                        className="specificjob-cta__delete"
-                        onClick={() => logout()}
-                      >
-                        <RiDeleteBin6Line />
-                      </button>
-                    </div>
-                  )}
-                  {state._id !== params.id && token?._id !== params.id && (
-                    <Button
-                      className="profile__delete--back"
-                      onClick={() => navigate(-1)}
-                    >
-                      Natrag
-                    </Button>
-                  )}
-                </div>
-                {!edit && !moreInformation && (
-                  <div
-                    className="profile__article-edit--rte feedbacks__specific-wrapper"
-                    dangerouslySetInnerHTML={{
-                      __html: "<h2>Trenutno nema podataka o korisniku</h2>",
-                    }}
-                  />
-                )}
-                {!edit && moreInformation && (
-                  <div
-                    className="profile__article-edit--rte feedbacks__specific-wrapper"
-                    dangerouslySetInnerHTML={{
-                      __html: moreInformation,
-                    }}
-                  />
-                )}
-                {!edit && user.about && !moreInformation && (
-                  <div
-                    className="profile__article-edit--rte feedbacks__specific-wrapper"
-                    dangerouslySetInnerHTML={{ __html: user.about }}
-                  />
-                )}
-                {edit && (
+        {user && <Row className="profile__row">
+          <Col sm={4} md={4} lg={4} xlg={4}>
+            <aside className="profile__aside">
+              <div className="profile__info">
+                {user && (state._id === params.id || token?._id === params.id) && (
                   <>
-                    <div className="profile__article-revert">
+                    <h2 className="profile__main-title">Vaš profil</h2>
+                    <div className="profile__info-options">
                       <Button
-                        variant="secondary"
-                        size="sm"
-                        onClick={() => setEdit(!edit)}
+                        disabled={user.applications.length === 0}
+                        onClick={() => setShowApplication(true)}
                       >
-                        Natrag
+                        Prijave ({userApplications.length})
                       </Button>
-                    </div>
-                    <Editor
-                      value={moreInformation}
-                      setValue={setMoreInformation}
-                    ></Editor>
-                    <div className="profile__article-buttons">
+                      {showApplication && (
+                        <ModalForm
+                          title="Vaše prijave na oglase"
+                          show={showApplication}
+                          setShow={setShowApplication}
+                          handleClose={() => setShowApplication(false)}
+                        >
+                          <>
+                            <ul className="profile__applications">
+                              {showingData.length > 0 &&
+                                showingData.map((app: any, i) => (
+                                  <li
+                                    key={i}
+                                    className="profile__applications-application"
+                                  >
+                                    <Link to={`/poslovi/${app._id}`}>
+                                      <img
+                                        src={`https://mechio-api-test.onrender.com/${app.companyImage}`}
+                                      ></img>
+                                      <h3>{app.position}</h3>
+                                      <p className="modal-date">
+                                        {moment(app.date.toString()).format(
+                                          "LL"
+                                        )}
+                                        .
+                                      </p>
+                                    </Link>
+                                  </li>
+                                ))}
+                            </ul>
+                            <Paginate
+                              getPageNumbers={getPageNumbers}
+                              paginate={paginate}
+                            ></Paginate>
+                          </>
+                        </ModalForm>
+                      )}
                       <Button
-                        size="lg"
-                        onClick={() => {
-                          editProfileInformation.handleFetch(
-                            `https://mechio-api-test.onrender.com/profil/izmijeni/${params.id}`,
-                            { about: moreInformation }
-                          );
-                          setEdit(false);
-                        }}
+                        disabled={userFeedbacks.length === 0}
+                        onClick={() => setShowFeedbacks(true)}
                       >
-                        Potvrdi
+                        Recenzije ({userFeedbacks.length})
                       </Button>
+                      {showFeedbacks && (
+                        <ModalForm
+                          title="Vaše recenzije"
+                          show={showFeedbacks}
+                          setShow={setShowFeedbacks}
+                          handleClose={() => setShowFeedbacks(false)}
+                        >
+                          <>
+                            <ul className="profile__applications">
+                              {showingData &&
+                                showingData.length > 0 &&
+                                showingData.map((info: any, i) => (
+                                  <li
+                                    key={i}
+                                    className="profile__applications-application"
+                                  >
+                                    <Link to={`/recenzije/${info.companyId}`}>
+                                      <img
+                                        src={`https://mechio-api-test.onrender.com/${info.companyImage}`}
+                                      />
+                                      <h3>{info.category}</h3>
+                                      <p className="modal-date">
+                                        {moment(info.date.toString()).format(
+                                          "LL"
+                                        )}
+                                        .
+                                      </p>
+                                    </Link>
+                                  </li>
+                                ))}
+                            </ul>
+                            <Paginate
+                              getPageNumbers={getPageNumbers}
+                              paginate={paginate}
+                            ></Paginate>
+                          </>
+                        </ModalForm>
+                      )}
+                      <a
+                        href={`https://mechio-api-test.onrender.com/${user.cv}`}
+                        target="_blank"
+                      >
+                        CV
+                      </a>
                     </div>
                   </>
                 )}
-              </Col>
-            </Row>
-          </>
-        )}
+                {(!user && state._id !== params.id) ||
+                  (token?._id !== params.id && (
+                    <>
+                      <h2 className="profile__main-title">Profil</h2>
+                      <a
+                        href={`https://mechio-api-test.onrender.com/${user?.cv}`}
+                        target="_blank"
+                      >
+                        CV
+                      </a>
+                    </>
+                  ))}
+              </div>
+              {user && (
+                <div className="profile__about">
+                  <div className="profile__img">
+                    <img
+                      src={`https://mechio-api-test.onrender.com/${user.image}`}
+                      alt={user.fullname}
+                    />
+                  </div>
+                  <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Control type="text" disabled value={user.fullname} />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Control type="text" disabled value={user.email} />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Control type="text" disabled value={user.number} />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Control type="text" disabled value={user.address} />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Control type="text" disabled value={user.location} />
+                  </Form.Group>
+                </div>
+              )}
+              {user && (state._id === params.id || token?._id === params.id) && (
+                <article className="profile__article">
+                  <div className="profile__article-edit">
+                    {!edit && (
+                      <Button variant="warning" onClick={() => setEdit(true)}>
+                        Dodajte nešto o sebi
+                      </Button>
+                    )}
+                  </div>
+                </article>
+              )}
+            </aside>
+          </Col>
+          {user && (
+            <Col sm={4} md={7} lg={7} xlg={7}>
+              <div className="profile__delete">
+                {(state._id === params.id || token?._id === params.id) && (
+                  <div className="profile__delete">
+                    <button
+                      className="specificjob-cta__delete"
+                      onClick={() => logout()}
+                    >
+                      <RiDeleteBin6Line />
+                    </button>
+                  </div>
+                )}
+                {state._id !== params.id && token?._id !== params.id && (
+                  <Button
+                    className="profile__delete--back"
+                    onClick={() => navigate(-1)}
+                  >
+                    Natrag
+                  </Button>
+                )}
+              </div>
+              {!edit && !moreInformation && (
+                <div
+                  className="profile__article-edit--rte feedbacks__specific-wrapper"
+                  dangerouslySetInnerHTML={{
+                    __html: "<h2>Trenutno nema podataka o korisniku</h2>",
+                  }}
+                />
+              )}
+              {!edit && moreInformation && (
+                <div
+                  className="profile__article-edit--rte feedbacks__specific-wrapper"
+                  dangerouslySetInnerHTML={{
+                    __html: moreInformation,
+                  }}
+                />
+              )}
+              {!edit && user.about && !moreInformation && (
+                <div
+                  className="profile__article-edit--rte feedbacks__specific-wrapper"
+                  dangerouslySetInnerHTML={{ __html: user.about }}
+                />
+              )}
+              {edit && (
+                <>
+                  <div className="profile__article-revert">
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      onClick={() => setEdit(!edit)}
+                    >
+                      Natrag
+                    </Button>
+                  </div>
+                  <Editor
+                    value={moreInformation}
+                    setValue={setMoreInformation}
+                  ></Editor>
+                  <div className="profile__article-buttons">
+                    <Button
+                      size="lg"
+                      onClick={() => {
+                        editProfileInformation.handleFetch(
+                          `https://mechio-api-test.onrender.com/profil/izmijeni/${params.id}`,
+                          { about: moreInformation }
+                        );
+                        setEdit(false);
+                      }}
+                    >
+                      Potvrdi
+                    </Button>
+                  </div>
+                </>
+              )}
+            </Col>
+          )}
+        </Row>}
         {company && (
           <>
             <Row className="profile__row">
