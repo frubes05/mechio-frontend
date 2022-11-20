@@ -109,7 +109,7 @@ const UserRegister = ({
         setStatus("Fullfilled");
       }, 3000);
     },
-    onInit: true,
+    onInit: false,
   });
 
   const onInput = (file: File, valid: any) => {
