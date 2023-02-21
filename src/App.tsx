@@ -1,3 +1,5 @@
+//@TODO: Performance optimization
+
 import { useState, useEffect, useContext } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/home/Home";
