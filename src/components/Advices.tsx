@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import useFetch from "../hooks/useFetch";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
@@ -10,7 +10,7 @@ import LoadingSpinner from "./LoadingSpinner";
 
 const Advices = () => {
   const [advices, setAdvices] = useState<any[]>([]);
-  const { state, dispatch, setShowAll, showAll } = useContext(AuthContext);
+  const { state } = useContext(AuthContext);
   const [token, setToken] = useState<(ICompanyToken & IUserToken) | null>(null);
 
   useEffect(() => {

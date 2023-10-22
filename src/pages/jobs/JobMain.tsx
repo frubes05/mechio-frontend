@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Splide, SplideSlide } from "@splidejs/react-splide";

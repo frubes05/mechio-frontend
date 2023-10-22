@@ -10,7 +10,7 @@ interface ICompany {
   status: string;
 }
 
-const Company: React.FC<ICompany> = ({ status }) => {
+const Company: React.FC<ICompany> = () => {
   const navigate = useNavigate();
   const [showingForm, setShowingForm] = useState<boolean>(false);
 

@@ -1,13 +1,10 @@
-import React, { useState, useContext, useRef, RefObject } from "react";
+import { useState, useContext } from "react";
 import ImageUpload from "../../components/ImageUpload";
 import PDFUpload from "../../components/PDFUpload";
 import jwt_decode from "jwt-decode";
 import { AuthContext } from "../../context/AuthContext";
 import { Form, Button } from "react-bootstrap";
 import { IFormSwitch } from "./User.types";
-import Step1 from "../../components/Step1";
-import Step2 from "../../components/Step2";
-import Step3 from "../../components/Step3";
 
 import useFetch from "../../hooks/useFetch";
 import LoadingSpinner from "../../components/LoadingSpinner";
@@ -45,11 +42,6 @@ const UserRegister = ({
 }: IFormSwitch) => {
   const { dispatch } = useContext(AuthContext);
   const [fullname, setFullname] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [number, setNumber] = useState<string>("");
-  const [address, setAddress] = useState<string>("");
-  const [location, setLocation] = useState<string>("");
   const [about, setAbout] = useState<string>("");
   const [cv, setCv] = useState<File | null>(null);
   const [image, setImage] = useState<File | null>(null);

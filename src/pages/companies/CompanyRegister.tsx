@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import jwt_decode from "jwt-decode";
 import { AuthContext } from "../../context/AuthContext";
 import { IFormSwitch } from "./Company.types";
@@ -34,13 +34,6 @@ const CompanyRegister = ({
   handleToastSuccess,
 }: IFormSwitch) => {
   const { dispatch } = useContext(AuthContext);
-  const [companyName, setCompanyName] = useState<string>("");
-  const [companyAddress, setCompanyAddress] = useState<string>("");
-  const [companyLocation, setCompanyLocation] = useState<string>("");
-  const [companyNumber, setCompanyNumber] = useState<string>("");
-  const [companyEmail, setCompanyEmail] = useState<string>("");
-  const [companyPassword, setCompanyPassword] = useState<string>("");
-  const [companyDescription, setCompanyDescription] = useState<string>("");
   const [companyImage, setCompanyImage] = useState<File | null>(null);
   const [status, setStatus] = useState<string>("");
   const {

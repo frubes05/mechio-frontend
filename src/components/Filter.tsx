@@ -4,12 +4,6 @@ import { ICompany } from "../pages/companies/Company.types";
 import { Dropdown, Button, Container, Row, Col } from "react-bootstrap";
 import { IFeedback } from "../pages/feedbacks/Feedbacks.types";
 
-const options = [
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" },
-];
-
 interface IFilter {
   filterOptions: { en: string; hr: string }[];
   jobs: IJobs[] | ICompany[] | IFeedback[];

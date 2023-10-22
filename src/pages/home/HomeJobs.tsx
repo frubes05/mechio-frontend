@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { useState } from "react";
+import { Container } from "react-bootstrap";
 import { IJobs } from "../jobs/Jobs.types";
 import useFetch from "../../hooks/useFetch";
 

@@ -10,7 +10,7 @@ interface IUser {
   status: string;
 }
 
-const User: React.FC<IUser> = ({ status }) => {
+const User: React.FC<IUser> = () => {
   const navigate = useNavigate();
   const [showingForm, setShowingForm] = useState<boolean>(false);
 

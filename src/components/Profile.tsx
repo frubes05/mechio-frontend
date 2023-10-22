@@ -27,7 +27,7 @@ const Profile = () => {
   const params = useParams();
   const navigate = useNavigate();
   const articleWidth = useRef() as any;
-  const { state, dispatch, showAll, setShowAll } = useContext(AuthContext);
+  const { state, dispatch, setShowAll } = useContext(AuthContext);
   const [showApplication, setShowApplication] = useState<boolean>(false);
   const [showFeedbacks, setShowFeedbacks] = useState<boolean>(false);
   const [showJobs, setShowJobs] = useState<boolean>(false);

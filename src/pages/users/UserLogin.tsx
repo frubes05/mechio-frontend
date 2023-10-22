@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef, RefObject } from "react";
+import { useState, useContext } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import jwt_decode from "jwt-decode";
@@ -7,7 +7,6 @@ import { IFormSwitch } from "./User.types";
 
 import useFetch from "../../hooks/useFetch";
 import LoadingSpinner from "../../components/LoadingSpinner";
-import ReactGA from "react-ga4";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
@@ -25,13 +24,11 @@ const UserLogin = ({
 }: IFormSwitch) => {
   const { dispatch } = useContext(AuthContext);
   const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
   const [fullname, setFullname] = useState<string>("");
   const [status, setStatus] = useState<string>("");
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors, isValid },
   } = useForm({
     mode: "onChange",

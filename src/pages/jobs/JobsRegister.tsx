@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Button, Container, Row, Col } from "react-bootstrap";
+import { useState, useEffect, useContext } from "react";
+import { Container, Row, Col } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { ICompanyToken } from "../companies/Company.types";

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { useState } from "react";
+import { Container, Row, Col } from "react-bootstrap";
 import useFetch from "../../hooks/useFetch";
 
 import { Splide, SplideSlide } from "@splidejs/react-splide";

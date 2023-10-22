@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import { IPaginate } from './Paginate.types';
 import { Pagination } from 'react-bootstrap'
 

@@ -66,7 +66,7 @@ const SpecificFeedback = () => {
     category: string;
   } | null>(null);
 
-  const getCompanies = useFetch({
+  useFetch({
     url: `https://mechio-api-test.onrender.com/poslodavci/${params.id}`,
     method: "get",
     onSuccess: (data: any) => {

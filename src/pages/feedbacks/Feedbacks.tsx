@@ -27,7 +27,7 @@ const Feedbacks: React.FC<IFeedbacks> = ({ status }) => {
   const [companies, setCompanies] = useState<ICompany[] | []>([]);
   const [selectedCompanies, setSelectedCompanies] = useState<ICompany[] | []>([]);
 
-  const getCompanies = useFetch({
+  useFetch({
     url: "https://mechio-api-test.onrender.com/poslodavci",
     method: 'get',
     onSuccess: (data) => {

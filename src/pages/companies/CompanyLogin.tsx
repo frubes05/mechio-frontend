@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import jwt_decode from "jwt-decode";
 import { AuthContext } from "../../context/AuthContext";
 import { ICompany, IFormSwitch } from "./Company.types";
@@ -25,14 +25,11 @@ const CompanyLogin = ({
   const { dispatch } = useContext(AuthContext);
   const [companies, setCompanies] = useState<ICompany[] | []>([]);
   const [companyEmail, setCompanyEmail] = useState<string>("");
-  const [companyPassword, setCompanyPassword] = useState<string>("");
   const [companyName, setCompanyName] = useState<string>("");
   const [status, setStatus] = useState<string>("");
   const {
     register,
     handleSubmit,
-    watch,
-    getValues,
     formState: { errors, isValid },
   } = useForm({
     mode: "onChange",
@@ -67,7 +64,7 @@ const CompanyLogin = ({
     onInit: false
   });
 
-  const getCompanies = useFetch({
+  useFetch({
     url: "https://mechio-api-test.onrender.com/poslodavci",
     method: "get",
     onSuccess: (data) => {

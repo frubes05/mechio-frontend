@@ -25,7 +25,6 @@ const NewJob: React.FC<INewJob> = ({ setRefetch }) => {
   const [pay, setPay] = useState<string>("");
   const [token, setToken] = useState<ICompanyToken | null>(null);
   const [description, setDescription] = useState<string>("");
-  const [status, setStatus] = useState<string>("");
   const navigate = useNavigate();
 
   const addNewJob = useFetch({
@@ -39,7 +38,6 @@ const NewJob: React.FC<INewJob> = ({ setRefetch }) => {
         navigate(-1);
       }, 4000);
       setRefetch(true);
-      setStatus('Pending');
     },
     onError: (error) => {
       toast.error("Došlo je do pogrješke", { autoClose: 3000 });

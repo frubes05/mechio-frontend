@@ -27,7 +27,6 @@ const SpecificJob: React.FC<ICompanies> = ({ companies, setRefetch }) => {
   const [token, setToken] = useState<ICompanyToken & IUserToken>();
   const [job, setJob] = useState<null | IJobs>(null);
   const [showing, setShowing] = useState<boolean>(false);
-  const [status, setStatus] = useState<string>("");
   const params = useParams();
   const navigate = useNavigate();
 
@@ -132,7 +131,6 @@ const SpecificJob: React.FC<ICompanies> = ({ companies, setRefetch }) => {
     deleteSpecificJob.handleFetch(
       `https://mechio-api-test.onrender.com/poslovi/izbrisi-oglas/${params.id}`
     );
-    setStatus("Pending");
   };
 
   const selected = companies

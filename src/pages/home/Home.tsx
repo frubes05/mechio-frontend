@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import HomeJobs from './HomeJobs';
 import HomeBenefits from './HomeBenefits';
 import HomeMain from './HomeMain';

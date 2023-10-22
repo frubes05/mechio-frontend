@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ReactDom from "react-dom";
 import { Link } from "react-router-dom";
 import { ISearch } from "./SearchBackrop.types";

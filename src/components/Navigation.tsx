@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import { NavDropdown } from "react-bootstrap";
@@ -39,7 +39,6 @@ const Navigation = () => {
     });
     setShowAll(false);
     const href = window.location.href.split("/");
-    const location = href[href.length - 1];
     localStorage.removeItem("decodedToken");
     dispatch!({ type: "LOGOUT" });
     setToken(null);

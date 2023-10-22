@@ -1,5 +1,5 @@
-import React, { FC, useEffect, useState } from "react";
-import { IJobs, IJobsList } from "./Jobs.types";
+import { FC } from "react";
+import { IJobsList } from "./Jobs.types";
 import Job from "./Job";
 import { Container, Col, Row } from "react-bootstrap";
 

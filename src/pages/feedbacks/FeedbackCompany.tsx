@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Col, Button } from "react-bootstrap";
+import { Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { ICompany } from "../companies/Company.types";
 
@@ -9,7 +9,7 @@ import { GTMTrackingHelper } from "../../services/GTMService";
 const FeedbackCompany: React.FC<{ company: ICompany }> = ({ company }) => {
   const [companyFeedbacksLength, setCompanyFeedbacksLength] = useState<number | null>(null);
   
-  const getFeedbacks = useFetch({
+  useFetch({
     url: `https://mechio-api-test.onrender.com/recenzije/${company._id}`,
     method: "get",
     onSuccess: (data: any) => {

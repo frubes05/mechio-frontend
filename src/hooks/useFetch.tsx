@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import axios from 'axios';
 
@@ -11,7 +11,6 @@ interface IFetch {
 }
 
 const useFetch = ({url, method, onSuccess, onError, onInit}: IFetch) => {
-  const [data, setData] = useState<any>(null);
   const [status, setStatus] = useState<string>('Starting...');
   const [code, setCode] = useState<null | number>(null);
   const [response, setResponse] = useState<any>(null);
@@ -48,7 +47,7 @@ const useFetch = ({url, method, onSuccess, onError, onInit}: IFetch) => {
           setStatus('Pending');
       })
   }  
-  return {handleFetch, data, code, status}
+  return {handleFetch, code, status}
 }
 
 export default useFetch

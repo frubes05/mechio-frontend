@@ -1,12 +1,9 @@
-import { FC, useState, useEffect } from "react";
+import { FC, useState } from "react";
 import { Link } from "react-router-dom";
 import { IJob } from "./Jobs.types";
 import moment from "moment";
-import { Badge } from "react-bootstrap";
 import "moment/locale/hr";
-import { AuthContext } from "../../context/AuthContext";
-import { ICompany, ICompanyToken } from "../companies/Company.types";
-import { IFeedback } from "../feedbacks/Feedbacks.types";
+import { ICompany } from "../companies/Company.types";
 
 import useFetch from "../../hooks/useFetch";
 

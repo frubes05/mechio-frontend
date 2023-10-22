@@ -22,8 +22,6 @@ import {
   Tooltip,
   Legend,
   Label,
-  LabelList,
-  ResponsiveContainer,
 } from "recharts";
 
 interface IChartsData {
