@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Form, FormControl } from 'react-bootstrap';
+import Form from 'react-bootstrap/Form';
+import FormControl from 'react-bootstrap/FormControl';
 
 const ImageUpload = ({onInput}: {onInput: Function}) => {
   const [file, setFile] = useState<File | null>(null);

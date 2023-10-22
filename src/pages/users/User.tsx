@@ -4,7 +4,9 @@ import UserRegister from "./UserRegister";
 import UserLogin from "./UserLogin";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Container, Row, Col } from "react-bootstrap";
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 interface IUser {
   status: string;

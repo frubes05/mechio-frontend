@@ -1,6 +1,9 @@
 import { useContext, useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
-import { Container, Row, Col, Button } from "react-bootstrap";
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button'
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import { AuthContext } from "../../context/AuthContext";
 import { ICompanyToken } from "../companies/Company.types";

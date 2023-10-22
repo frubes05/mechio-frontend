@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { IJobs } from "../pages/jobs/Jobs.types";
 import { ICompany } from "../pages/companies/Company.types";
-import { Dropdown, Button, Container, Row, Col } from "react-bootstrap";
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Dropdown from 'react-bootstrap/Dropdown';
+import Button from 'react-bootstrap/Button';
 import { IFeedback } from "../pages/feedbacks/Feedbacks.types";
 
 interface IFilter {

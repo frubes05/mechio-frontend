@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, lazy } from "react";
-import { Button } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
 import StripeContainer from "./StripeContainer";
 import { IUserToken } from "../users/User.types";
 import { ICompanyToken } from "../companies/Company.types";

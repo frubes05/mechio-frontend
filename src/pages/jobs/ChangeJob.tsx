@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import Button from "react-bootstrap/Button";
 import "react-toastify/dist/ReactToastify.css";
 import { ICompany } from "../companies/Company.types";
 

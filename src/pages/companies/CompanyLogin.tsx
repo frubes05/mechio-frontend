@@ -2,7 +2,8 @@ import { useState, useContext } from "react";
 import jwt_decode from "jwt-decode";
 import { AuthContext } from "../../context/AuthContext";
 import { ICompany, IFormSwitch } from "./Company.types";
-import { Button, Form } from "react-bootstrap";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 import { useForm } from "react-hook-form";
 
 import useFetch from "../../hooks/useFetch";

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Col } from "react-bootstrap";
+import Col from 'react-bootstrap/Col';
 import { Link } from "react-router-dom";
 import { ICompany } from "../companies/Company.types";
 

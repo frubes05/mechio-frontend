@@ -1,5 +1,5 @@
 import { IPaginate } from './Paginate.types';
-import { Pagination } from 'react-bootstrap'
+import Pagination from 'react-bootstrap/Pagination'
 
 const Paginate = ({getPageNumbers, paginate}: IPaginate) => {
 

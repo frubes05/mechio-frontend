@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Button, Form } from "react-bootstrap";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 const FeedbackCategories: React.FC<{onSelected: Function, categories: {category: string; hr: string}[]}> = ({onSelected, categories}) => {
   const [selected, setSelected] = useState<{hr: string, category: string} | null>(null);

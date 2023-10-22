@@ -1,4 +1,4 @@
-import { Container } from "react-bootstrap";
+import Container from 'react-bootstrap/Container';
 import {BsFillMouse3Fill} from 'react-icons/bs';
 import {RiEmotionNormalFill} from 'react-icons/ri';
 import {GrDocumentPerformance} from 'react-icons/gr';

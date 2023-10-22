@@ -1,6 +1,10 @@
 import React, { useState, useContext, useEffect, lazy } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { Container, Row, Col, Button, Form } from "react-bootstrap";
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 import { ICompany, ICompanyToken } from "../companies/Company.types";
 import { AuthContext } from "../../context/AuthContext";
 import { IUserToken } from "../users/User.types";

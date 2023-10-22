@@ -3,7 +3,8 @@ import ImageUpload from "../../components/ImageUpload";
 import PDFUpload from "../../components/PDFUpload";
 import jwt_decode from "jwt-decode";
 import { AuthContext } from "../../context/AuthContext";
-import { Form, Button } from "react-bootstrap";
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 import { IFormSwitch } from "./User.types";
 
 import useFetch from "../../hooks/useFetch";

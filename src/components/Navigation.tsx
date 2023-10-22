@@ -1,14 +1,13 @@
 import { useContext, useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
-import { NavDropdown } from "react-bootstrap";
+import NavDropdown from "react-bootstrap/NavDropdown";
 import Button from "react-bootstrap/Button";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import { AuthContext } from "../context/AuthContext";
 import { ICompanyToken } from "../pages/companies/Company.types";
 import { IUserToken } from "../pages/users/User.types";
-import { useNavigate } from "react-router-dom";
 import { BsGearWideConnected } from "react-icons/bs";
 import { BiUserCircle } from "react-icons/bi";
 import { AiOutlineLogout } from "react-icons/ai";

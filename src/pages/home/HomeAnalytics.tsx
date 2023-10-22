@@ -1,7 +1,9 @@
 import React, { useRef, useEffect, useState } from "react";
 import ChartsContainer from "../../components/ChartsContainer";
 import { IJobs } from "../jobs/Jobs.types";
-import { Container, Row, Col } from "react-bootstrap";
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import useFetch from "../../hooks/useFetch";
 
 interface IHomeAnalytics {

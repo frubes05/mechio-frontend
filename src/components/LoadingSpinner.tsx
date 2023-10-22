@@ -1,5 +1,5 @@
 import ReactDom from "react-dom";
-import { Spinner } from "react-bootstrap";
+import Spinner from "react-bootstrap/Spinner";
 
 export const Backdrop = () => {
   return (

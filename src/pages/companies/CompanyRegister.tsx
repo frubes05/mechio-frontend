@@ -2,7 +2,8 @@ import { useState, useContext } from "react";
 import jwt_decode from "jwt-decode";
 import { AuthContext } from "../../context/AuthContext";
 import { IFormSwitch } from "./Company.types";
-import { Button, Form } from "react-bootstrap";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 import ImageUpload from "../../components/ImageUpload";
 import LoadingSpinner from "../../components/LoadingSpinner";
 

@@ -5,7 +5,7 @@ import { ISearch } from "./SearchBackrop.types";
 import { ICompany } from "../pages/companies/Company.types";
 import { AiOutlineSearch } from "react-icons/ai";
 import axios from "axios";
-import { Spinner } from "react-bootstrap";
+import Spinner from "react-bootstrap/Spinner";
 
 const Search = ({ show, setShowBigSearch, showBigSearch }: ISearch) => {
   const [showLoading, setShowLoading] = useState<boolean>(false);

@@ -1,6 +1,8 @@
 import { useState, useEffect, useContext } from "react";
 import { Link } from 'react-router-dom';
-import {Container, Row, Col} from 'react-bootstrap';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import { IUserToken } from "../users/User.types";
 import { ICompanyToken } from "../companies/Company.types";
 import { AuthContext } from "../../context/AuthContext";

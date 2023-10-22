@@ -1,10 +1,11 @@
 import { FC } from "react";
 import { IJobsList } from "./Jobs.types";
 import Job from "./Job";
-import { Container, Col, Row } from "react-bootstrap";
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 const JobsList: FC<IJobsList> = ({ jobs }) => {
-  
   return (
     <ul className="jobs__list">
       <Container>

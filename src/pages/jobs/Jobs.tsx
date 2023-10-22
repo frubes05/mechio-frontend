@@ -9,8 +9,9 @@ import JobMain from "./JobMain";
 import JobsRegister from "./JobsRegister";
 import Filter from "../../components/Filter";
 import { filteringService } from "../../services/filtering";
-import { Container, Row, Col } from "react-bootstrap";
-
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import ReactGA from 'react-ga4';
 import { IUserToken } from "../users/User.types";
 import Advices from "../../components/Advices";
