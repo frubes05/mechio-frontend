@@ -1,18 +1,7 @@
-//@TODO: Performance optimization
-
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import Home from "./pages/home/Home";
 import Navigation from "./components/Navigation";
-import Jobs from "./pages/jobs/Jobs";
-import NewJob from "./pages/jobs/NewJob";
-import SpecificJob from "./pages/jobs/SpecificJob";
-import ChangeJob from "./pages/jobs/ChangeJob";
-import Company from "./pages/companies/Company";
-import Feedbacks from "./pages/feedbacks/Feedbacks";
-import Payments from "./pages/payments/Payments";
 import "./App.scss";
-import User from "./pages/users/User";
 import Footer from "./components/Footer";
 import BackToTop from "./components/BackToTop";
 
@@ -20,12 +9,23 @@ import { ICompany } from "./pages/companies/Company.types";
 import { IJobs } from "./pages/jobs/Jobs.types";
 
 import useFetch from "./hooks/useFetch";
-import SpecificFeedback from "./pages/feedbacks/SpecificFeedback";
 import Profile from "./components/Profile";
 import ReactGA from "react-ga4";
 import { IUserToken } from "./pages/users/User.types";
 import { ICompanyToken } from "./pages/companies/Company.types";
 import { AuthContext } from "./context/AuthContext";
+import LoadingSpinner from "./components/LoadingSpinner";
+
+const Home = lazy(() => import('./pages/home/Home'));
+const User = lazy(() => import('./pages/users/User'));
+const Company = lazy(() => import('./pages/companies/Company'));
+const Jobs = lazy(() => import('./pages/jobs/Jobs'));
+const NewJob = lazy(() => import('./pages/jobs/NewJob'));
+const SpecificJob = lazy(() => import('./pages/jobs/SpecificJob'));
+const ChangeJob = lazy(() => import('./pages/jobs/ChangeJob'));
+const Feedbacks = lazy(() => import('./pages/feedbacks/Feedbacks'));
+const SpecificFeedback = lazy(() => import('./pages/feedbacks/SpecificFeedback'));
+const Payments = lazy(() => import('./pages/payments/Payments'));
 
 declare global {
   interface Window {
@@ -90,7 +90,7 @@ function App() {
   }, [refetch]);
 
   return (
-    <>
+    <Suspense fallback={<LoadingSpinner />}>
       <header className="header">
         <Navigation />
       </header>
@@ -139,7 +139,7 @@ function App() {
         {(state.company || token?.company) ? <Route path='/placanje' element={<Payments></Payments>} /> : <Route path="*" element={<Navigate to={'/'} />}/>}
       </Routes>
       <Footer></Footer>
-    </>
+    </Suspense>
   );
 }
 

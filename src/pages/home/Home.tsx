@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import HomeJobs from './HomeJobs';
-import LoadingSpinner from '../../components/LoadingSpinner';
 import HomeBenefits from './HomeBenefits';
 import HomeMain from './HomeMain';
 import HomeAbout from './HomeAbout';
@@ -26,7 +25,6 @@ const Home: React.FC<IHome> = ({ jobs, status }) => {
         <HomeJobs></HomeJobs>
         <HomeBenefits></HomeBenefits>
         <HomeAbout></HomeAbout>
-        {status === 'Pending' && <LoadingSpinner></LoadingSpinner>}
     </main>
   )
 }

@@ -1,10 +1,11 @@
-import React, { useState, useContext, useEffect } from "react";
-import { Button, Modal } from "react-bootstrap";
-import ModalForm from "../../components/Modal";
+import React, { useState, useContext, useEffect, lazy } from "react";
+import { Button } from "react-bootstrap";
 import StripeContainer from "./StripeContainer";
 import { IUserToken } from "../users/User.types";
 import { ICompanyToken } from "../companies/Company.types";
 import { AuthContext } from "../../context/AuthContext";
+
+const ModalForm = lazy(() => import('../../components/Modal'));
 
 const Payment: React.FC<{ option: string, isSelected: boolean }> = ({ option, isSelected }) => {
   const [show, setShow] = useState<boolean>(false);

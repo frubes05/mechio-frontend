@@ -8,7 +8,6 @@ import "moment/locale/hr";
 import { AuthContext } from "../../context/AuthContext";
 import { Button, Container, Row, Col, Form } from "react-bootstrap";
 import { toast, ToastContainer } from "react-toastify";
-import LoadingSpinner from "../../components/LoadingSpinner";
 import "react-toastify/dist/ReactToastify.css";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { FaRegEdit } from "react-icons/fa";
@@ -314,10 +313,6 @@ const SpecificJob: React.FC<ICompanies> = ({ companies, setRefetch }) => {
             </Col>
           </Row>
         </Container>
-        {fetchSpecificJob.status === "Pending" && (
-          <LoadingSpinner></LoadingSpinner>
-        )}
-        {status === "Pending" && <LoadingSpinner></LoadingSpinner>}
       </div>
       <svg
         xmlns="http://www.w3.org/2000/svg"

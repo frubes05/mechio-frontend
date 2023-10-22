@@ -3,9 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { ICompanyToken } from "../companies/Company.types";
 import { toast, ToastContainer } from "react-toastify";
-import { Container, Row, Col, Form, Button, Accordion } from "react-bootstrap";
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import "react-toastify/dist/ReactToastify.css";
-import LoadingSpinner from "../../components/LoadingSpinner";
 import Editor from "../../components/Editor";
 
 import useFetch from "../../hooks/useFetch";
@@ -128,7 +127,6 @@ const NewJob: React.FC<INewJob> = ({ setRefetch }) => {
           </Row>
         </Container>
       </Form>
-      {status === "Pending" && <LoadingSpinner></LoadingSpinner>}
     </div>
   );
 };

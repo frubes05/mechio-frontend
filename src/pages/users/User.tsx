@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import UserRegister from "./UserRegister";
 import UserLogin from "./UserLogin";
 import { toast, ToastContainer } from "react-toastify";
-import LoadingSpinner from "../../components/LoadingSpinner";
 import "react-toastify/dist/ReactToastify.css";
 import { Container, Row, Col } from "react-bootstrap";
 

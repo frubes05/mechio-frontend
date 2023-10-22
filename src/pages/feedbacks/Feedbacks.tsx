@@ -2,7 +2,6 @@ import React, { useEffect, useState, useContext } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { AuthContext } from "../../context/AuthContext";
 import { ICompanyToken } from "../companies/Company.types";
-import LoadingSpinner from "../../components/LoadingSpinner";
 
 import { ICompany } from "../companies/Company.types";
 import { IUserToken } from "../users/User.types";
@@ -25,7 +24,6 @@ interface IFeedbacks {
 const Feedbacks: React.FC<IFeedbacks> = ({ status }) => {
   const { state } = useContext(AuthContext);
   const [token, setToken] = useState<ICompanyToken & IUserToken>();
-  const [showSpinner, setShowSpinner] = useState<boolean>(true);
   const [companies, setCompanies] = useState<ICompany[] | []>([]);
   const [selectedCompanies, setSelectedCompanies] = useState<ICompany[] | []>([]);
 
@@ -82,7 +80,6 @@ const Feedbacks: React.FC<IFeedbacks> = ({ status }) => {
       )}
       {companies.length > 0 && <FeedbackCompanies companies={selectedCompanies}/>}
       <Advices></Advices>
-      {getCompanies.status === 'Pending' && <LoadingSpinner></LoadingSpinner>}
     </main>
   );
 };

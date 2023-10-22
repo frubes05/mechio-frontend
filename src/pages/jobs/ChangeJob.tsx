@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-import { Container, Row, Col, Form, Button, Accordion } from "react-bootstrap";
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import "react-toastify/dist/ReactToastify.css";
-import LoadingSpinner from "../../components/LoadingSpinner";
 import { ICompany } from "../companies/Company.types";
 
 import useFetch from "../../hooks/useFetch";
@@ -140,7 +139,6 @@ const ChangeJob: React.FC<IChangeJob> = ({ setRefetch }) => {
           </Row>
         </Container>
       </Form>}
-      {(getSpecificJob.status === "Pending" || status === 'Pending') && <LoadingSpinner></LoadingSpinner>}
     </div>
   );
 };

@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
 import { IJobs } from "./Jobs.types";
 import { AuthContext } from "../../context/AuthContext";
-import { ICompanyToken, ICompany } from "../companies/Company.types";
+import { ICompanyToken } from "../companies/Company.types";
 import JobsList from "./JobsList";
-import LoadingSpinner from "../../components/LoadingSpinner";
 
 import useFetch from "../../hooks/useFetch";
 import JobMain from "./JobMain";
@@ -24,10 +23,7 @@ const Jobs: React.FC<IJob> = ({ status }) => {
   const { state } = useContext(AuthContext);
   const [selectedJobs, setSelectedJobs] = useState<IJobs[] | []>([]);
   const [token, setToken] = useState<ICompanyToken & IUserToken>();
-  const [showSpinner, setShowSpinner] = useState<boolean>(true);
-  const [currentPage, setCurrentPage] = useState<number>(1);
   const [jobs, setJobs] = useState<IJobs[]>([]);
-  const [postsPerPage, setPostsPerPage] = useState<number>(6);
 
   const getJobs = useFetch({
     url: "https://mechio-api-test.onrender.com/poslovi",
@@ -84,7 +80,6 @@ const Jobs: React.FC<IJob> = ({ status }) => {
       )}
       {selectedJobs.length > 0 && <JobsList jobs={selectedJobs}></JobsList>}
       <Advices></Advices>
-      {getJobs.status === "Pending" && <LoadingSpinner></LoadingSpinner>}
     </main>
   );
 };

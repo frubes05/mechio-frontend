@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, lazy } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
 import { ICompany, ICompanyToken } from "../companies/Company.types";
@@ -8,16 +8,16 @@ import { IFeedback } from "./Feedbacks.types";
 import moment from "moment";
 import "moment/locale/hr";
 
-import Modal from "../../components/Modal";
-
 import useFetch from "../../hooks/useFetch";
 import Rating from "../../components/Rating";
 import Filter from "../../components/Filter";
 
 import { filteringService } from "../../services/filtering";
 import FeedbackCategories from "./FeedbackCategories";
-import LoadingSpinner from "../../components/LoadingSpinner";
 import { GTMTrackingHelper } from "../../services/GTMService";
+
+const Modal = lazy(() => import('../../components/Modal'));
+
 
 const categories = [
   {
@@ -460,9 +460,6 @@ const SpecificFeedback = () => {
               )}
             </Row>
           </Container>
-          {getFeedbacks.status === "Pending" && (
-            <LoadingSpinner></LoadingSpinner>
-          )}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 2560 1440"

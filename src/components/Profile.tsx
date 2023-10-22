@@ -1,9 +1,9 @@
-import React, {
+import {
   useEffect,
   useState,
   useContext,
   useRef,
-  LegacyRef,
+  lazy,
 } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
@@ -13,13 +13,14 @@ import { IUserProfile } from "./UserProfile.types";
 import { ICompanyToken, ICompany } from "../pages/companies/Company.types";
 import { IUserToken } from "../pages/users/User.types";
 import { AuthContext } from "../context/AuthContext";
-import ModalForm from "./Modal";
 import LoadingSpinner from "../components/LoadingSpinner";
 import moment from "moment";
 import "moment/locale/hr";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import ChartsContainer from "./ChartsContainer";
 import Paginate from "./Paginate";
+
+const ModalForm = lazy(() => import('./Modal'));
 
 const Profile = () => {
   moment().locale("hr");
