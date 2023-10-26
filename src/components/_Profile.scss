@@ -74,7 +74,6 @@
           font-size: 32px;
           line-height: 40px;
           color: black;
-          font-family: 'Poppins', sans-serif;
           margin-bottom: 6px;
         }
 
@@ -82,13 +81,11 @@
           font-size: 24px;
           line-height: 28px;
           color: #3c4043;
-          font-family: 'Poppins', sans-serif;
           margin-bottom: 6px;
         }
 
         p {
           font-size: 16px;
-          font-family: 'Poppins', sans-serif;
           line-height: 1.5;
         }
 
@@ -149,7 +146,8 @@
 
     button, a {
       @include button-alt-none;
-      font: 700 16px "Roboto", sans-serif !important;
+      font-weight: 700;
+      font-size: 16px;
 
       &:disabled, &:focus {
         color: inherit;

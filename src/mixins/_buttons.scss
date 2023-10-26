@@ -1,7 +1,8 @@
 @mixin button {
   display: inline-block;
   background: #00c6b4 !important;
-  font: 700 16px "Roboto", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
   color: #fff;
   text-transform: uppercase;
   text-align: center;
@@ -22,7 +23,8 @@
 @mixin button-alt {
   display: inline-block;
   background: #ffde4d;
-  font: 700 16px "Roboto", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
   color: #282828;
   text-transform: uppercase;
   text-align: center;
@@ -43,7 +45,8 @@
 @mixin button-alt-none {
   display: inline-block;
   background: none;
-  font: 700 16px "Roboto", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
   color: #282828;
   text-transform: uppercase;
   text-align: center;

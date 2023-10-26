@@ -122,15 +122,9 @@
     font-size: 18px;
     line-height: 1.5;
     letter-spacing: 0.5px;
-    font-family: 'Poppins', sans-serif;
-
-    span {
-      font-family: 'Poppins', sans-serif;
-    }
 
     strong {
       font-weight: 800;
-      font-family: 'Poppins', sans-serif;
     }
 
     ul {
@@ -141,7 +135,6 @@
     p {
       padding: 16px 0;
       font-size: 22px;
-      font-family: 'Poppins', sans-serif;
 
       &:first-of-type {
         padding-top: 0;
@@ -150,13 +143,11 @@
 
     li {
       font-size: 20px;
-      font-family: 'Poppins', sans-serif;
       font-weight: 300;
     }
 
     em {
       font-style: italic;
-      font-family: 'Poppins', sans-serif;
     }
 
     a {

@@ -54,7 +54,8 @@
 
   &__title {
     color: #00c6b4;
-    font: 700 20px "Poppins", sans-serif;
+    font-weight: 700;
+    font-size: 20px;
     line-height: 30px;
     opacity: 0.6;
     transition: opacity 0.2s ease-in-out;
@@ -65,7 +66,6 @@
   }
 
   &__intro {
-    font-family: "Roboto", sans-serif;
     font-size: 18px;
     line-height: 24px;
     display: -webkit-box;
