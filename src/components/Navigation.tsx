@@ -37,7 +37,6 @@ const Navigation = () => {
         state.user || token?.user || state.companyName || token?.companyName,
     });
     setShowAll(false);
-    const href = window.location.href.split("/");
     localStorage.removeItem("decodedToken");
     dispatch!({ type: "LOGOUT" });
     setToken(null);
