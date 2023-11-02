@@ -4,26 +4,15 @@ import { IJobs } from "../jobs/Jobs.types";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import useFetch from "../../hooks/useFetch";
 
 interface IHomeAnalytics {
-  data?: IJobs[];
+  jobs?: IJobs[];
+  feedbacks?: any[];
 }
 
-const HomeAnalytics: React.FC<IHomeAnalytics> = ({ data }) => {
+const HomeAnalytics: React.FC<IHomeAnalytics> = ({ jobs, feedbacks }) => {
   const wrapper = useRef() as any;
-  const [feedbacks, setFeedbacks] = useState([]);
   const [wrapperWidth, setWrapperWidth] = useState<any>();
-
-  const getFeedbacks = useFetch({
-    url: `https://mechio-api-test.onrender.com/recenzije`,
-    method: "get",
-    onSuccess: (data: any) => {
-      setFeedbacks(data);
-    },
-    onError: (error: any) => {},
-    onInit: true,
-  });
 
   useEffect(() => {
     setWrapperWidth(wrapper.current.clientWidth);
@@ -46,12 +35,12 @@ const HomeAnalytics: React.FC<IHomeAnalytics> = ({ data }) => {
             </Col>
             <Col md={12} lg={12}>
               <div className="home__analytics-section">
-                {data && data.length && (
+                {jobs && jobs.length && (
                   <ChartsContainer
                     width={wrapperWidth}
                     labelName="jobs"
                     page={"general"}
-                    data={data}
+                    data={jobs}
                   ></ChartsContainer>
                 )}
                 {feedbacks && feedbacks?.length && (

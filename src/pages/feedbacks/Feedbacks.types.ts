@@ -11,3 +11,7 @@ export interface IFeedback {
     position: string,
     userId: String
 }
+
+export interface IFeedbacks {
+    latestFeedbacks: IFeedback[];
+}

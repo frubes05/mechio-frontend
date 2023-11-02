@@ -70,12 +70,12 @@ const Filter: React.FC<IFilter> = ({
         </Col>
         <Col>
           <div className={`jobs__list-filters ${condensed ? 'jobs__list-filters--condensed' : ''}`}>
-            {filterOptions &&
+            {filterOptions?.length > 0 &&
               filterOptions.map((option: any, id: number) => {
                 let newElements = Array.from(
-                  new Set(jobs.map((job: any) => job[option.en]))
+                  new Set(jobs?.map((job: any) => job[option.en]))
                 );
-                newElements = newElements.map((elem) => {
+                newElements = newElements?.map((elem) => {
                   return {
                     [option.en]: elem,
                   };

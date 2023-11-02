@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { ICompanyToken } from "../companies/Company.types";
 import { toast, ToastContainer } from "react-toastify";
@@ -11,16 +10,13 @@ import Button from 'react-bootstrap/Button';
 import "react-toastify/dist/ReactToastify.css";
 import Editor from "../../components/Editor";
 
-import useFetch from "../../hooks/useFetch";
 import { GTMTrackingHelper } from "../../services/GTMService";
 import moment from "moment";
 import "moment/locale/hr";
+import useSWRMutation from "swr/mutation";
+import { sendRequest } from "../../services/fetcher";
 
-interface INewJob {
-  setRefetch: (bool: boolean) => void;
-}
-
-const NewJob: React.FC<INewJob> = ({ setRefetch }) => {
+const NewJob: React.FC = () => {
   moment().locale("hr");
   const { state } = useContext(AuthContext);
   const [position, setPosition] = useState<string>("");
@@ -29,24 +25,9 @@ const NewJob: React.FC<INewJob> = ({ setRefetch }) => {
   const [pay, setPay] = useState<string>("");
   const [token, setToken] = useState<ICompanyToken | null>(null);
   const [description, setDescription] = useState<string>("");
-  const navigate = useNavigate();
-
-  const addNewJob = useFetch({
-    url: `https://mechio-api-test.onrender.com/poslovi/novi-oglas`,
-    method: "post",
-    onSuccess: (data) => {
-      data.message !== 200
-        ? toast.error(data.message, { autoClose: 3000 })
-        : toast.success(data.message, { autoClose: 3000 });
-      setTimeout(() => {
-        navigate(-1);
-      }, 4000);
-      setRefetch(true);
-    },
-    onError: (error) => {
-      toast.error("Došlo je do pogrješke", { autoClose: 3000 });
-    },
-    onInit: true
+  const { trigger } = useSWRMutation(`https://mechio-api-test.onrender.com/poslovi/novi-oglas`, sendRequest, {
+    onSuccess: (data) => toast.success(data.message, { autoClose: 3000 }),
+    onError: () => toast.error("Došlo je do pogrješke", { autoClose: 3000 })
   });
 
   useEffect(() => {
@@ -70,7 +51,7 @@ const NewJob: React.FC<INewJob> = ({ setRefetch }) => {
       seniority: selectValue,
       date: new Date(),
     };
-    addNewJob.handleFetch("https://mechio-api-test.onrender.com/poslovi/novi-oglas", newPost);
+    trigger(newPost);
     GTMTrackingHelper('Klik', 'Novi oglas', 'Poslovi',  `${state.companyName || token?.companyName}`, `${moment((new Date())).format("LL")}`);
   };
 

@@ -1,10 +1,8 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { IJobs } from "./Jobs.types";
-import { AuthContext } from "../../context/AuthContext";
 import { ICompanyToken } from "../companies/Company.types";
 import JobsList from "./JobsList";
 
-import useFetch from "../../hooks/useFetch";
 import JobMain from "./JobMain";
 import JobsRegister from "./JobsRegister";
 import Filter from "../../components/Filter";
@@ -14,26 +12,14 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { IUserToken } from "../users/User.types";
 import Advices from "../../components/Advices";
+import useSWR from "swr";
+import { fetcher } from "../../services/fetcher";
 
-interface IJob {
-  status: string;
-}
-
-const Jobs: React.FC<IJob> = ({ status }) => {
-  const { state } = useContext(AuthContext);
+const Jobs: React.FC = () => {
   const [selectedJobs, setSelectedJobs] = useState<IJobs[] | []>([]);
   const [token, setToken] = useState<ICompanyToken & IUserToken>();
-  const [jobs, setJobs] = useState<IJobs[]>([]);
-
-  const getJobs = useFetch({
-    url: "https://mechio-api-test.onrender.com/poslovi",
-    method: "get",
-    onSuccess: (data) => {
-      setJobs(data);
-      setSelectedJobs(data);
-    },
-    onError: (error) => {},
-    onInit: true
+  const { data: jobs } = useSWR(`https://mechio-api-test.onrender.com/poslovi`, fetcher, {
+    onSuccess: (data) => setSelectedJobs(data)
   });
 
   useEffect(() => {
@@ -44,9 +30,7 @@ const Jobs: React.FC<IJob> = ({ status }) => {
     }
   }, []);
 
-  const getAllSelected = (filterOptions: IJobs[]) => {
-    setSelectedJobs(filteringService(filterOptions, jobs));
-  };
+  const getAllSelected = (filterOptions: IJobs[]) => setSelectedJobs(filteringService(filterOptions, jobs));
 
   const resetSelected = () => setSelectedJobs(jobs);
 
@@ -65,7 +49,7 @@ const Jobs: React.FC<IJob> = ({ status }) => {
         resetSelected={resetSelected}
         title={"Odaberite posao prema vašim afinitetima"}
       ></Filter>
-      {selectedJobs.length === 0 && (
+      {selectedJobs?.length === 0 && (
         <Container>
           <Row>
             <Col xlg={8} lg={8} md={8}>
@@ -77,7 +61,7 @@ const Jobs: React.FC<IJob> = ({ status }) => {
           </Row>
         </Container>
       )}
-      {selectedJobs.length > 0 && <JobsList jobs={selectedJobs}></JobsList>}
+      {selectedJobs?.length > 0 && <JobsList jobs={selectedJobs}></JobsList>}
       <Advices></Advices>
     </main>
   );

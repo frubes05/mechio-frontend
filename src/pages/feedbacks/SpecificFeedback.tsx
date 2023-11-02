@@ -1,27 +1,28 @@
 import React, { useState, useContext, useEffect, lazy } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import { ICompany, ICompanyToken } from "../companies/Company.types";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import { ICompanyToken } from "../companies/Company.types";
 import { AuthContext } from "../../context/AuthContext";
 import { IUserToken } from "../users/User.types";
 import { IFeedback } from "./Feedbacks.types";
 import moment from "moment";
 import "moment/locale/hr";
 
-import useFetch from "../../hooks/useFetch";
 import Rating from "../../components/Rating";
 import Filter from "../../components/Filter";
 
 import { filteringService } from "../../services/filtering";
 import FeedbackCategories from "./FeedbackCategories";
 import { GTMTrackingHelper } from "../../services/GTMService";
+import { deleteRequest, fetcher, sendRequest } from "../../services/fetcher";
+import useSWR from "swr";
+import useSWRMutation from "swr/mutation";
 
-const Modal = lazy(() => import('../../components/Modal'));
-
+const Modal = lazy(() => import("../../components/Modal"));
 
 const categories = [
   {
@@ -52,16 +53,11 @@ const SpecificFeedback = () => {
   moment().locale("hr");
   const { state } = useContext(AuthContext);
   const [token, setToken] = useState<ICompanyToken & IUserToken>();
-  const [feedbackId, setFeedbackId] = useState<string | null>(null);
-  const [company, setCompany] = useState<null | ICompany>();
   const [show, setShow] = useState<boolean>(false);
   const [position, setPosition] = useState<string>("");
   const [positives, setPositives] = useState<string>("");
   const [negatives, setNegatives] = useState<string>("");
   const [rating, setRating] = useState<number>(0);
-  const [allFeedbacks, setAllFeedbacks] = useState<any>(
-    company?.companyFeedbacks
-  );
   const [selectedFeedbacks, setSelectedFeedbacks] = useState<IFeedback[] | []>(
     []
   );
@@ -69,56 +65,35 @@ const SpecificFeedback = () => {
     hr: string;
     category: string;
   } | null>(null);
+  const { data: company } = useSWR(
+    `https://mechio-api-test.onrender.com/poslodavci/${params.id}`,
+    fetcher
+  );
+  const { data: allFeedbacks, mutate } = useSWR(
+    `https://mechio-api-test.onrender.com/recenzije/${params.id}`,
+    fetcher
+  );
+  const { trigger: submitFeedbackTrigger } = useSWRMutation(
+    `https://mechio-api-test.onrender.com/recenzije/nova-recenzija`,
+    sendRequest,
+    {
+      onSuccess: (data) => {
+        const { data: newFeedbacks } = data;
+        mutate(newFeedbacks)
+      }
+    }
+  );
+  const { trigger: deleteFeedbackTrigger } = useSWRMutation(
+    () => `https://mechio-api-test.onrender.com/recenzije/izbrisi/${company?._id}`,
+    deleteRequest,
+    {
+      onSuccess: (data) => {
+        const { deleteId } = data;
+        mutate(allFeedbacks?.filter((feedback: IFeedback) => feedback.userId !== deleteId) || [])
+      }
+    }
+  );
 
-  useFetch({
-    url: `https://mechio-api-test.onrender.com/poslodavci/${params.id}`,
-    method: "get",
-    onSuccess: (data: any) => {
-      setCompany(data);
-    },
-    onError: (error: any) => {},
-    onInit: true,
-  });
-
-  const getFeedbacks = useFetch({
-    url: `https://mechio-api-test.onrender.com/recenzije/${params.id}`,
-    method: "get",
-    onSuccess: (data: any) => {
-      setAllFeedbacks(data);
-    },
-    onError: (error: any) => {},
-    onInit: true,
-  });
-
-  const submitFeedback = useFetch({
-    url: "https://mechio-api-test.onrender.com/recenzije/nova-recenzija",
-    method: "post",
-    onSuccess: (data: any) => {
-      getFeedbacks.handleFetch(`https://mechio-api-test.onrender.com/recenzije/${params.id}`);
-      GTMTrackingHelper(
-        "Klik",
-        "Dodana recenzija",
-        "Recenzije",
-        `${company?.companyName}`,
-        null
-      );
-    },
-    onError: (error: any) => {},
-    onInit: true,
-  });
-
-  const deleteFeedback = useFetch({
-    method: "delete",
-    onSuccess: (data) => {
-      setAllFeedbacks((prev: any) =>
-        prev?.filter((feedback: any) => feedback._id !== feedbackId)
-      );
-    },
-    onError: (error: any) => {},
-    onInit: true,
-  });
-
-  const handleShow = () => setShow(true);
   const handleClose = () => {
     setShow(false);
     setPosition("");
@@ -143,10 +118,7 @@ const SpecificFeedback = () => {
         rating,
         date: new Date(),
       };
-      submitFeedback.handleFetch(
-        "https://mechio-api-test.onrender.com/recenzije/nova-recenzija",
-        feedback
-      );
+      submitFeedbackTrigger(feedback);
       setPosition("");
       setNegatives("");
       setPositives("");
@@ -165,10 +137,7 @@ const SpecificFeedback = () => {
   }, []);
 
   const handleDelete = (id: string) => {
-    setFeedbackId(id);
-    deleteFeedback.handleFetch(
-      `https://mechio-api-test.onrender.com/recenzije/izbrisi/${company?._id}/${id}`
-    );
+    deleteFeedbackTrigger(id);
   };
 
   const getAllSelected = (filterOptions: IFeedback[]) => {
@@ -304,8 +273,10 @@ const SpecificFeedback = () => {
                         <Link to={`/profil/${company._id}`}>
                           <img
                             src={
-                              "https://mechio-api-test.onrender.com/" + company?.companyImage
+                              "https://mechio-api-test.onrender.com/" +
+                              company?.companyImage
                             }
+                            alt={company?.companyName}
                           ></img>
                         </Link>
                         <Form.Group

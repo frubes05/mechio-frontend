@@ -9,7 +9,7 @@ import moment from "moment";
 import "moment/locale/hr";
 
 interface ICarousel {
-  jobs: IJobs[] | null;
+  jobs: IJobs[];
 }
 
 const Carousel: React.FC<ICarousel> = ({ jobs }) => {
@@ -17,7 +17,7 @@ const Carousel: React.FC<ICarousel> = ({ jobs }) => {
 
   return (
     <>
-      {jobs && jobs.length > 0 && (
+      {jobs?.length > 0 && (
         <Container>
           <Splide options={carouselConfig(jobs.length)}>
             {jobs.map((job) => (

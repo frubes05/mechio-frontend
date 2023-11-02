@@ -8,11 +8,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import "react-toastify/dist/ReactToastify.css";
 
-interface ICompany {
-  status: string;
-}
-
-const Company: React.FC<ICompany> = () => {
+const Company: React.FC = () => {
   const navigate = useNavigate();
   const [showingForm, setShowingForm] = useState<boolean>(false);
 

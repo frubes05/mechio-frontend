@@ -7,34 +7,23 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from "react-bootstrap/Button";
 import "react-toastify/dist/ReactToastify.css";
-import { ICompany } from "../companies/Company.types";
-
-import useFetch from "../../hooks/useFetch";
 
 import Editor from '../../components/Editor';
-import { IJobs } from "./Jobs.types";
+import { changeRequest, fetcher } from "../../services/fetcher";
+import useSWR from "swr";
+import useSWRMutation from "swr/mutation";
 
-interface IChangeJob {
-  setRefetch: (bool: boolean) => void;
-}
-
-const ChangeJob: React.FC<IChangeJob> = ({ setRefetch }) => {
-  const [editCompany, setEditCompany] = useState<null | (IJobs & ICompany)>(null);
+const ChangeJob: React.FC = () => {
   const [position, setPosition] = useState<string>("");
   const [location, setLocation] = useState<string>("");
   const [selectValue, setSelectValue] = useState<string>("");
   const [pay, setPay] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [showing, setShowing] = useState<boolean>(false);
-  const [status, setStatus] = useState<string>('');
   const params = useParams();
   const navigate = useNavigate();
-
-  const getSpecificJob = useFetch({
-    url: `https://mechio-api-test.onrender.com/poslovi/${params.id}`,
-    method: "get",
+  const { data: editCompany } = useSWR(() => `https://mechio-api-test.onrender.com/poslovi/${params.id}`, fetcher, {
     onSuccess: (data) => {
-      setEditCompany(data);
       if (data) {
         setPosition(data.position);
         setLocation(data.location);
@@ -42,46 +31,33 @@ const ChangeJob: React.FC<IChangeJob> = ({ setRefetch }) => {
         setSelectValue(data.seniority);
         setDescription(data.description);
       }
-    },
-    onError: (error) => {},
-    onInit: true
+    }
   });
-
-  const changeJob = useFetch({
-    url: `https://mechio-api-test.onrender.com/poslovi/izmijeni-oglas/${params.id}`,
-    method: "put",
-    onSuccess: (data) => {
+  const { trigger: changeJobTrigger } = useSWRMutation(() => `https://mechio-api-test.onrender.com/poslovi/izmijeni-oglas/${params.id}`, changeRequest, {
+    onSuccess: () => {
       toast.success("Uspješno ste izmjenili oglas", { autoClose: 3000 });
-      setRefetch(true);
       setTimeout(() => {
         navigate(-1);
       }, 3000);
-      setStatus('Pending');
     },
-    onError: (error) => {
-      toast.error("Došlo je do pogrješke", { autoClose: 3000 });
-    },
-    onInit: true
+    onError: () => toast.error("Došlo je do pogrješke", { autoClose: 3000 })
   });
 
   const submitHandler = (e: React.FormEvent) => {
     setShowing(!showing);
     e.preventDefault();
-
-    changeJob.handleFetch(
-      `https://mechio-api-test.onrender.com/poslovi/izmijeni-oglas/${params.id}`,
-      {
-        companyId: editCompany?.companyId,
-        company: editCompany?.companyName,
-        companyPremium: editCompany?.companyPremium,
-        position,
-        description,
-        location,
-        pay,
-        seniority: selectValue,
-        date: new Date(),
-      }
-    );
+    const editJob = {
+      companyId: editCompany?.companyId,
+      company: editCompany?.companyName,
+      companyPremium: editCompany?.companyPremium,
+      position,
+      description,
+      location,
+      pay,
+      seniority: selectValue,
+      date: new Date(),
+    };
+    changeJobTrigger(editJob);
   };
 
   return (

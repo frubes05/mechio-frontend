@@ -1,29 +1,15 @@
-import { useState } from "react";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import useFetch from "../../hooks/useFetch";
 
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 
-import { IFeedback } from "../feedbacks/Feedbacks.types";
+import { IFeedbacks } from "../feedbacks/Feedbacks.types";
 import Rating from "../../components/Rating";
 import { carouselConfig } from "../../components/carousel.config";
 import { Link } from "react-router-dom";
 
-const HomeAbout = () => {
-  const [lastThree, setLastThree] = useState<IFeedback[] | []>([]);
-
-  const getLastThreeFeedbacks = useFetch({
-    url: "https://mechio-api-test.onrender.com/recenzije/zadnje",
-    method: "get",
-    onSuccess: (data) => {
-      setLastThree(data);
-    },
-    onError: (err) => {},
-    onInit: true,
-  });
-
+const HomeAbout: React.FC<IFeedbacks> = ({ latestFeedbacks }) => {  
   return (
     <section className="home__about">
       <Container>
@@ -33,14 +19,12 @@ const HomeAbout = () => {
               Što o tvrtkama kažu zaposlenici ?
             </h5>
             <h2 className="home__about-title">Posljednje dodane recenzije</h2>
-            {lastThree.length > 0 && (
+            {latestFeedbacks?.length > 0 && (
               <Splide
                 className="home__about-carousel"
-                options={carouselConfig(lastThree.length, true)}
+                options={carouselConfig(4, true)}
               >
-                {lastThree &&
-                  lastThree.length &&
-                  lastThree.map((elem, i) => (
+                {latestFeedbacks.slice(-4).map((elem, i) => (
                     <SplideSlide key={i}>
                       <article className="home__about-article">
                         <div className="home__about-main">
@@ -83,7 +67,7 @@ const HomeAbout = () => {
                   ))}
               </Splide>
             )}
-            {lastThree.length === 0 && (
+            {latestFeedbacks?.length === 0 && (
               <p className="home__jobs-none">Trenutno nema recenzija</p>
             )}
           </Col>

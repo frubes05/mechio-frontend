@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { IJobs } from "./Jobs.types";
-import { ICompany, ICompanyToken } from "../companies/Company.types";
+import { ICompanyToken } from "../companies/Company.types";
 import { IUserToken } from "../users/User.types";
 import moment from "moment";
 import "moment/locale/hr";
@@ -15,90 +14,31 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { FaRegEdit } from "react-icons/fa";
+import useSWR from "swr";
+import { deleteRequest, fetcher, sendRequest } from "../../services/fetcher";
+import useSWRMutation from "swr/mutation";
 
-import useFetch from "../../hooks/useFetch";
-
-import { GTMTrackingHelper } from "../../services/GTMService";
-
-interface ICompanies {
-  companies: ICompany[];
-  setRefetch: (bool: boolean) => void;
-}
-
-const SpecificJob: React.FC<ICompanies> = ({ companies, setRefetch }) => {
+const SpecificJob: React.FC = () => {
   moment().locale("hr");
   const { state } = useContext(AuthContext);
   const [token, setToken] = useState<ICompanyToken & IUserToken>();
-  const [job, setJob] = useState<null | IJobs>(null);
   const [showing, setShowing] = useState<boolean>(false);
   const params = useParams();
   const navigate = useNavigate();
-
-  const fetchSpecificJob = useFetch({
-    url: `https://mechio-api-test.onrender.com/poslovi/${params.id}`,
-    method: "get",
-    onSuccess: (data) => {
-      setJob(data);
-    },
-    onError: (error) => {},
-    onInit: true,
-  });
-
-  const deleteSpecificJob = useFetch({
-    url: `https://mechio-api-test.onrender.com/poslovi/izbrisi-oglas/${params.id}`,
-    method: "delete",
-    onSuccess: (data) => {
+  const { data: companies } = useSWR(`https://mechio-api-test.onrender.com/poslodavci`, fetcher);
+  const { data: job} = useSWR(() => `https://mechio-api-test.onrender.com/poslovi/${params.id}`, fetcher);
+  const { trigger: deleteTrigger } = useSWRMutation(() => `https://mechio-api-test.onrender.com/poslovi/izbrisi-oglas/${params.id}`, deleteRequest, {
+    onSuccess: () => {
       toast.success("Oglas uspjesno obrisan", { autoClose: 3000 });
       setTimeout(() => {
         navigate(-1);
       }, 4000);
-      setRefetch(true);
-      GTMTrackingHelper(
-        "Klik",
-        "Obrisan posao",
-        `${job?.position}`,
-        `${job?.company}`,
-        `${job?.location}`
-      );
     },
-    onError: (error) => {
-      toast.error("Došlo je do pogrješke", { autoClose: 3000 });
-    },
-    onInit: true,
+    onError: () => toast.error("Došlo je do pogrješke", { autoClose: 3000 })
   });
-
-  const admitToSpecificJob = useFetch({
-    url: `https://mechio-api-test.onrender.com/poslovi/prijava/${params.id}`,
-    method: "post",
-    onSuccess: (data) => {
-      data.message !== 200
-        ? toast.error(data.message, { autoClose: 3000 })
-        : toast.success(data.message, { autoClose: 3000 });
-      setRefetch(true);
-      GTMTrackingHelper(
-        "Klik",
-        "Prijava",
-        `${job?.position}`,
-        `${job?.company}`,
-        null
-      );
-    },
-    onError: (error) => {
-      toast.error("Došlo je do pogrješke", { autoClose: 3000 });
-    },
-    onInit: true,
-  });
-
-  const trackAdmitance = useFetch({
-    url: `https://mechio-api-test.onrender.com/analitika`,
-    method: "post",
-    onSuccess: (data) => {
-      return;
-    },
-    onError: (data) => {
-      return;
-    },
-    onInit: true,
+  const { trigger: admittanceTrigger } = useSWRMutation(() => `https://mechio-api-test.onrender.com/poslovi/prijava/${params.id}`, sendRequest, {
+    onSuccess: (data) => toast.success(data.message, { autoClose: 3000 }),
+    onError: () => toast.error("Došlo je do pogrješke", { autoClose: 3000 })
   });
 
   useEffect(() => {
@@ -111,58 +51,18 @@ const SpecificJob: React.FC<ICompanies> = ({ companies, setRefetch }) => {
 
   const sendApplication = (e: React.FormEvent) => {
     setShowing(!showing);
-    admitToSpecificJob.handleFetch(
-      `https://mechio-api-test.onrender.com/poslovi/prijava/${params.id}`,
-      {
-        userId: state._id || token?._id,
-      }
-    );
-    trackAdmitance.handleFetch("https://mechio-api-test.onrender.com/analitika", {
-      action: "Prijava",
-      category: "Posao",
-      companyId: job?.companyId,
-      isEmployed: false,
-      isRegistered: true,
-      userId: state._id || token?._id,
-      userLocation: state.userLocation || token?.userLocation,
-      jobId: params.id,
-      jobPosition: job?.position,
-      date: new Date(),
-    });
+    admittanceTrigger({ userId: state?._id || token?._id});
   };
 
-  const handleDelete = () => {
-    deleteSpecificJob.handleFetch(
-      `https://mechio-api-test.onrender.com/poslovi/izbrisi-oglas/${params.id}`
-    );
-  };
+  const handleDelete = () => deleteTrigger();
 
   const selected = companies
     ? companies.filter(
-        (company) =>
+        (company: any) =>
           (company._id === state._id || company._id === token?._id) &&
           job?.companyId === company._id
       )
     : null;
-
-  useEffect(() => {
-    const user = (state._id || token?._id) ?? "null";
-
-    if (job && (state._id || token?._id) !== job.companyId) {
-      trackAdmitance.handleFetch("https://mechio-api-test.onrender.com/analitika", {
-        action: "Posjet",
-        category: "Posao",
-        companyId: job.companyId,
-        isEmployed: false,
-        isRegistered: !!(state._id || token?._id),
-        userId: user,
-        userLocation: state.userLocation || token?.userLocation,
-        jobId: params.id,
-        jobPosition: job?.position,
-        date: new Date(),
-      });
-    }
-  }, [job]);
 
   return (
     <>

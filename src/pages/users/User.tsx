@@ -8,11 +8,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-interface IUser {
-  status: string;
-}
-
-const User: React.FC<IUser> = () => {
+const User: React.FC = () => {
   const navigate = useNavigate();
   const [showingForm, setShowingForm] = useState<boolean>(false);
 
