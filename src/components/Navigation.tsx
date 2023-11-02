@@ -13,8 +13,6 @@ import { BiUserCircle } from "react-icons/bi";
 import { AiOutlineLogout } from "react-icons/ai";
 import { FaMoneyCheckAlt } from "react-icons/fa";
 
-import ReactGA from "react-ga4";
-
 const Navigation = () => {
   const { state, dispatch, setShowAll, showAll } = useContext(AuthContext);
   const [iconState, setIconState] = useState<boolean>(false);
@@ -30,12 +28,6 @@ const Navigation = () => {
   }, []);
 
   const logout = async () => {
-    ReactGA.event("logout", {
-      category: "logout",
-      action: "Odjava",
-      label:
-        state.user || token?.user || state.companyName || token?.companyName,
-    });
     setShowAll(false);
     localStorage.removeItem("decodedToken");
     dispatch!({ type: "LOGOUT" });
@@ -138,12 +130,6 @@ const Navigation = () => {
                     ? "navbar__list-link--active navbar__list-link"
                     : "navbar__list-link"
                 }
-                onClick={() =>
-                  ReactGA.event("/recenzije", {
-                    category: "preusmjeravanje_na_recenzije",
-                    action: "Preusmjeravanje na recenzije",
-                  })
-                }
               >
                 Recenzije
               </NavLink>
@@ -155,12 +141,6 @@ const Navigation = () => {
                   isActive
                     ? "navbar__list-link--active navbar__list-link"
                     : "navbar__list-link"
-                }
-                onClick={() =>
-                  ReactGA.event("/poslovi", {
-                    category: "preusmjeravanje_na_poslove",
-                    action: "Preusmjeravanje na poslove",
-                  })
                 }
               >
                 Poslovi

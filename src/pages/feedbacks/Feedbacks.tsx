@@ -16,7 +16,6 @@ import FeedbackRegister from "./FeedbackRegister";
 import Filter from "../../components/Filter";
 import { filteringService } from "../../services/filtering";
 
-import ReactGA from 'react-ga4';
 import Advices from "../../components/Advices";
 
 interface IFeedbacks {
@@ -47,7 +46,6 @@ const Feedbacks: React.FC<IFeedbacks> = ({ status }) => {
       const tokenReal = JSON.parse(tokenObj!);
       setToken(tokenReal);
     }
-    ReactGA.event('/recenzije', {category: 'inicijalno_učitavanje_recenzija', action: 'inicijalno učitavanje recenzija', label: `${(state.user || token?.user) ? (state.fullname || token?.user) : (state.company || token?.company) ? (state.companyName || token?.companyName) : 'Anoniman korisnik'}`})
   }, []);
 
   const getAllSelected = (filterOptions: ICompany[]) => {

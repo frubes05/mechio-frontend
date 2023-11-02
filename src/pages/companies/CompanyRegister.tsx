@@ -8,7 +8,6 @@ import ImageUpload from "../../components/ImageUpload";
 import LoadingSpinner from "../../components/LoadingSpinner";
 
 import useFetch from "../../hooks/useFetch";
-import ReactGA from "react-ga4";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -80,10 +79,6 @@ const CompanyRegister = ({
         });
         localStorage.setItem("decodedToken", JSON.stringify(decoded));
         setStatus("Pending");
-        ReactGA.event("tvrtka_registracija", {
-          category: "tvrtka_registracija",
-          action: "Registracija tvrtke",
-        });
       }
     },
     onError: (error) => {

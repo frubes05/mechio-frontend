@@ -10,7 +10,6 @@ import { IJobs } from "./pages/jobs/Jobs.types";
 
 import useFetch from "./hooks/useFetch";
 import Profile from "./components/Profile";
-import ReactGA from "react-ga4";
 import { IUserToken } from "./pages/users/User.types";
 import { ICompanyToken } from "./pages/companies/Company.types";
 import { AuthContext } from "./context/AuthContext";
@@ -33,8 +32,6 @@ declare global {
   }
 }
 
-ReactGA.initialize("G-HH1RVSZ4D3");
-
 function App() {
   const [companies, setCompanies] = useState<ICompany[] | []>([]);
   const [jobs, setJobs] = useState<[] | IJobs[]>([]);
@@ -48,15 +45,6 @@ function App() {
       const tokenReal = JSON.parse(tokenObj!);
       setToken(tokenReal);
     }
-  }, []);
-
-  useEffect(() => {
-    ReactGA.send("pageview");
-
-    ReactGA.event('/', {
-      category: 'inicijalno_učitavanja_stranice',
-      action: 'Inicijalno učitavanje stranice'
-    })
   }, []);
 
   const getCompanies = useFetch({

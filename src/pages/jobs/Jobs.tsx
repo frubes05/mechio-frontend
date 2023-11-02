@@ -12,7 +12,6 @@ import { filteringService } from "../../services/filtering";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import ReactGA from 'react-ga4';
 import { IUserToken } from "../users/User.types";
 import Advices from "../../components/Advices";
 
@@ -43,7 +42,6 @@ const Jobs: React.FC<IJob> = ({ status }) => {
       const tokenReal = JSON.parse(tokenObj!);
       setToken(tokenReal);
     }
-    ReactGA.event('/poslovi', {category: 'inicijalno_učitavanje_poslova', action: 'inicijalno učitavanje poslova', label: `${(state.user || token?.user) ? (state.fullname || token?.user) : (state.company || token?.company) ? (state.companyName || token?.companyName) : 'Anoniman korisnik'}`})
   }, []);
 
   const getAllSelected = (filterOptions: IJobs[]) => {

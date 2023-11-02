@@ -9,7 +9,6 @@ import { IFormSwitch } from "./User.types";
 
 import useFetch from "../../hooks/useFetch";
 import LoadingSpinner from "../../components/LoadingSpinner";
-import ReactGA from "react-ga4";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -89,10 +88,6 @@ const UserRegister = ({
           JSON.stringify({ ...decoded, fullname })
         );
         setStatus("Pending");
-        ReactGA.event("korisnička_registracija", {
-          category: "korisnička_registracija",
-          action: "Nova Registracija",
-        });
       }
     },
     onError: (error) => {
