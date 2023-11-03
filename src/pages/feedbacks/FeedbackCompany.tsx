@@ -1,24 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import Col from 'react-bootstrap/Col';
 import { Link } from "react-router-dom";
 import { ICompany } from "../companies/Company.types";
 
-import useFetch from "../../hooks/useFetch";
 import { GTMTrackingHelper } from "../../services/GTMService";
 
-const FeedbackCompany: React.FC<{ company: ICompany }> = ({ company }) => {
-  const [companyFeedbacksLength, setCompanyFeedbacksLength] = useState<number | null>(null);
-  
-  useFetch({
-    url: `https://mechio-api-test.onrender.com/recenzije/${company._id}`,
-    method: "get",
-    onSuccess: (data: any) => {
-      setCompanyFeedbacksLength(data.length);
-    },
-    onError: (error: any) => {},
-    onInit: true
-  });
-
+const FeedbackCompany: React.FC<{ company: ICompany, companyFeedbacksLength: number }> = ({ company, companyFeedbacksLength }) => {
   return (
     <Col xlg={3} lg={3} md={6} sm={12} className="feedbacks__list-column">
       <Link to={`/recenzije/${company._id}`} id={company._id} onClick={() => GTMTrackingHelper('Klik', 'Preusmjeravanje na tvrtku', `${company.companyName}`, `${company.companyAddress}`, null)}>
@@ -30,6 +17,7 @@ const FeedbackCompany: React.FC<{ company: ICompany }> = ({ company }) => {
                 src={
                   "https://mechio-api-test.onrender.com/" + company.companyImage
                 }
+                alt={company.companyName}
               />
               <span className="jobs__card-pill">
                 Recenzije ({companyFeedbacksLength})

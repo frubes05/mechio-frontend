@@ -21,6 +21,7 @@ const Jobs: React.FC = () => {
   const { data: jobs } = useSWR(`https://mechio-api-test.onrender.com/poslovi`, fetcher, {
     onSuccess: (data) => setSelectedJobs(data)
   });
+  const { data: companies } = useSWR(`https://mechio-api-test.onrender.com/poslodavci`, fetcher);
 
   useEffect(() => {
     if (localStorage.getItem("decodedToken")) {
@@ -61,7 +62,7 @@ const Jobs: React.FC = () => {
           </Row>
         </Container>
       )}
-      {selectedJobs?.length > 0 && <JobsList jobs={selectedJobs}></JobsList>}
+      {selectedJobs?.length > 0 && <JobsList jobs={selectedJobs} companies={companies}></JobsList>}
       <Advices></Advices>
     </main>
   );

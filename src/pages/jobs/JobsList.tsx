@@ -4,8 +4,9 @@ import Job from "./Job";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import { ICompany } from "../companies/Company.types";
 
-const JobsList: FC<IJobsList> = ({ jobs }) => {
+const JobsList: FC<IJobsList & { companies: ICompany[] }> = ({ jobs, companies }) => {
   return (
     <ul className="jobs__list">
       <Container>
@@ -27,7 +28,7 @@ const JobsList: FC<IJobsList> = ({ jobs }) => {
                   className="jobs__list-column"
                 >
                   <li key={i} className="jobs__list-item">
-                    <Job job={job}></Job>
+                    <Job job={job} companies={companies}></Job>
                   </li>
                 </Col>
               ))}

@@ -11,9 +11,9 @@ const FeedbackCompanies: React.FC<{ companies: ICompany[] }> = ({
     <ul className="feedbacks__options-list">
       <Container>
         <Row>
-          {companies &&
+          {companies?.length > 0 &&
             companies.map((company: any, i: number) => (
-              <FeedbackCompany key={i} company={company} />
+              <FeedbackCompany key={i} company={company} companyFeedbacksLength={company.companyFeedbacks?.length || 0} />
             ))}
         </Row>
       </Container>

@@ -5,7 +5,6 @@ import { IFormSwitch } from "./Company.types";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import ImageUpload from "../../components/ImageUpload";
-import LoadingSpinner from "../../components/LoadingSpinner";
 
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";

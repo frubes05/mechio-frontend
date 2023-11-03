@@ -7,13 +7,13 @@ import {
   useElements,
   useStripe,
 } from "@stripe/react-stripe-js";
-import useFetch from "../../hooks/useFetch";
 import { AuthContext } from "../../context/AuthContext";
-import LoadingSpinner from "../../components/LoadingSpinner";
 import { toast, ToastContainer } from "react-toastify";
 import { IUserToken } from "../users/User.types";
 import { ICompanyToken } from "../companies/Company.types";
 import jwt_decode from "jwt-decode";
+import { sendRequest } from "../../services/fetcher";
+import useSWRMutation from "swr/mutation";
 
 const Payments = () => {
   const [success, setSuccess] = useState<boolean>(false);
@@ -22,18 +22,7 @@ const Payments = () => {
   const navigate = useNavigate();
   const stripe = useStripe();
   const elements = useElements();
-
-  useEffect(() => {
-    if (localStorage.getItem("decodedToken")) {
-      const tokenObj = localStorage.getItem("decodedToken");
-      const tokenReal = JSON.parse(tokenObj!);
-      setToken(tokenReal);
-    }
-  }, []);
-
-  const getPayment = useFetch({
-    url: "https://mechio-api-test.onrender.com/placanja",
-    method: "post",
+  const { trigger: paymentTrigger } = useSWRMutation(`https://mechio-api-test.onrender.com/placanja`, sendRequest, {
     onSuccess: (data) => {
       toast.success("Odabrali ste premium paket!", { autoClose: 1000 });
       if (data.success) setSuccess(true);
@@ -43,12 +32,16 @@ const Payments = () => {
         localStorage.setItem("decodedToken", JSON.stringify({ ...decoded }));
       }
       navigate("/poslovi");
-    },
-    onError: (err) => {
-      console.log(err);
-    },
-    onInit: false,
+    }
   });
+
+  useEffect(() => {
+    if (localStorage.getItem("decodedToken")) {
+      const tokenObj = localStorage.getItem("decodedToken");
+      const tokenReal = JSON.parse(tokenObj!);
+      setToken(tokenReal);
+    }
+  }, []);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -60,17 +53,14 @@ const Payments = () => {
       try {
         const { id } = paymentMethod;
         if (state.company || token?.company) {
-          await getPayment.handleFetch(`https://mechio-api-test.onrender.com/placanja`, {
-            amount: 1000,
-            id,
-            companyId: state._id || token?._id,
-          });
+          const paymentInfo = { amount: 1000, id, companyId: state?._id || token?._id };
+          paymentTrigger(paymentInfo);
         }
       } catch (error) {
         console.log("Error", error);
       }
     } else {
-      console.log(error.message);
+      return;
     }
   };
 
@@ -99,7 +89,6 @@ const Payments = () => {
 
   return (
     <>
-      {getPayment.status === "Pending" && <LoadingSpinner></LoadingSpinner>}
       <ToastContainer position="top-center" autoClose={3000} />
       {!success && (
         <form className="payment-form" onSubmit={handleSubmit}>

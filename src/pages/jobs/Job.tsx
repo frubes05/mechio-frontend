@@ -1,26 +1,12 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import { Link } from "react-router-dom";
 import { IJob } from "./Jobs.types";
 import moment from "moment";
 import "moment/locale/hr";
 import { ICompany } from "../companies/Company.types";
 
-import useFetch from "../../hooks/useFetch";
-
-const Job: FC<IJob> = ({ job }) => {
+const Job: FC<IJob & { companies: ICompany[] }> = ({ job, companies }) => {
   moment().locale("hr");
-  const [companies, setCompanies] = useState<null | ICompany[]>(null);
-
-  const getCompanies = useFetch({
-    url: "https://mechio-api-test.onrender.com/poslodavci",
-    method: "get",
-    onSuccess: (data) => {
-      setCompanies(data);
-    },
-    onError: (error) => {},
-    onInit: true,
-  });
-
   return (
     <>
       {job && (
@@ -31,6 +17,7 @@ const Job: FC<IJob> = ({ job }) => {
                 loading="lazy"
                 className="jobs__card-image"
                 src={"https://mechio-api-test.onrender.com/" + job.companyImage}
+                alt={job.company}
               />
               <span className="jobs__card-pill">
                 {moment(job.date.toString()).startOf("day").fromNow()}
