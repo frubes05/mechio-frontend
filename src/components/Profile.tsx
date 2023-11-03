@@ -286,8 +286,6 @@ const Profile = () => {
     setCurrentPage(num);
   };
 
-  console.log(state._id !== params.id, token?._id !== params.id);
-
   return (
     <section className="profile">
       <Container>
