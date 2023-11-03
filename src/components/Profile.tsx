@@ -321,6 +321,7 @@ const Profile = () => {
                                     <Link to={`/poslovi/${app._id}`}>
                                       <img
                                         src={`https://mechio-api-test.onrender.com/${app.companyImage}`}
+                                        alt={app.company}
                                       ></img>
                                       <h3>{app.position}</h3>
                                       <p className="modal-date">
@@ -365,6 +366,7 @@ const Profile = () => {
                                     <Link to={`/recenzije/${info.companyId}`}>
                                       <img
                                         src={`https://mechio-api-test.onrender.com/${info.companyImage}`}
+                                        alt={info.company}
                                       />
                                       <h3>{info.category}</h3>
                                       <p className="modal-date">
@@ -387,6 +389,7 @@ const Profile = () => {
                       <a
                         href={`https://mechio-api-test.onrender.com/${user.cv}`}
                         target="_blank"
+                        rel="noreferrer"
                       >
                         CV
                       </a>
@@ -400,6 +403,7 @@ const Profile = () => {
                       <a
                         href={`https://mechio-api-test.onrender.com/${user?.cv}`}
                         target="_blank"
+                        rel="noreferrer"
                       >
                         CV
                       </a>
@@ -606,6 +610,7 @@ const Profile = () => {
                                           <Link to={`/profil/${applicant._id}`}>
                                             <img
                                               src={`https://mechio-api-test.onrender.com/${applicant.image}`}
+                                              alt={applicant.image}
                                             />
                                             <h3>{applicant.fullname}</h3>
                                             <p className="modal-date">
@@ -614,6 +619,8 @@ const Profile = () => {
                                           </Link>
                                         </li>
                                       ));
+                                    } else {
+                                      return null;
                                     }
                                   })}
                               </ul>
@@ -631,7 +638,7 @@ const Profile = () => {
                     <div className="profile__img">
                       <img
                         src={`https://mechio-api-test.onrender.com/${company.companyImage}`}
-                        alt={"Image"}
+                        alt={company.companyName}
                       />
                     </div>
                     <Form.Group className="mb-3" controlId="formBasicPassword">
