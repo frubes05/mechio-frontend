@@ -7,10 +7,11 @@ import Form from 'react-bootstrap/Form';
 import ImageUpload from "../../components/ImageUpload";
 import LoadingSpinner from "../../components/LoadingSpinner";
 
-import useFetch from "../../hooks/useFetch";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import useSWRMutation from "swr/mutation";
+import { sendRequest } from "../../services/fetcher";
 
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
@@ -35,7 +36,6 @@ const CompanyRegister = ({
 }: IFormSwitch) => {
   const { dispatch } = useContext(AuthContext);
   const [companyImage, setCompanyImage] = useState<File | null>(null);
-  const [status, setStatus] = useState<string>("");
   const {
     register,
     handleSubmit,
@@ -45,6 +45,24 @@ const CompanyRegister = ({
     reValidateMode: "onChange",
     resolver: yupResolver(schema),
   });
+  const { trigger: companyRegisterTrigger } = useSWRMutation(
+    `https://mechio-api-test.onrender.com/poslodavci/novi-poslodavac`,
+    sendRequest,
+    {
+      onSuccess: (data) => {
+        if (data.token) {
+          handleToastSuccess!(data.message);
+          const decoded: any = jwt_decode(data.token);
+          dispatch!({ type: "REGISTER", payload: { ...decoded } });
+          localStorage.setItem(
+            "decodedToken",
+            JSON.stringify({ ...decoded })
+          );
+        }
+      },
+      onError: (error) => handleToastError!(error.message),
+    }
+  );
 
   const onSubmit = async (data: any) => {
     const formData = new FormData();
@@ -57,39 +75,8 @@ const CompanyRegister = ({
     formData.append("companyDescription", data.companyDescription);
     formData.append("companyPremium", "false");
     if (companyImage) formData.append("image", companyImage);
-    await registerCompany.handleFetch(
-      "https://mechio-api-test.onrender.com/poslodavci/novi-poslodavac",
-      formData
-    );
+    companyRegisterTrigger(formData);
   };
-
-  const registerCompany = useFetch({
-    url: `https://mechio-api-test.onrender.com/poslodavci/novi-poslodavac`,
-    method: "post",
-    onSuccess: (data: any) => {
-      if (data.token) {
-        handleToastSuccess!(data.message);
-        const decoded: any = jwt_decode(data.token);
-        dispatch!({
-          type: "REGISTER",
-          payload: {
-            ...decoded,
-            companyPremium: JSON.parse(decoded.companyPremium),
-          },
-        });
-        localStorage.setItem("decodedToken", JSON.stringify(decoded));
-        setStatus("Pending");
-      }
-    },
-    onError: (error) => {
-      handleToastError!(error);
-      setStatus("Pending");
-      setTimeout(() => {
-        setStatus("Fullfilled");
-      }, 3000);
-    },
-    onInit: false,
-  });
 
   const onInput = (file: File, valid: any) => {
     setCompanyImage!(file);
@@ -182,7 +169,6 @@ const CompanyRegister = ({
       <Button className="company__switch-btn" onClick={changeShowingForm}>
         Vaša tvrtka već posjeduje račun? Slobodno se prijavite
       </Button>
-      {status === "Pending" && <LoadingSpinner />}
     </>
   );
 };

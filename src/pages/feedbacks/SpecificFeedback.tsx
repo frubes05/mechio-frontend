@@ -17,7 +17,6 @@ import Filter from "../../components/Filter";
 
 import { filteringService } from "../../services/filtering";
 import FeedbackCategories from "./FeedbackCategories";
-import { GTMTrackingHelper } from "../../services/GTMService";
 import { deleteRequest, fetcher, sendRequest } from "../../services/fetcher";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";

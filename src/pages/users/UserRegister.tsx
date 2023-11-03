@@ -7,11 +7,11 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { IFormSwitch } from "./User.types";
 
-import useFetch from "../../hooks/useFetch";
-import LoadingSpinner from "../../components/LoadingSpinner";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import useSWRMutation from "swr/mutation";
+import { sendRequest } from "../../services/fetcher";
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -41,11 +41,8 @@ const UserRegister = ({
   handleToastSuccess,
 }: IFormSwitch) => {
   const { dispatch } = useContext(AuthContext);
-  const [fullname, setFullname] = useState<string>("");
-  const [about, setAbout] = useState<string>("");
   const [cv, setCv] = useState<File | null>(null);
   const [image, setImage] = useState<File | null>(null);
-  const [status, setStatus] = useState<string>("");
   const {
     register,
     handleSubmit,
@@ -55,6 +52,24 @@ const UserRegister = ({
     reValidateMode: "onChange",
     resolver: yupResolver(schema),
   });
+  const { trigger: userRegisterTrigger } = useSWRMutation(
+    () => `https://mechio-api-test.onrender.com/posloprimci/novi-posloprimac`,
+    sendRequest,
+    {
+      onSuccess: (data) => {
+        if (data.token) {
+          handleToastSuccess!(data.message);
+          const decoded: any = jwt_decode(data.token);
+          dispatch!({ type: "REGISTER", payload: { ...decoded } });
+          localStorage.setItem(
+            "decodedToken",
+            JSON.stringify({ ...decoded })
+          );
+        }
+      },
+      onError: (error) => handleToastError!(error.message),
+    }
+  );
 
   const onSubmit = async (data: any) => {
     const formData = new FormData();
@@ -64,41 +79,12 @@ const UserRegister = ({
     formData.append("number", data.number);
     formData.append("email", data.email);
     formData.append("password", data.password);
-    formData.append("about", about);
     if (cv) {
       formData.append("cv", cv);
     }
     if (image) formData.append("image", image);
-    await registerUser.handleFetch(
-      "https://mechio-api-test.onrender.com/posloprimci/novi-posloprimac",
-      formData
-    );
+    userRegisterTrigger(formData);
   };
-
-  const registerUser = useFetch({
-    url: `https://mechio-api-test.onrender.com/posloprimci/novi-posloprimac`,
-    method: "post",
-    onSuccess: (data) => {
-      if (data.token) {
-        handleToastSuccess!(data.message);
-        const decoded: any = jwt_decode(data.token);
-        dispatch!({ type: "REGISTER", payload: { ...decoded, fullname } });
-        localStorage.setItem(
-          "decodedToken",
-          JSON.stringify({ ...decoded, fullname })
-        );
-        setStatus("Pending");
-      }
-    },
-    onError: (error) => {
-      handleToastError!(error);
-      setStatus("Pending");
-      setTimeout(() => {
-        setStatus("Fullfilled");
-      }, 3000);
-    },
-    onInit: false,
-  });
 
   const onInput = (file: File, valid: any) => {
     setImage(file);
@@ -196,7 +182,6 @@ const UserRegister = ({
       <Button className="user__switch-btn" onClick={changeShowingForm}>
         Posjeduješ već račun? Slobodno se prijavi
       </Button>
-      {status === "Pending" && <LoadingSpinner />}
     </>
   );
 };

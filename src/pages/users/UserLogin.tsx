@@ -1,20 +1,23 @@
-import { useState, useContext } from "react";
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
+import { useContext } from "react";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 import { useForm } from "react-hook-form";
 import jwt_decode from "jwt-decode";
 import { AuthContext } from "../../context/AuthContext";
 import { IFormSwitch } from "./User.types";
 
-import useFetch from "../../hooks/useFetch";
-import LoadingSpinner from "../../components/LoadingSpinner";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { sendRequest } from "../../services/fetcher";
+import useSWRMutation from "swr/mutation";
 
 const schema = yup
   .object({
-    email: yup.string().email("Unesite valjani email").required('Email je obavezno polje'),
-    password: yup.string().required('Password je obavezno polje'),
+    email: yup
+      .string()
+      .email("Unesite valjani email")
+      .required("Email je obavezno polje"),
+    password: yup.string().required("Password je obavezno polje"),
   })
   .required();
 
@@ -24,9 +27,6 @@ const UserLogin = ({
   handleToastSuccess,
 }: IFormSwitch) => {
   const { dispatch } = useContext(AuthContext);
-  const [email, setEmail] = useState<string>("");
-  const [fullname, setFullname] = useState<string>("");
-  const [status, setStatus] = useState<string>("");
   const {
     register,
     handleSubmit,
@@ -36,57 +36,26 @@ const UserLogin = ({
     reValidateMode: "onChange",
     resolver: yupResolver(schema),
   });
+  const { trigger: userLoginTrigger } = useSWRMutation(
+    () => `https://mechio-api-test.onrender.com/posloprimci/login-posloprimac`,
+    sendRequest,
+    {
+      onSuccess: (data) => {
+        if (data.token) {
+          handleToastSuccess!(data.message);
+          const decoded: any = jwt_decode(data.token);
+          dispatch!({ type: "LOGIN", payload: { ...decoded } });
+          localStorage.setItem(
+            "decodedToken",
+            JSON.stringify({ ...decoded })
+          );
+        }
+      },
+      onError: (error) => handleToastError!(error.message),
+    }
+  );
 
-  const onSubmit = async (data: any) => {
-    const { email, password } = data;
-    await getUser.handleFetch(
-      `https://mechio-api-test.onrender.com/posloprimci/odredeni-posloprimac/${email}`
-    );
-    await loginUser.handleFetch(
-      "https://mechio-api-test.onrender.com/posloprimci/login-posloprimac",
-      {
-        email,
-        password
-      }
-    );
-  };
-
-  const getUser = useFetch({
-    url: email
-      ? `https://mechio-api-test.onrender.com/posloprimci/odredeni-posloprimac/${email}`
-      : "",
-    method: "get",
-    onSuccess: (data) => {
-      setFullname(data.fullname);
-    },
-    onError: (error) => {},
-    onInit: false,
-  });
-
-  const loginUser = useFetch({
-    url: `https://mechio-api-test.onrender.com/posloprimci/login-posloprimac`,
-    method: "post",
-    onSuccess: (data) => {
-      if (data.token && fullname) {
-        handleToastSuccess!(data.message);
-        const decoded: any = jwt_decode(data.token);
-        dispatch!({ type: "LOGIN", payload: { ...decoded, fullname } });
-        localStorage.setItem(
-          "decodedToken",
-          JSON.stringify({ ...decoded, fullname })
-        );
-        setStatus("Pending");
-      }
-    },
-    onError: (error) => {
-      handleToastError!(error.message);
-      setStatus("Pending");
-      setTimeout(() => {
-        setStatus("Fullfilled");
-      }, 3000);
-    },
-    onInit: false,
-  });
+  const onSubmit = async (data: any) => userLoginTrigger(data);
 
   return (
     <>
@@ -95,24 +64,20 @@ const UserLogin = ({
           <Form.Control
             type="email"
             placeholder="Email"
-            className={`${errors.email?.message ? 'error' : ''}`}
+            className={`${errors.email?.message ? "error" : ""}`}
             {...register("email", { required: true })}
           />
-          <Form.Text>
-            {errors.email?.message}
-          </Form.Text>
+          <Form.Text>{errors.email?.message}</Form.Text>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Control
             type="password"
             placeholder="Password"
-            className={`${errors.password?.message ? 'error' : ''}`}
+            className={`${errors.password?.message ? "error" : ""}`}
             {...register("password", { required: true })}
           />
-          <Form.Text>
-            {errors.password?.message}
-          </Form.Text>
+          <Form.Text>{errors.password?.message}</Form.Text>
         </Form.Group>
         <Button className="user__login-btn" type="submit" disabled={!isValid}>
           Login
@@ -121,7 +86,6 @@ const UserLogin = ({
           Još nisi registriran? Učini to u par koraka
         </Button>
       </Form>
-      {status === "Pending" && <LoadingSpinner />}
     </>
   );
 };

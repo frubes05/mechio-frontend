@@ -51,6 +51,7 @@ const NewJob: React.FC = () => {
       seniority: selectValue,
       date: new Date(),
     };
+    console.log(newPost);
     trigger(newPost);
     GTMTrackingHelper('Klik', 'Novi oglas', 'Poslovi',  `${state.companyName || token?.companyName}`, `${moment((new Date())).format("LL")}`);
   };
